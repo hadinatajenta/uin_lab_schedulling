@@ -7,8 +7,6 @@ use App\Models\Alat;
 use App\Models\Jadwal;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
 {
@@ -18,6 +16,7 @@ class LaporanController extends Controller
         $user = User::all();
 
         $jadwals = Jadwal::all();
+        $alatRusakHabis = Alat::where('kondisi', 'Rusak')->where('kondisi', 'Habis')->get();
 
         $totalWaktu = Carbon::createFromTime(0, 0, 0);
 
@@ -36,7 +35,7 @@ class LaporanController extends Controller
 
         // Format total waktu sebagai HH:MM:SS
         $totalFormatted = $totalWaktu->format('H:i:s');
-        return view('admin.laporan', compact('alat', 'user', 'jadwals', 'totalFormatted'));
+        return view('admin.laporan', compact('alat', 'user', 'jadwals', 'totalFormatted', 'alatRusakHabis'));
 
     }
 

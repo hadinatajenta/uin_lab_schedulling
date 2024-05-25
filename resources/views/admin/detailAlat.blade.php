@@ -170,7 +170,13 @@
             <hr>
             {{-- section2  --}}
             <div class="mt-4">
-                <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">Cara penggunaan</h1>
+                <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
+                    @if ($alat->jenis_alat == 'Bahan')
+                        Informasi tentang {{ $alat->nama_alat }}
+                    @else
+                        Cara penggunaan
+                    @endif
+                </h1>
                 <div class="bg-white rounded-lg mb-4 h-auto">
                     {!! $alat->cara_penggunaan !!}
                 </div>

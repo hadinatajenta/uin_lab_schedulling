@@ -34,26 +34,25 @@
                 </div>
 
                 <div class="mb-4 p-4 bg-white rounded-lg">
-                    <label for="jenis_alat" class="block text-sm font-medium text-gray-700">Jenis Alat</label>
+                    <label for="jenis_alat" class="block text-sm font-medium text-gray-700">Kategori alat / bahan</label>
                     <div class="grid grid-cols-2 gap-4 mt-1">
                         <div>
                             <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
-                                <input id="jenis_padat" type="radio" value="Benda Padat" name="jenis_alat"
+                                <input id="jenis_padat" type="radio" value="Alat" name="jenis_alat"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                     checked onclick="toggleFields()">
                                 <label for="jenis_padat"
-                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Benda
-                                    Padat</label>
+                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Alat
+                                </label>
                             </div>
                         </div>
                         <div>
                             <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
-                                <input id="jenis_cair" type="radio" value="Benda Cair" name="jenis_alat"
+                                <input id="jenis_cair" type="radio" value="Bahan" name="jenis_alat"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                     onclick="toggleFields()">
                                 <label for="jenis_cair"
-                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Benda
-                                    Cair</label>
+                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bahan</label>
                             </div>
                         </div>
                     </div>

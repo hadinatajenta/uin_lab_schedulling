@@ -12,14 +12,20 @@ use Illuminate\Support\Facades\Validator;
 class JadwalController extends Controller
 {
     // Halaman jadwal
-    public function jadwalView()
+    public function jadwalView(Request $request)
     {
         $now = Carbon::now();
         $today = now()->toDateString();
         $jadwal = Jadwal::where('tanggal_jadwal', $today)->orderBy('waktu_mulai', 'asc')->get();
         $tomorrow = now()->addDay()->toDateString();
         $jadwal_besok = Jadwal::where('tanggal_jadwal', $tomorrow)->orderBy('waktu_mulai', 'asc')->get();
-        $schedule = Jadwal::orderBy('created_at', 'desc')->paginate(15);
+
+        $keyword = $request->input('keyword');
+        if (isset($keyword)) {
+            $schedule = Jadwal::where('mata_kuliah', 'LIKE', "%{$keyword}%")->orWhere('kelas', 'LIKE', "%{$keyword}%")->get();
+        } else {
+            $schedule = Jadwal::orderBy('created_at', 'desc')->paginate(15);
+        }
         return view('lab', compact('jadwal', 'jadwal_besok', 'schedule'));
     }
 

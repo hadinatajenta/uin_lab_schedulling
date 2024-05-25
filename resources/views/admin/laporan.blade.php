@@ -68,10 +68,134 @@
                     </svg>
                 </div>
                 <div class="flex flex-col text-white">
-                    <p class="text-lg font-semibold">Total Jam </p>
-                    <span class="text-sm">10 jam 20 menit</span>
+                    <p class="text-lg font-semibold">Barang rusak / habis </p>
+                    <span class="text-sm">{{ $alat->count() }}</span>
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mb-4">
+        <table class=" text-sm w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="p-4">
+                        No
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Gambar
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Nama alat
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Kondisi
+                    </th>
+
+                    <th scope="col" class="px-6 py-3">
+                        Tanggal Pembelian
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Tanggal exp
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($alat as $index => $item)
+                    <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="w-4 p-4">
+                            {{ $index + 1 }}
+                        </td>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <img class="w-12" src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_alat }}">
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ $item->nama_alat }}
+                        </td>
+                        <td class="px-6 py-4">
+                            @if ($item->kondisi = 'Baru')
+                                <div class="p-2 text-center  text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+                                    role="alert">
+                                    <span>{{ $item->kondisi }}</span>
+                                </div>
+                            @elseif ($item->kondisi == 'Rusak' || $item->kondisi == 'Habis')
+                                <div class="p-2 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                    role="alert">
+                                    <span class="font-medium">{{ $item->kondisi }} Habis</span>
+                                </div>
+                            @else
+                                tidak ada
+                            @endif
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $item->tanggal_pembelian ?? '-' }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $item->tanggal_expired ?? '-' }}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <h4 class="text-2xl font-bold dark:text-white">Laporan Barang Rusak / Habis</h4>
+
+    <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mt-4">
+        <table class=" text-sm w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="p-4">
+                        No
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Gambar
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Nama alat
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Kondisi
+                    </th>
+
+                    <th scope="col" class="px-6 py-3">
+                        Tanggal Pembelian
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Tanggal exp
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($alatRusakHabis as $index => $item)
+                    <tr
+                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <td class="w-4 p-4">
+                            {{ $index + 1 }}
+                        </td>
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                            <img class="w-12" src="{{ asset('storage/' . $item->gambar) }}"
+                                alt="{{ $item->nama_alat }}">
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ $item->nama_alat }}
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="p-2 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                role="alert">
+                                <span class="font-medium">{{ $item->kondisi }} Habis</span>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $item->tanggal_pembelian ?? '-' }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {{ $item->tanggal_expired ?? '-' }}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 @endsection
