@@ -86,17 +86,34 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-3 gap-4 my-4">
-            <div class="flex items-center justify-center h-24 rounded bg-gray-800 dark:bg-gray-800">
-            </div>
-            <div class="flex items-center justify-center h-24 rounded bg-gray-800 dark:bg-gray-800">
-                <p class="text-2xl text-gray-400 dark:text-gray-500">
-                    <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                        viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 1v16M1 9h16" />
+        <div class="grid grid-cols-3 gap-4 my-4 text-white">
+            <div class="flex items-center h-24 p-4 rounded bg-gray-800 dark:bg-gray-800 space-x-4">
+                <div class="flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                     </svg>
-                </p>
+
+                </div>
+                <div class="flex flex-col text-white">
+                    <p class="text-lg font-semibold">Dosen</p>
+                    <span class="text-sm">{{ $dosen->count() }}</span>
+                </div>
+            </div>
+            <div class="flex items-center h-24 p-4 rounded bg-gray-800 dark:bg-gray-800 space-x-4">
+                <div class="flex-shrink-0">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                    </svg>
+
+                </div>
+                <div class="flex flex-col text-white">
+                    <p class="text-lg font-semibold">Admin Lab</p>
+                    <span class="text-sm">{{ $admin->count() }}</span>
+                </div>
             </div>
             <div class="flex items-center justify-center h-24 rounded bg-gray-800 dark:bg-gray-800">
                 <p class="text-2xl text-gray-400 dark:text-gray-500">
@@ -108,6 +125,7 @@
                 </p>
             </div>
         </div>
+
         {{-- Search section --}}
         <div class="flex items-center mb-4">
             <form class="w-full mx-auto">

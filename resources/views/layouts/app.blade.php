@@ -95,7 +95,7 @@
                     </li>
                     <li>
                         <a href="{{ route('alat') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('alat') || request()->routeIs('add.alat') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('alat') || request()->routeIs('detailAlat') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"

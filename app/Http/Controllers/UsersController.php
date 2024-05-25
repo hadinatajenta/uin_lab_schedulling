@@ -19,9 +19,10 @@ class UsersController extends Controller
         } else {
             $users = User::all();
         }
-
         $jumlahUser = User::all();
-        return view('admin.users', compact('users', 'jumlahUser'));
+        $dosen = User::where('jabatan', 'dosen')->get();
+        $admin = User::where('jabatan', 'admin lab')->get();
+        return view('admin.users', compact('users', 'jumlahUser', 'dosen', 'admin'));
     }
 
     public function addUser(Request $request)
