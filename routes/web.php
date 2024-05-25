@@ -1,20 +1,41 @@
 <?php
 
+use App\Http\Controllers\AlatController;
+use App\Http\Controllers\JadwalController;
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RuanganController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+// Admin - dosen
+Route::prefix('/admin')->group(function () {
+    // Management user
+    Route::get('/dashboard', [UsersController::class, 'usersView'])->name('dashboard');
+    Route::post('/add-user', [UsersController::class, 'addUser'])->name('add.users');
+    Route::put('/update-users/{id}', [UsersController::class, 'usersUpdate'])->name('update.users');
+    Route::delete('/hapus/{id}', [UsersController::class, 'deleteUser'])->name('delete.users');
+    // Management lab
+    Route::get('/list-jadwal', [JadwalController::class, 'jadwalView'])->name('lab');
+    Route::get('/jadwal-baru', [JadwalController::class, 'addJadwalView'])->name('addJadwalView');
+    Route::get('/update-jadwal/{id}', [JadwalController::class, 'updateJadwal'])->name('updateJadwal');
+    Route::post('/jadwal-baru', [JadwalController::class, 'addJadwal'])->name('addJadwal');
+    Route::put('/edit-jadwal/{id}', [JadwalController::class, 'editjadwal'])->name('editJadwal');
+    Route::delete('/hapus-jadwal/{id}', [JadwalController::class, 'hapusJadwal'])->name('hapusJadwal');
+    // Management alat
+    Route::get('/manajemen-alat', [AlatController::class, 'alatView'])->name('alat');
+    Route::get('/tambah-alat', [AlatController::class, 'tambahAlatView'])->name('add.alat');
+    Route::post('/tambah-alat', [AlatController::class, 'addAlat'])->name('post.alat');
+    Route::delete('/hapus-alat\{id}', [AlatController::class, 'deleteAlat'])->name('hapus.alat');
+    Route::get('/detail-alat/{id}', [AlatController::class, 'alat'])->name('detailAlat');
+    Route::post('/detail-alat/{id}', [AlatController::class, 'detailAlat'])->name('updateAlat');
+    // Laporan
+    Route::get('/laporan', [LaporanController::class, 'laporanView'])->name('laporanView');
 });
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
