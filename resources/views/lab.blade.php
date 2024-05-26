@@ -189,7 +189,7 @@
             Kamu bisa mengelola jadwal pemakaian Ruangan LAB disini.
         </p>
     </div>
-    <div class="flex items-center mb-4 mt-4">
+    <div class="grid grid-cols-2 gap-4 my-4 ">
         <form class="w-full mx-auto">
             <label for="default-search"
                 class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
@@ -201,9 +201,34 @@
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <input type="search" id="default-search" name="keyword"
+                <input type="search" id="search" name="keyword"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Cari Matakuliah / smt / kelas..." />
+                    placeholder="Cari Matakuliah" />
+                <button type="submit"
+                    class="text-white absolute end-2.5 bottom-2.5 bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </button>
+            </div>
+        </form>
+
+        <form class="w-full mx-auto">
+            <label for="default-search"
+                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+            <div class="relative">
+                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <input type="search" id="search-kelas" name="keyword"
+                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Cari kelas..." />
                 <button type="submit"
                     class="text-white absolute end-2.5 bottom-2.5 bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -248,7 +273,7 @@
                     </th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="alat-table">
                 @foreach ($schedule as $jadwal)
                     @php
                         $currentDateTime = \Carbon\Carbon::now();
@@ -367,5 +392,29 @@
         generateCalendar(currentDate);
     </script>
 
+    <script>
+        document.getElementById('search').addEventListener('keyup', function() {
+            filterTable();
+        });
 
+        document.getElementById('search-kelas').addEventListener('keyup', function() {
+            filterTable();
+        });
+
+        function filterTable() {
+            var search = document.getElementById('search').value.toLowerCase();
+            var searchKelas = document.getElementById('search-kelas').value.toLowerCase();
+            var rows = document.querySelectorAll('#alat-table tr');
+
+            rows.forEach(function(row) {
+                var matakuliah = row.children[0].textContent.toLowerCase();
+                var kelas = row.children[1].textContent.toLowerCase();
+                if (matakuliah.includes(search) && kelas.includes(searchKelas)) {
+                    row.classList.remove('hidden');
+                } else {
+                    row.classList.add('hidden');
+                }
+            });
+        }
+    </script>
 @endsection
