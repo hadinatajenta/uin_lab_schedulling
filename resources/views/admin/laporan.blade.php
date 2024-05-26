@@ -5,7 +5,7 @@
 @section('content')
     <div class="flex flex-col md:flex-row items-center justify-start lg:justify-between mb-4  ">
         <div>
-            <h4 class="text-2xl font-bold dark:text-white">Laporan</h4>
+            <h4 class="text-2xl font-bold dark:text-white">Laporan Semua Alat</h4>
             <p class="text-sm font-normal text-gray-500 lg:text-sm dark:text-gray-400">
                 Lihat semua laporan mengenai alat/bahan , pengguna website, dan jadwal pada halaman ini.
             </p>
@@ -114,7 +114,7 @@
                             {{ $item->nama_alat }}
                         </td>
                         <td class="px-6 py-4">
-                            @if ($item->kondisi = 'Baru')
+                            @if ($item->kondisi == 'Baru')
                                 <div class="p-2 text-center  text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
                                     role="alert">
                                     <span>{{ $item->kondisi }}</span>
@@ -122,7 +122,7 @@
                             @elseif ($item->kondisi == 'Rusak' || $item->kondisi == 'Habis')
                                 <div class="p-2 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                     role="alert">
-                                    <span class="font-medium">{{ $item->kondisi }} Habis</span>
+                                    <span class="font-medium">{{ $item->kondisi }}</span>
                                 </div>
                             @else
                                 tidak ada
@@ -140,7 +140,12 @@
         </table>
     </div>
 
-    <h4 class="text-2xl font-bold dark:text-white">Laporan Barang Rusak / Habis</h4>
+    <div class="mt-4">
+        <h4 class="text-2xl font-bold dark:text-white">Laporan Barang Rusak / Habis</h4>
+        <p class="text-sm font-normal text-gray-500 lg:text-sm dark:text-gray-400">
+            Lihat semua laporan mengenai alat/bahan , pengguna website, dan jadwal pada halaman ini.
+        </p>
+    </div>
 
     <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mt-4">
         <table class=" text-sm w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -184,7 +189,7 @@
                         <td class="px-6 py-4">
                             <div class="p-2 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
                                 role="alert">
-                                <span class="font-medium">{{ $item->kondisi }} Habis</span>
+                                <span class="font-medium">{{ $item->kondisi }} </span>
                             </div>
                         </td>
                         <td class="px-6 py-4">

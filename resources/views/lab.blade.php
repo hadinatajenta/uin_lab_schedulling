@@ -322,6 +322,8 @@
                 @endforeach
             </tbody>
         </table>
+        {{ $schedule->links() }}
+
     </div>
 
 @endsection
@@ -408,7 +410,7 @@
 
             rows.forEach(function(row) {
                 var matakuliah = row.children[0].textContent.toLowerCase();
-                var kelas = row.children[1].textContent.toLowerCase();
+                var kelas = row.children[2].textContent.toLowerCase();
                 if (matakuliah.includes(search) && kelas.includes(searchKelas)) {
                     row.classList.remove('hidden');
                 } else {

@@ -22,7 +22,7 @@ class JadwalController extends Controller
 
         $keyword = $request->input('keyword');
         if (isset($keyword)) {
-            $schedule = Jadwal::where('mata_kuliah', 'LIKE', "%{$keyword}%")->orWhere('kelas', 'LIKE', "%{$keyword}%")->get();
+            $schedule = Jadwal::where('mata_kuliah', 'LIKE', "%{$keyword}%")->orWhere('kelas', 'LIKE', "%{$keyword}%")->paginate(15);
         } else {
             $schedule = Jadwal::orderBy('created_at', 'desc')->paginate(15);
         }
@@ -54,7 +54,7 @@ class JadwalController extends Controller
         }
 
         $jadwal = new Jadwal();
-        $jadwal->ruangan_id = 1;
+        $jadwal->ruangan_id = $request->input('ruangan_id');
         $jadwal->tanggal_jadwal = $request->input('tanggal_jadwal');
         $jadwal->mata_kuliah = $request->input('mata_kuliah');
         $jadwal->waktu_mulai = $request->input('waktu_mulai');

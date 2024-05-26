@@ -69,7 +69,7 @@
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
-                <input type="search" id="default-search" name="cari"
+                <input type="search" id="search" name="cari"
                     class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Cari nama alat / bahan ..." />
                 <button type="submit"
@@ -101,8 +101,8 @@
     <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4">
         @if ($alat->count() > 0)
             @foreach ($alat as $item)
-                <div
-                    class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div id="alat-table"
+                    class="alat-item max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <a href="#" data-modal-target="item-{{ $item->id }}"
                         data-modal-toggle="item-{{ $item->id }}">
                         <img class="rounded-2xl h-36 w-full p-1" src="{{ asset('storage/' . $item->gambar) }}"
@@ -251,4 +251,24 @@
             </div>
         @endif
     </div>
+@endsection
+
+@section('script')
+    <script>
+        document.getElementById('search').addEventListener('keyup', function() {
+            var searchValue = this.value.toLowerCase();
+            var items = document.querySelectorAll('.alat-item');
+
+            items.forEach(function(item) {
+                var itemName = item.querySelector('h5').textContent.toLowerCase();
+                var itemDescription = item.querySelector('p').textContent.toLowerCase();
+
+                if (itemName.includes(searchValue) || itemDescription.includes(searchValue)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        });
+    </script>
 @endsection

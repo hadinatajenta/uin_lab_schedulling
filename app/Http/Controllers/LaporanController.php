@@ -16,7 +16,7 @@ class LaporanController extends Controller
         $user = User::all();
 
         $jadwals = Jadwal::all();
-        $alatRusakHabis = Alat::where('kondisi', 'Rusak')->where('kondisi', 'Habis')->get();
+        $alatRusakHabis = Alat::where('kondisi', 'Rusak')->orWhere('kondisi', 'Habis')->get();
 
         $totalWaktu = Carbon::createFromTime(0, 0, 0);
 
