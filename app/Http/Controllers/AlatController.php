@@ -72,9 +72,9 @@ class AlatController extends Controller
 
         $tanggal_pembelian = $request->input('tanggal_pembelian');
 
-        if ($alat->jenis_alat == 'Benda Padat') {
+        if ($alat->jenis_alat == 'Alat') {
             $alat->jumlah_satuan = $request->input('jumlah_satuan');
-        } elseif ($alat->jenis_alat == 'Benda Cair') {
+        } elseif ($alat->jenis_alat == 'Bahan') {
             $alat->jumlah_ml = $request->input('jumlah_ml');
             $tanggal_expired = $request->input('tanggal_expired');
 
