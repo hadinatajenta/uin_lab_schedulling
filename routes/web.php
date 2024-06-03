@@ -9,11 +9,11 @@ use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return redirect('login');
+    return view('welcome');
 });
 
 // Admin - dosen
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware(['auth'])->group(function () {
     // Management user
     Route::get('/dashboard', [UsersController::class, 'usersView'])->name('dashboard');
     Route::post('/add-user', [UsersController::class, 'addUser'])->name('add.users');

@@ -33,9 +33,11 @@
                     @enderror
                 </div>
 
+                {{-- Jenis alat --}}
                 <div class="mb-4 p-4 bg-white rounded-lg">
                     <label for="jenis_alat" class="block text-sm font-medium text-gray-700">Kategori alat / bahan</label>
                     <div class="grid grid-cols-2 gap-4 mt-1">
+                        {{-- alat --}}
                         <div>
                             <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
                                 <input id="jenis_padat" type="radio" value="Alat" name="jenis_alat"
@@ -46,6 +48,7 @@
                                 </label>
                             </div>
                         </div>
+                        {{-- Bahan --}}
                         <div>
                             <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
                                 <input id="jenis_cair" type="radio" value="Bahan" name="jenis_alat"
