@@ -6,6 +6,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\LimbahController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,6 +36,13 @@ Route::prefix('/admin')->middleware(['auth'])->group(function () {
     Route::post('/detail-alat/{id}', [AlatController::class, 'detailAlat'])->name('updateAlat');
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'laporanView'])->name('laporanView');
+    // Limbah
+    Route::get('/limbah', [LimbahController::class, 'limbahView'])->name('limbah');
+    Route::get('/tambah-limbah', [LimbahController::class, 'tambahLimbahView'])->name('tambahLimbah');
+    Route::post('/create-limbah', [LimbahController::class, 'create'])->name('limbah.store');
+    Route::get('/detail-limbah/{id}', [LimbahController::class, 'detailLimbah'])->name('detailLimbah');
+    Route::delete('/hapus-limbah/{id}', [LimbahController::class, 'hapusLimbah'])->name('hapusLimbah');
+
 });
 
 

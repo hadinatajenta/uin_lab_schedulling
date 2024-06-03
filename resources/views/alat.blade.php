@@ -11,7 +11,6 @@
                 Kamu bisa mengelola alat yang ada di ruangan Lab disini.
             </p>
         </div>
-
     </div>
 
     <div class="w-full overflow-x-auto mb-6">
