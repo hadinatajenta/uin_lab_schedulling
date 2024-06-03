@@ -14,8 +14,8 @@ class AlatController extends Controller
     // halaman alat
     public function alatView(Request $request)
     {
-        $bahanPadat = Alat::where('jenis_alat', 'Benda Padat')->get();
-        $bahanCair = Alat::where('jenis_alat', 'Benda Cair')->get();
+        $bahanPadat = Alat::where('jenis_alat', 'Alat')->get();
+        $bahanCair = Alat::where('jenis_alat', 'Bahan')->get();
         $keyword = $request->input('cari');
         if ($keyword) {
             $alat = Alat::where('nama_alat', 'LIKE', "%{$keyword}%")->get();
