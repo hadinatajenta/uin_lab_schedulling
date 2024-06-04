@@ -31,7 +31,7 @@ Route::prefix('/admin')->group(function () {
     Route::get('/manajemen-alat', [AlatController::class, 'alatView'])->name('alat');
     Route::get('/tambah-alat', [AlatController::class, 'tambahAlatView'])->name('add.alat');
     Route::post('/tambah-alat', [AlatController::class, 'addAlat'])->name('post.alat');
-    Route::delete('/hapus-alat\{id}', [AlatController::class, 'deleteAlat'])->name('hapus.alat');
+    Route::delete('/hapus-alat/{id}', [AlatController::class, 'deleteAlat'])->name('hapus.alat');
     Route::get('/detail-alat/{id}', [AlatController::class, 'alat'])->name('detailAlat');
     Route::post('/detail-alat/{id}', [AlatController::class, 'detailAlat'])->name('updateAlat');
     // Laporan
