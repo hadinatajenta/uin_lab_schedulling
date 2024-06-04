@@ -10,7 +10,7 @@ use App\Http\Controllers\LimbahController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 // Admin - dosen
@@ -42,7 +42,8 @@ Route::prefix('/admin')->middleware(['auth'])->group(function () {
     Route::post('/create-limbah', [LimbahController::class, 'create'])->name('limbah.store');
     Route::get('/detail-limbah/{id}', [LimbahController::class, 'detailLimbah'])->name('detailLimbah');
     Route::delete('/hapus-limbah/{id}', [LimbahController::class, 'hapusLimbah'])->name('hapusLimbah');
-
+    // Jaslab
+    Route::put('/jaslab-ubah/{id}', [UsersController::class, 'ubahJaslab'])->name('ubahJaslab');
 });
 
 

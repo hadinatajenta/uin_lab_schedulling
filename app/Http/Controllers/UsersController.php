@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\Jaslab;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -22,7 +23,8 @@ class UsersController extends Controller
         $jumlahUser = User::all();
         $dosen = User::where('jabatan', 'dosen')->get();
         $admin = User::where('jabatan', 'admin lab')->get();
-        return view('admin.users', compact('users', 'jumlahUser', 'dosen', 'admin'));
+        $jaslab = Jaslab::all(); 
+        return view('admin.users', compact('users', 'jumlahUser', 'dosen', 'admin','jaslab'));
     }
 
     public function addUser(Request $request)
@@ -75,6 +77,17 @@ class UsersController extends Controller
             return redirect()->back()->with('success', 'Berhasil hapus pengguna!');
         } else {
             return redirect()->back()->with('error', ['Gagal hapus pengguna!', $user->getMessage()]);
+        }
+    }
+
+    public function ubahJaslab(Request $request,$id){
+        $jaslab = Jaslab::find($id);
+        if($jaslab){
+            $jaslab->warna = $request->input('warna');
+            $jaslab->save();
+            return redirect()->back()->with('success','Berhasil perbarui warna jaslab!');
+        }else{
+            return redirect()->back()->with('error','Informasi jaslab tidak ditemukan!');
         }
     }
 }
