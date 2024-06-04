@@ -14,7 +14,7 @@ Route::get('/', function () {
 });
 
 // Admin - dosen
-Route::prefix('/admin')->middleware(['auth'])->group(function () {
+Route::prefix('/admin')->group(function () {
     // Management user
     Route::get('/dashboard', [UsersController::class, 'usersView'])->name('dashboard');
     Route::post('/add-user', [UsersController::class, 'addUser'])->name('add.users');
