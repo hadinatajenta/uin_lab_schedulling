@@ -57,6 +57,7 @@ class JadwalController extends Controller
         $jadwal->ruangan_id = $request->input('ruangan_id');
         $jadwal->tanggal_jadwal = $request->input('tanggal_jadwal');
         $jadwal->mata_kuliah = $request->input('mata_kuliah');
+        $jadwal->submateri = $request->input('submateri');
         $jadwal->waktu_mulai = $request->input('waktu_mulai');
         $jadwal->waktu_selesai = $request->input('waktu_selesai');
         $status = trim("dijadwalkan");
