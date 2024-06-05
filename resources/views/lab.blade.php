@@ -111,7 +111,8 @@
                                     </time>
                                     <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Jadwal pemakaian
                                         lab
-                                        untuk Matkul {{ $agenda->mata_kuliah }} dengan dosen pembimbing
+                                        untuk Matkul {{ $agenda->mata_kuliah }} Submateri {{ $agenda->submateri ?? '-' }}
+                                        dengan dosen pembimbing
                                         {{ $agenda->dosen }}. Pukul
                                         {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} -
                                         {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
@@ -248,6 +249,9 @@
                         Mata Kuliah
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Submateri
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Dosen
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -287,6 +291,9 @@
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                             {{ Str::ucfirst($jadwal->mata_kuliah ?? '-') }}
                         </th>
+                        <td class="px-6 py-4">
+                            {{ $jadwal->submateri ?? '-' }}
+                        </td>
                         <td class="px-6 py-4">
                             {{ $jadwal->dosen ?? '-' }}
                         </td>
