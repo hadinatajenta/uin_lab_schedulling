@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'title')
+@section('title', 'Laporan')
 
 @section('content')
     <div class="flex flex-col md:flex-row items-center justify-start lg:justify-between mb-4  ">

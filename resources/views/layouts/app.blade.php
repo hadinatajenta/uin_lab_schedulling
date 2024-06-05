@@ -16,6 +16,7 @@
     {{-- Ckeditor --}}
     <script src="/assets/vendor/ckeditor5/build/ckeditor.js"></script>
     <link rel="stylesheet" href="/css/editor.css">
+    <script src="https://cdn.ckeditor.com/4.16.1/standard/ckeditor.js"></script>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -116,6 +117,17 @@
 
 
                             <span class="flex-1 ms-3 whitespace-nowrap">Limbah</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('tentangLab') }}"
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('tentangLab') || request()->routeIs('editInfoLab') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">Tentang LAB</span>
                         </a>
                     </li>
                     <hr>

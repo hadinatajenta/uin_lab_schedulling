@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LimbahController;
+use App\Http\Controllers\AboutLabController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,6 +45,11 @@ Route::prefix('/admin')->group(function () {
     Route::delete('/hapus-limbah/{id}', [LimbahController::class, 'hapusLimbah'])->name('hapusLimbah');
     // Jaslab
     Route::put('/jaslab-ubah/{id}', [UsersController::class, 'ubahJaslab'])->name('ubahJaslab');
+    // about lab
+    Route::get('/tentang-lab', [AboutLabController::class, 'aboutLabView'])->name('tentangLab');
+    Route::get('/edit-tentang-lab', [AboutLabController::class, 'editInfoView'])->name('editInfoLab');
+    Route::put('/update-aboutlab', [AboutLabController::class, 'editInfo'])->name('editInfo');
+
 });
 
 
