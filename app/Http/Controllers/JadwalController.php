@@ -45,6 +45,7 @@ class JadwalController extends Controller
             'waktu_mulai' => ['required', 'date_format:H:i'],
             'waktu_selesai' => ['required', 'date_format:H:i', 'after:waktu_mulai'],
             'dosen' => ['required'],
+            'submateri' => ['nullable'],
             'kelas' => ['required'],
             'semester' => ['required'],
         ]);
