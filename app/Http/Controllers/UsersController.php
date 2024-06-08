@@ -38,8 +38,8 @@ class UsersController extends Controller
         $user = new User();
         $user->name = $request->input('name');
         $user->email = $request->input('email');
+        $user->jabatan = 'Mahasiswa';
         $user->password = Hash::make($request->input('password'));
-        $user->jabatan = '-';
 
         if ($user) {
             $user->save();

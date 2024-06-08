@@ -254,6 +254,9 @@
                                                         <option value="asisten dosen"
                                                             @if ($user->jabatan == 'asisten dosen') selected @endif>Asisten Dosen
                                                         </option>
+                                                        <option value="Mahasiswa"
+                                                            @if ($user->jabatan == 'Mahasiswa') selected @endif>Mahasiswa
+                                                        </option>
 
                                                     </select>
                                                 </div>
@@ -272,7 +275,9 @@
                                     </form>
                                 </x-edit-modal>
                                 <x-pop-up action="{{ route('delete.users', $user->id) }}" id="{{ $user->id }}"
-                                    buttonName="Hapus" />
+                                    buttonName="Hapus">Apa kamu yakin ingin menghapus {{ $user->name ?? '- ' }} dari
+                                    sistem?
+                                </x-pop-up>
                             </td>
                         </tr>
                     @endforeach
