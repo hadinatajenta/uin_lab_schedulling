@@ -74,8 +74,11 @@
     </section>
 
     {{-- Struktur organisasi --}}
-    <div class="container mx-auto my-8">
-        <h2 class="text-2xl font-bold mb-4">Struktur Organisasi</h2>
+    <div class="container mx-auto my-8 bg-white p-4 rounded-lg">
+        <div class="mb-4">
+            <h2 class="text-2xl font-bold">Struktur Organisasi</h2>
+            <p>Menampilkan Struktur Organisasi Dari Laboratorium Biologi UIN </p>
+        </div>
         <div class="flex justify-center">
             <img src="{{ asset('storage/' . $aboutLab->stuktur) }}" alt="Struktur Organisasi" class="max-w-full h-auto">
         </div>

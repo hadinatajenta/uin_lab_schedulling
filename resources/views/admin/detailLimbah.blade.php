@@ -27,15 +27,17 @@
                     Cara pengolahan
                 </li>
             </ul>
-
+            <hr>
 
             <div class="prose max-w-none">
                 <h3 class="text-2xl font-semibold mb-2"> Cara penggunaan </h3>
-
                 <p class="mb-4"> {{ $findLimbah->cara_penggunaan }} </p>
+                <hr>
                 <h3 class="text-2xl font-semibold mb-2">Materi</h3>
                 <p class="mb-4">{!! $findLimbah->materi !!}</p>
-
+                <hr>
+                <h3 class="text-2xl font-semibold mb-2 mt-4">Cara pengolahan</h3>
+                <p class="mb-4">{{ $findLimbah->cara_pengolahan }}</p>
             </div>
         </article>
     </main>
