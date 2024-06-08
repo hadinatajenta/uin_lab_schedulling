@@ -34,7 +34,7 @@
     <div class="min-h-screen bg-gray-100">
         <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar"
             aria-controls="default-sidebar" type="button"
-            class="inline-flex items-center w-full p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+            class="inline-flex items-center w-full p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 wedustext-gray-400 wedushover:bg-gray-700 wedusfocus:ring-gray-600">
             <span class="sr-only">Open sidebar</span>
             <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg">
@@ -48,13 +48,13 @@
             class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0"
             aria-label="Sidebar">
             <div
-                class="h-full px-3 py-4 overflow-y-auto bg-white  bg-clip-border shadow-blue-gray-900 dark:bg-gray-800">
+                class="h-full px-3 py-4 overflow-y-auto bg-white  bg-clip-border shadow-blue-gray-900 wedusbg-gray-800">
                 <div class="flex flex-row items-center p-5">
                     <img class="w-12 h-12 mb-3 rounded-full shadow-lg" src="{{ asset('storage/images/jamet.jpg') }}"
                         alt="Bonnie image" />
                     <div class="flex flex-col ms-3">
-                        <h5 class="mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ Auth::user()->name }}</h5>
-                        <span class="text-sm text-gray-500 dark:text-gray-400">Admin</span>
+                        <h5 class="mb-1 text-xl font-medium text-gray-900 wedustext-white">{{ Auth::user()->name }}</h5>
+                        <span class="text-sm text-gray-500 wedustext-gray-400">Admin</span>
                     </div>
 
                 </div>
@@ -62,7 +62,7 @@
                 <ul class="space-y-2 font-medium p-4">
                     <li>
                         <a href="{{ route('dashboard') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('dashboard') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('dashboard') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -74,7 +74,7 @@
                     </li>
                     <li>
                         <a href="{{ route('lab') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('lab') || request()->routeIs('addJadwalView') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('lab') || request()->routeIs('addJadwalView') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -85,7 +85,7 @@
                     </li>
                     <li>
                         <a href="{{ route('laporanView') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('laporanView') || request()->routeIs('addJadwalView') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }} ">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('laporanView') || request()->routeIs('addJadwalView') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }} ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -96,7 +96,7 @@
                     </li>
                     <li>
                         <a href="{{ route('alat') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('alat') || request()->routeIs('detailAlat') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('alat') || request()->routeIs('detailAlat') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -108,7 +108,7 @@
                     </li>
                     <li>
                         <a href="{{ route('limbah') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('limbah') || request()->routeIs('tambahLimbah') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('limbah') || request()->routeIs('tambahLimbah') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -121,7 +121,7 @@
                     </li>
                     <li>
                         <a href="{{ route('tentangLab') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('tentangLab') || request()->routeIs('editInfoLab') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('tentangLab') || request()->routeIs('editInfoLab') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -133,7 +133,7 @@
                     <hr>
                     <li>
                         <form method="POST" action="{{ route('logout') }}"
-                            class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            class="flex items-center p-2 text-gray-900 rounded-lg wedustext-white hover:bg-gray-100 wedushover:bg-gray-700 group">
                             @csrf
                             <button type="submit" class="flex">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -152,7 +152,7 @@
         </aside>
 
         <div class="px-4 pt-4 sm:ml-64">
-            <div class=" rounded-lg dark:border-gray-700">
+            <div class=" rounded-lg wedusborder-gray-700">
                 @yield('content')
             </div>
             <x-footer />

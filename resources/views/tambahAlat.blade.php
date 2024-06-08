@@ -6,8 +6,8 @@
     <div>
         <div class="flex flex-col md:flex-row items-center justify-start md:justify-between mb-4  ">
             <div>
-                <h4 class="text-2xl font-bold dark:text-white">Tambah data alat / bahan</h4>
-                <p class="text-sm font-normal text-gray-500 lg:text-sm dark:text-gray-400">
+                <h4 class="text-2xl font-bold wedustext-white">Tambah data alat / bahan</h4>
+                <p class="text-sm font-normal text-gray-500 lg:text-sm wedustext-gray-400">
                     Disini kamu bisa menambahkan data alat atau bahan.
                 </p>
             </div>
@@ -39,23 +39,23 @@
                     <div class="grid grid-cols-2 gap-4 mt-1">
                         {{-- alat --}}
                         <div>
-                            <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+                            <div class="flex items-center ps-4 border border-gray-200 rounded wedusborder-gray-700">
                                 <input id="jenis_padat" type="radio" value="Alat" name="jenis_alat"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
                                     checked onclick="toggleFields()">
                                 <label for="jenis_padat"
-                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Alat
+                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Alat
                                 </label>
                             </div>
                         </div>
                         {{-- Bahan --}}
                         <div>
-                            <div class="flex items-center ps-4 border border-gray-200 rounded dark:border-gray-700">
+                            <div class="flex items-center ps-4 border border-gray-200 rounded wedusborder-gray-700">
                                 <input id="jenis_cair" type="radio" value="Bahan" name="jenis_alat"
-                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
                                     onclick="toggleFields()">
                                 <label for="jenis_cair"
-                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bahan</label>
+                                    class="w-full py-4 ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Bahan</label>
                             </div>
                         </div>
                     </div>
@@ -89,41 +89,41 @@
 
                     <div class="flex items-center mb-4">
                         <input id="kondisi" type="radio" value="Baru" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="kondisi" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Baru</label>
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
+                        <label for="kondisi" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Baru</label>
                     </div>
                     <div class="flex items-center mb-4">
                         <input checked id="kondisi-2" type="radio" value="Bekas" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
                         <label for="kondisi-2"
-                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Bekas</label>
+                            class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Bekas</label>
                     </div>
                     <div class="flex items-center mb-4">
                         <input checked id="kondisi-3" type="radio" value="Rusak" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
                         <label for="kondisi-3"
-                            class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Rusak</label>
+                            class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Rusak</label>
                     </div>
                     <div class="flex items-center mb-4">
                         <input checked id="kondisi-4" type="radio" value="Hampir habis" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="kondisi-4" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Hampir
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
+                        <label for="kondisi-4" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Hampir
                             habis</label>
                     </div>
                     <div class="flex items-center mb-4">
                         <input checked id="kondisi-5" type="radio" value="Habis" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                        <label for="kondisi-5" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
+                        <label for="kondisi-5" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">
                             Habis</label>
                     </div>
                 </div>
 
                 {{-- Gambar --}}
                 <div class="bg-white p-4 rounded-lg mb-4">
-                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="gambar">Upload
+                    <label class="block mb-2 text-sm font-medium text-gray-900 wedustext-white" for="gambar">Upload
                         Gambar</label>
                     <input
-                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 wedustext-gray-400 focus:outline-none wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400"
                         id="gambar" name="gambar" type="file" accept="image/*" onchange="previewImage(event)">
 
                     @error('gambar')
@@ -188,7 +188,7 @@
                             Pembelian</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                <svg class="w-4 h-4 text-gray-500 wedustext-gray-400" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                     <path
                                         d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
@@ -196,7 +196,7 @@
                             </div>
                             <input datepicker datepicker-autohide type="text" name="tanggal_pembelian"
                                 datepicker-format="yyyy/mm/dd"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
                                 placeholder="Select date">
                         </div>
 
@@ -209,7 +209,7 @@
                             Expired</label>
                         <div class="relative">
                             <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                                <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                                <svg class="w-4 h-4 text-gray-500 wedustext-gray-400" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                     <path
                                         d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
@@ -217,10 +217,10 @@
                             </div>
                             <input datepicker datepicker-autohide type="text" name="tanggal_expired"
                                 datepicker-format="yyyy/mm/dd"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
                                 placeholder="Select date">
                         </div>
-                        <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 dark:text-gray-400">Jika tidak
+                        <p id="helper-text-explanation" class="mt-2 text-sm text-gray-500 wedustext-gray-400">Jika tidak
                             memiliki tanggal exp, silahkan kosongkan.
                         </p>
 

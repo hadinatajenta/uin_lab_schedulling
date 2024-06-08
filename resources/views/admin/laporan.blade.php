@@ -5,8 +5,8 @@
 @section('content')
     <div class="flex flex-col md:flex-row items-center justify-start lg:justify-between mb-4  ">
         <div>
-            <h4 class="text-2xl font-bold dark:text-white">Laporan Semua Alat</h4>
-            <p class="text-sm font-normal text-gray-500 lg:text-sm dark:text-gray-400">
+            <h4 class="text-2xl font-bold wedustext-white">Laporan Semua Alat</h4>
+            <p class="text-sm font-normal text-gray-500 lg:text-sm wedustext-gray-400">
                 Lihat semua laporan mengenai alat/bahan , pengguna website, dan jadwal pada halaman ini.
             </p>
         </div>
@@ -14,7 +14,7 @@
 
     <div class="overflow-x-auto w-full">
         <div class="grid grid-cols-4 gap-4 mb-4 text-white min-w-max">
-            <div class="flex items-center h-24 p-4 rounded bg-gray-800 dark:bg-gray-800 space-x-4">
+            <div class="flex items-center h-24 p-4 rounded bg-gray-800 wedusbg-gray-800 space-x-4">
                 <div class="flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center h-24 p-4 rounded bg-gray-800 dark:bg-gray-800 space-x-4">
+            <div class="flex items-center h-24 p-4 rounded bg-gray-800 wedusbg-gray-800 space-x-4">
                 <div class="flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center h-24 p-4 rounded bg-gray-800 dark:bg-gray-800 space-x-4">
+            <div class="flex items-center h-24 p-4 rounded bg-gray-800 wedusbg-gray-800 space-x-4">
                 <div class="flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center h-24 p-4 rounded bg-gray-800 dark:bg-gray-800 space-x-4">
+            <div class="flex items-center h-24 p-4 rounded bg-gray-800 wedusbg-gray-800 space-x-4">
                 <div class="flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -76,8 +76,8 @@
     </div>
 
     <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mb-4">
-        <table class=" text-sm w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class=" text-sm w-full text-left rtl:text-right text-gray-500 wedustext-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 wedusbg-gray-700 wedustext-gray-400">
                 <tr>
                     <th scope="col" class="p-4">
                         No
@@ -103,11 +103,11 @@
             <tbody>
                 @foreach ($alat as $index => $item)
                     <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        class="bg-white border-b wedusbg-gray-800 wedusborder-gray-700 hover:bg-gray-50 wedushover:bg-gray-600">
                         <td class="w-4 p-4">
                             {{ $index + 1 }}
                         </td>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap wedustext-white">
                             <img class="w-12" src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_alat }}">
                         </th>
                         <td class="px-6 py-4">
@@ -115,12 +115,12 @@
                         </td>
                         <td class="px-6 py-4">
                             @if ($item->kondisi == 'Baru')
-                                <div class="p-2 text-center  text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400"
+                                <div class="p-2 text-center  text-sm text-blue-800 rounded-lg bg-blue-50 wedusbg-gray-800 wedustext-blue-400"
                                     role="alert">
                                     <span>{{ $item->kondisi }}</span>
                                 </div>
                             @elseif ($item->kondisi == 'Rusak' || $item->kondisi == 'Habis')
-                                <div class="p-2 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                                <div class="p-2 text-center text-sm text-red-800 rounded-lg bg-red-50 wedusbg-gray-800 wedustext-red-400"
                                     role="alert">
                                     <span class="font-medium">{{ $item->kondisi }}</span>
                                 </div>
@@ -141,15 +141,15 @@
     </div>
 
     <div class="mt-4">
-        <h4 class="text-2xl font-bold dark:text-white">Laporan Barang Rusak / Habis</h4>
-        <p class="text-sm font-normal text-gray-500 lg:text-sm dark:text-gray-400">
+        <h4 class="text-2xl font-bold wedustext-white">Laporan Barang Rusak / Habis</h4>
+        <p class="text-sm font-normal text-gray-500 lg:text-sm wedustext-gray-400">
             Lihat semua laporan mengenai alat/bahan , pengguna website, dan jadwal pada halaman ini.
         </p>
     </div>
 
     <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mt-4">
-        <table class=" text-sm w-full text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class=" text-sm w-full text-left rtl:text-right text-gray-500 wedustext-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 wedusbg-gray-700 wedustext-gray-400">
                 <tr>
                     <th scope="col" class="p-4">
                         No
@@ -175,11 +175,11 @@
             <tbody>
                 @foreach ($alatRusakHabis as $index => $item)
                     <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        class="bg-white border-b wedusbg-gray-800 wedusborder-gray-700 hover:bg-gray-50 wedushover:bg-gray-600">
                         <td class="w-4 p-4">
                             {{ $index + 1 }}
                         </td>
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap wedustext-white">
                             <img class="w-12" src="{{ asset('storage/' . $item->gambar) }}"
                                 alt="{{ $item->nama_alat }}">
                         </th>
@@ -187,7 +187,7 @@
                             {{ $item->nama_alat }}
                         </td>
                         <td class="px-6 py-4">
-                            <div class="p-2 text-center text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+                            <div class="p-2 text-center text-sm text-red-800 rounded-lg bg-red-50 wedusbg-gray-800 wedustext-red-400"
                                 role="alert">
                                 <span class="font-medium">{{ $item->kondisi }} </span>
                             </div>

@@ -5,14 +5,14 @@
 @section('content')
     <div class="flex flex-col md:flex-row items-center justify-start lg:justify-between mb-4  ">
         <div>
-            <h4 class="text-2xl font-bold dark:text-white">Jadwal</h4>
-            <p class="text-sm font-normal text-gray-500 lg:text-sm dark:text-gray-400">
+            <h4 class="text-2xl font-bold wedustext-white">Jadwal</h4>
+            <p class="text-sm font-normal text-gray-500 lg:text-sm wedustext-gray-400">
                 Kamu bisa mengelola jadwal pemakaian Ruangan LAB disini.
             </p>
         </div>
         <div class="flex self-start p-2">
             <a href="{{ route('addJadwalView') }}"
-                class="text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Tambah
+                class="text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 wedusbg-blue-600 wedushover:bg-blue-700 focus:outline-none wedusfocus:ring-blue-800">Tambah
                 Jadwal</a>
         </div>
     </div>
@@ -67,7 +67,7 @@
                 <div class="me-3">
                     <h1 class="text-xl font-bold ms-2">Jadwal untuk </h1>
                 </div>
-                <div class=" bg-orange-100 rounded-full dark:border-gray-700">
+                <div class=" bg-orange-100 rounded-full wedusborder-gray-700">
                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab"
                         data-tabs-toggle="#default-tab-content" role="tablist">
                         <li class="me-2" role="presentation">
@@ -77,7 +77,7 @@
                         </li>
                         <li class="me-2" role="presentation">
                             <button
-                                class="inline-block p-4  rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                                class="inline-block p-4  rounded-t-lg hover:text-gray-600 hover:border-gray-300 wedushover:text-gray-300"
                                 id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab"
                                 aria-controls="dashboard" aria-selected="false">Besok</button>
                         </li>
@@ -89,27 +89,27 @@
                 <div id="default-tab-content">
                     {{-- Hari ini --}}
                     <div class="hidden p-4 rounded-lg " id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <ol class="relative border-s border-gray-200 dark:border-gray-700">
+                        <ol class="relative border-s border-gray-200 wedusborder-gray-700">
                             @foreach ($jadwal as $agenda)
                                 <li class="mb-10 ms-6">
                                     <span
-                                        class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                                        <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true"
+                                        class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white wedusring-gray-900 wedusbg-blue-900">
+                                        <svg class="w-2.5 h-2.5 text-blue-800 wedustext-blue-300" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path
                                                 d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                         </svg>
                                     </span>
-                                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 wedustext-white">
                                         {{ $agenda->mata_kuliah }} - Kelas {{ $agenda->kelas }} Semester
                                         {{ $agenda->semester }}
                                     </h3>
                                     <time
-                                        class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Dijadwalkan
+                                        class="block mb-2 text-sm font-normal leading-none text-gray-400 wedustext-gray-500">Dijadwalkan
                                         untuk
                                         {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->locale('id_ID')->isoFormat('MMMM Do, YYYY') }}
                                     </time>
-                                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Jadwal pemakaian
+                                    <p class="mb-4 text-base font-normal text-gray-500 wedustext-gray-400">Jadwal pemakaian
                                         lab
                                         untuk Matkul {{ $agenda->mata_kuliah }} Submateri {{ $agenda->submateri ?? '-' }}
                                         dengan dosen pembimbing
@@ -123,29 +123,29 @@
                         </ol>
                     </div>
                     {{-- besok --}}
-                    <div class="hidden p-4 rounded-lg  dark:bg-gray-800" id="dashboard" role="tabpanel"
+                    <div class="hidden p-4 rounded-lg  wedusbg-gray-800" id="dashboard" role="tabpanel"
                         aria-labelledby="dashboard-tab">
-                        <ol class="relative border-s border-gray-200 dark:border-gray-700">
+                        <ol class="relative border-s border-gray-200 wedusborder-gray-700">
                             @foreach ($jadwal_besok as $agenda)
                                 <li class="mb-10 ms-6">
                                     <span
-                                        class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white dark:ring-gray-900 dark:bg-blue-900">
-                                        <svg class="w-2.5 h-2.5 text-blue-800 dark:text-blue-300" aria-hidden="true"
+                                        class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white wedusring-gray-900 wedusbg-blue-900">
+                                        <svg class="w-2.5 h-2.5 text-blue-800 wedustext-blue-300" aria-hidden="true"
                                             xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path
                                                 d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                         </svg>
                                     </span>
-                                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 dark:text-white">
+                                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 wedustext-white">
                                         {{ $agenda->mata_kuliah }} - Kelas {{ $agenda->kelas }} Semester
                                         {{ $agenda->semester }}
                                     </h3>
                                     <time
-                                        class="block mb-2 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Dijadwalkan
+                                        class="block mb-2 text-sm font-normal leading-none text-gray-400 wedustext-gray-500">Dijadwalkan
                                         untuk
                                         {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->locale('id_ID')->isoFormat('MMMM Do, YYYY') }}
                                     </time>
-                                    <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">Jadwal pemakaian
+                                    <p class="mb-4 text-base font-normal text-gray-500 wedustext-gray-400">Jadwal pemakaian
                                         lab
                                         untuk Praktikum Biologi dengan dosen pembimbing Dr.Sucrypto. Pukul
                                         {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} -
@@ -162,10 +162,10 @@
 
     {{-- 3 grid --}}
     {{-- <div class="grid grid-cols-3 gap-4 my-4">
-        <div class="flex items-center justify-center h-24 rounded bg-gray-800 dark:bg-gray-800">
+        <div class="flex items-center justify-center h-24 rounded bg-gray-800 wedusbg-gray-800">
         </div>
-        <div class="flex items-center justify-center h-24 rounded bg-gray-800 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
+        <div class="flex items-center justify-center h-24 rounded bg-gray-800 wedusbg-gray-800">
+            <p class="text-2xl text-gray-400 wedustext-gray-500">
                 <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 18 18">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -173,8 +173,8 @@
                 </svg>
             </p>
         </div>
-        <div class="flex items-center justify-center h-24 rounded bg-gray-800 dark:bg-gray-800">
-            <p class="text-2xl text-gray-400 dark:text-gray-500">
+        <div class="flex items-center justify-center h-24 rounded bg-gray-800 wedusbg-gray-800">
+            <p class="text-2xl text-gray-400 wedustext-gray-500">
                 <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                     viewBox="0 0 18 18">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -185,28 +185,28 @@
     </div> --}}
 
     <div class="mt-4">
-        <h4 class="text-2xl font-bold dark:text-white">Daftar semua jadwal</h4>
-        <p class="text-sm font-normal text-gray-500 lg:text-sm dark:text-gray-400">
+        <h4 class="text-2xl font-bold wedustext-white">Daftar semua jadwal</h4>
+        <p class="text-sm font-normal text-gray-500 lg:text-sm wedustext-gray-400">
             Kamu bisa mengelola jadwal pemakaian Ruangan LAB disini.
         </p>
     </div>
     <div class="grid grid-cols-2 gap-4 my-4 ">
         <form class="w-full mx-auto">
             <label for="default-search"
-                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                class="mb-2 text-sm font-medium text-gray-900 sr-only wedustext-white">Search</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                    <svg class="w-4 h-4 text-gray-500 wedustext-gray-400" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
                 <input type="search" id="search" name="keyword"
-                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
                     placeholder="Cari Matakuliah" />
                 <button type="submit"
-                    class="text-white absolute end-2.5 bottom-2.5 bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    class="text-white absolute end-2.5 bottom-2.5 bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 wedusbg-blue-600 wedushover:bg-blue-700 wedusfocus:ring-blue-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -218,20 +218,20 @@
 
         <form class="w-full mx-auto">
             <label for="default-search"
-                class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+                class="mb-2 text-sm font-medium text-gray-900 sr-only wedustext-white">Search</label>
             <div class="relative">
                 <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                    <svg class="w-4 h-4 text-gray-500 wedustext-gray-400" aria-hidden="true"
                         xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                     </svg>
                 </div>
                 <input type="search" id="search-kelas" name="keyword"
-                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
                     placeholder="Cari kelas..." />
                 <button type="submit"
-                    class="text-white absolute end-2.5 bottom-2.5 bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    class="text-white absolute end-2.5 bottom-2.5 bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 wedusbg-blue-600 wedushover:bg-blue-700 wedusfocus:ring-blue-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -242,8 +242,8 @@
         </form>
     </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 wedustext-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 wedusbg-gray-700 wedustext-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
                         Mata Kuliah
@@ -287,8 +287,8 @@
                         );
                     @endphp
                     <tr
-                        class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        class="bg-white border-b wedusbg-gray-800 wedusborder-gray-700 hover:bg-gray-50 wedushover:bg-gray-600">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap wedustext-white">
                             {{ Str::ucfirst($jadwal->mata_kuliah ?? '-') }}
                         </th>
                         <td class="px-6 py-4">
@@ -321,7 +321,7 @@
                         </td>
                         <td class="flex items-center px-6 py-4">
                             <a href="{{ route('updateJadwal', $jadwal->id) }}"
-                                class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                class="font-medium text-blue-600 wedustext-blue-500 hover:underline">Edit</a>
                             <x-pop-up id="{{ $jadwal->id }}" action="{{ route('hapusJadwal', $jadwal->id) }}"
                                 buttonName="Hapus" />
                         </td>

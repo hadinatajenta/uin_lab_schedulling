@@ -15,8 +15,8 @@
             </p>
 
 
-            <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Daftar isi:</h2>
-            <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400 mb-6">
+            <h2 class="mb-2 text-lg font-semibold text-gray-900 wedustext-white">Daftar isi:</h2>
+            <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside wedustext-gray-400 mb-6">
                 <li>
                     Cara penggunaan
                 </li>
