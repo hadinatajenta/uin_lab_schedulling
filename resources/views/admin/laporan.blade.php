@@ -69,7 +69,7 @@
                 </div>
                 <div class="flex flex-col text-white">
                     <p class="text-lg font-semibold">Barang rusak / habis </p>
-                    <span class="text-sm">{{ $alat->count() }}</span>
+                    <span class="text-sm">{{ $alatRusakHabis->count() }}</span>
                 </div>
             </div>
         </div>
