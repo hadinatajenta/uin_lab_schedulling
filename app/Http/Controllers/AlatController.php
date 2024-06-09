@@ -71,18 +71,18 @@ class AlatController extends Controller
         $alat->link_youtube = $request->input('link_youtube');
 
         $tanggal_pembelian = $request->input('tanggal_pembelian');
+        $alat->tanggal_pembelian = $tanggal_pembelian;
 
         if ($alat->jenis_alat == 'Alat') {
             $alat->jumlah_satuan = $request->input('jumlah_satuan');
         } elseif ($alat->jenis_alat == 'Bahan') {
             $alat->jumlah_ml = $request->input('jumlah_ml');
             $tanggal_expired = $request->input('tanggal_expired');
+            $alat->tanggal_expired = $tanggal_expired;
 
             if (strtotime($tanggal_pembelian) > strtotime($tanggal_expired)) {
                 return redirect()->back()->with('error', 'Tanggal pembelian tidak boleh melebihi tanggal expired.');
             }
-            $alat->tanggal_pembelian = $tanggal_pembelian;
-            $alat->tanggal_expired = $tanggal_expired;
         }
 
         if ($alat) {
