@@ -121,10 +121,12 @@
                     <div class="p-5">
                         <a href="#" class="mb-0">
                             <h5 class=" text-xl font-bold tracking-tight text-gray-900 wedustext-white">
-                                {{ $item->nama_alat ?? '-' }} </h5>
+                                {{ $item->nama_alat ?? '-' }}
+                            </h5>
                         </a>
                         <p class="mb-3 font-normal text-gray-700 wedustext-gray-400">
                             {{ strlen($item->deskripsi) > 100 ? substr($item->deskripsi, 0, 50) . '...' : $item->deskripsi }}
+                        </p>
                     </div>
                 </div>
 
@@ -194,7 +196,11 @@
                                             <tr class="bg-white border-b wedusbg-gray-800 wedusborder-gray-700">
                                                 <th scope="row"
                                                     class="px-6 py-4 font-medium bg-gray-50 text-gray-900 whitespace-nowrap wedustext-white">
-                                                    Jumlah alat
+                                                    @if ($item->jumlah_alat == 'Alat')
+                                                        <span>Jumlah alat</span>
+                                                    @else
+                                                        <span>Ukuran</span>
+                                                    @endif
                                                 </th>
                                                 <td>
                                                     :
@@ -248,6 +254,16 @@
                                         </svg>
                                     </button>
                                 </form>
+
+                                <button data-modal-hide="item-{{ $item->id }}" type="button"
+                                    onclick="window.location.href='{{ route('editAlat', $item->id) }}'"
+                                    class="py-2.5 px-5  text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 wedusfocus:ring-gray-700 wedusbg-gray-800 wedustext-gray-400 wedusborder-gray-600 wedushover:text-white wedushover:bg-gray-700">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.5" stroke="currentColor" class="size-5">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>

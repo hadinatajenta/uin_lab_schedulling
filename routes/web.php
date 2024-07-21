@@ -35,6 +35,8 @@ Route::prefix('/admin')->group(function () {
     Route::delete('/hapus-alat/{id}', [AlatController::class, 'deleteAlat'])->name('hapus.alat');
     Route::get('/detail-alat/{id}', [AlatController::class, 'alat'])->name('detailAlat');
     Route::post('/detail-alat/{id}', [AlatController::class, 'detailAlat'])->name('updateAlat');
+    Route::get('/edit-alat/{id}', [AlatController::class, 'editAlat'])->name('editAlat');
+    Route::put('/update-alat/{id}', [AlatController::class, 'updateAlat'])->name('perbarui');
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'laporanView'])->name('laporanView');
     // Limbah

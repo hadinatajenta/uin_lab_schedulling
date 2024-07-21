@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah alat')
+@section('title', 'Edit alat')
 
 @section('content')
     <div>
@@ -17,15 +17,17 @@
     </div>
     <div class="mx-auto mt-4">
         <div class="grid grid-cols-12 ">
-            <form action="{{ route('post.alat') }}" method="POST"
+            <form action="{{ route('perbarui', $edit->id) }}" method="POST"
                 class="col-span-12 sm:col-span-12 md:col-span-6 lg:col-span-6 lg:col-start-4" enctype="multipart/form-data">
                 @csrf
+                @method('PUT')
 
                 {{-- Nama alat --}}
                 <div class="bg-white p-4 rounded-lg mb-4">
                     <label for="nama_alat" class="block text-sm font-medium text-gray-700">Nama Alat <span
                             class="text-red-800">*</span> </label>
                     <input type="text" id="nama_alat" name="nama_alat" placeholder="Masukkan nama alat..."
+                        value="{{ $edit->nama_alat }}"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                         value="{{ old('nama_alat') }}">
                     @error('nama_alat')
@@ -42,7 +44,7 @@
                             <div class="flex items-center ps-4 border border-gray-200 rounded wedusborder-gray-700">
                                 <input id="jenis_padat" type="radio" value="Alat" name="jenis_alat"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
-                                    checked onclick="toggleFields()">
+                                    {{ $edit->jenis_alat == 'Alat' ? 'checked' : '' }} onclick="toggleFields()">
                                 <label for="jenis_padat"
                                     class="w-full py-4 ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Alat
                                 </label>
@@ -53,7 +55,7 @@
                             <div class="flex items-center ps-4 border border-gray-200 rounded wedusborder-gray-700">
                                 <input id="jenis_cair" type="radio" value="Bahan" name="jenis_alat"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
-                                    onclick="toggleFields()">
+                                    {{ $edit->jenis_alat == 'Bahan' ? 'checked' : '' }} onclick="toggleFields()">
                                 <label for="jenis_cair"
                                     class="w-full py-4 ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Bahan</label>
                             </div>
@@ -66,7 +68,7 @@
                     <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
                     <input id="deskripsi " name="deskripsi" placeholder="Masukkan deskripsi alat..."
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        value="{{ old('deskripsi') }}">
+                        value="{{ $edit->deskripsi }}">
 
                     @error('deskripsi')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -77,7 +79,7 @@
                 <div class="bg-white p-4 rounded-lg mb-4">
                     <label for="spesifikasi" class="block text-sm font-medium text-gray-700">Spesifikasi</label>
                     <textarea id="spesifikasi" name="spesifikasi" placeholder="Masukkan spesifikasi dari alat / bahan"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('spesifikasi') }}</textarea>
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('spesifikasi', $edit->spesifikasi) }}</textarea>
                     @error('spesifikasi')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -89,46 +91,54 @@
 
                     <div class="flex items-center mb-4">
                         <input id="kondisi" type="radio" value="Baru" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
+                            {{ $edit->kondisi == 'Baru' ? 'checked' : '' }}>
                         <label for="kondisi" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Baru</label>
                     </div>
                     <div class="flex items-center mb-4">
-                        <input checked id="kondisi-2" type="radio" value="Bekas" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
+                        <input id="kondisi-2" type="radio" value="Bekas" name="kondisi"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
+                            {{ $edit->kondisi == 'Bekas' ? 'checked' : '' }}>
                         <label for="kondisi-2"
                             class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Bekas</label>
                     </div>
                     <div class="flex items-center mb-4">
-                        <input checked id="kondisi-3" type="radio" value="Rusak" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
+                        <input id="kondisi-3" type="radio" value="Rusak" name="kondisi"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
+                            {{ $edit->kondisi == 'Rusak' ? 'checked' : '' }}>
                         <label for="kondisi-3"
                             class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Rusak</label>
                     </div>
                     <div class="flex items-center mb-4">
-                        <input checked id="kondisi-4" type="radio" value="Hampir habis" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
+                        <input id="kondisi-4" type="radio" value="Hampir habis" name="kondisi"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
+                            {{ $edit->kondisi == 'Hampir habis' ? 'checked' : '' }}>
                         <label for="kondisi-4" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Hampir
                             habis</label>
                     </div>
                     <div class="flex items-center mb-4">
-                        <input checked id="kondisi-5" type="radio" value="Habis" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
-                        <label for="kondisi-5" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">
-                            Habis</label>
+                        <input id="kondisi-5" type="radio" value="Habis" name="kondisi"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
+                            {{ $edit->kondisi == 'Habis' ? 'checked' : '' }}>
+                        <label for="kondisi-5"
+                            class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Habis</label>
                     </div>
                     <div class="flex items-center mb-4">
-                        <input checked id="kondisi-5" type="radio" value="Layak" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
-                        <label for="kondisi-5" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">
+                        <input id="kondisi-6" type="radio" value="Layak" name="kondisi"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
+                            {{ $edit->kondisi == 'Layak' ? 'checked' : '' }}>
+                        <label for="kondisi-6"
+                            class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Layak</label>
+                    </div>
+                    <div class="flex items-center mb-4">
+                        <input id="kondisi-7" type="radio" value="Tidak Layak" name="kondisi"
+                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600"
+                            {{ $edit->kondisi == 'Tidak Layak' ? 'checked' : '' }}>
+                        <label for="kondisi-7" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">Tidak
                             Layak</label>
                     </div>
-                    <div class="flex items-center mb-4">
-                        <input checked id="kondisi-5" type="radio" value="Tidak Layak" name="kondisi"
-                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 wedusfocus:ring-blue-600 wedusring-offset-gray-800 focus:ring-2 wedusbg-gray-700 wedusborder-gray-600">
-                        <label for="kondisi-5" class="ms-2 text-sm font-medium text-gray-900 wedustext-gray-300">
-                            Tidak Layak</label>
-                    </div>
                 </div>
+
 
                 {{-- Gambar --}}
                 <div class="bg-white p-4 rounded-lg mb-4">
@@ -153,7 +163,7 @@
                     <input type="number" id="jumlah_satuan" name="jumlah_satuan"
                         placeholder="Masukkan jumlah satuan dalam hitungan unit, misal = 1 unit"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        value="{{ old('jumlah_satuan') }}">
+                        value="{{ $edit->jumlah_satuan }}">
                     @error('jumlah_satuan')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -164,7 +174,7 @@
                     <input type="number" id="jumlah_ml" name="jumlah_ml"
                         placeholder="Masukkan jumlah cairan dalam ukuran {{ 'ml / mili liter' }}"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        value="{{ old('jumlah_ml') }}">
+                        value="{{ $edit->jumlah_ml }}">
                     @error('jumlah_ml')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -176,6 +186,7 @@
                         Penggunaan</label>
                     <textarea id="editor" name="cara_penggunaan"
                         class="mt-1   block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        {{ $edit->cara_penggunaan }}
                     </textarea>
                     @error('cara_penggunaan')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -188,7 +199,7 @@
                     <input type="url" id="link_youtube" name="link_youtube"
                         placeholder=" Link diawali dengan http://"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        value="{{ old('link_youtube') }}">
+                        value="{{ old('link_youtube', $edit->link_youtube) }}">
                     @error('link_youtube')
                         <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
                     @enderror
@@ -207,7 +218,7 @@
                                 </svg>
                             </div>
                             <input datepicker datepicker-autohide type="text" name="tanggal_pembelian"
-                                datepicker-format="yyyy/mm/dd"
+                                value="{{ $edit->tanggal_pembelian }}" datepicker-format="yyyy/mm/dd"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
                                 placeholder="Select date">
                         </div>
@@ -228,7 +239,7 @@
                                 </svg>
                             </div>
                             <input datepicker datepicker-autohide type="text" name="tanggal_expired"
-                                datepicker-format="yyyy/mm/dd"
+                                value="{{ $edit->tanggal_expired }}" datepicker-format="yyyy/mm/dd"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5  wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
                                 placeholder="Select date">
                         </div>
@@ -274,6 +285,7 @@
         }
     </script>
 
+
     <script>
         function toggleFields() {
             const jenisPadat = document.getElementById('jenis_padat').checked;
@@ -290,7 +302,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            toggleFields(); // Initialize the fields based on the default selected radio button
+            toggleFields();
         });
 
         function previewImage(event) {

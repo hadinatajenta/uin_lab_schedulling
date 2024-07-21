@@ -119,13 +119,74 @@ class AlatController extends Controller
         $alat = Alat::find($id);
         return view('admin.detailAlat', compact('alat'));
     }
-    //detail alat
-    public function detailAlat(Request $request, $id)
-    {
-        $alat = Alat::find($id);
-        if ($alat) {
 
+    public function editAlat($id)
+    {
+        $edit = Alat::find($id);
+        return view('admin.EditAlat', compact('edit'));
+    }
+
+    public function updateAlat(Request $request, $id)
+    {
+        $request->validate([
+            'nama_alat' => 'required',
+            'jenis_alat' => 'nullable',
+            'deskripsi' => 'nullable',
+            'spesifikasi' => 'nullable',
+            'kondisi' => 'nullable',
+            'gambar' => 'nullable',
+            'jumlah_satuan' => 'nullable',
+            'jumlah_ml' => 'nullable',
+            'cara_penggunaan' => 'nullable',
+            'link_youtube' => 'nullable',
+            'tanggal_pembelian' => 'nullable',
+            'tanggal_expired' => 'nullable',
+        ]);
+
+        $alat = Alat::find($id);
+
+        if (!$alat) {
+            return redirect()->back()->with('error', 'Data Alat tidak ditemukan.');
+        }
+
+        // Update data Alat
+        $alat->nama_alat = $request->input('nama_alat');
+        $alat->jenis_alat = $request->input('jenis_alat');
+        $alat->deskripsi = $request->input('deskripsi');
+        $alat->spesifikasi = $request->input('spesifikasi');
+        $alat->kondisi = $request->input('kondisi');
+
+        // Handle gambar disini
+        if ($request->hasFile('gambar')) {
+            $image = $request->file('gambar');
+            $imageName = time() . '.' . $image->getClientOriginalExtension();
+            $path = $image->storeAs('images', $imageName, 'public');
+            $alat->gambar = $path;
+        }
+
+        $alat->cara_penggunaan = $request->input('cara_penggunaan');
+        $alat->link_youtube = $request->input('link_youtube');
+
+        $tanggal_pembelian = $request->input('tanggal_pembelian');
+        $alat->tanggal_pembelian = $tanggal_pembelian;
+
+        if ($alat->jenis_alat == 'Alat') {
+            $alat->jumlah_satuan = $request->input('jumlah_satuan');
+        } elseif ($alat->jenis_alat == 'Bahan') {
+            $alat->jumlah_ml = $request->input('jumlah_ml');
+            $tanggal_expired = $request->input('tanggal_expired');
+            $alat->tanggal_expired = $tanggal_expired;
+
+            if (strtotime($tanggal_pembelian) > strtotime($tanggal_expired)) {
+                return redirect()->back()->with('error', 'Tanggal pembelian tidak boleh melebihi tanggal expired.');
+            }
+        }
+
+        if ($alat) {
+            $alat->save();
+            return redirect()->route('alat')->with('success', 'Berhasil memperbarui data Alat!');
         }
     }
+
 
 }
