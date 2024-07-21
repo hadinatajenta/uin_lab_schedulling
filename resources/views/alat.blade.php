@@ -196,7 +196,7 @@
                                             <tr class="bg-white border-b wedusbg-gray-800 wedusborder-gray-700">
                                                 <th scope="row"
                                                     class="px-6 py-4 font-medium bg-gray-50 text-gray-900 whitespace-nowrap wedustext-white">
-                                                    @if ($item->jumlah_alat == 'Alat')
+                                                    @if ($item->jenis_alat == 'Alat')
                                                         <span>Jumlah alat</span>
                                                     @else
                                                         <span>Ukuran</span>
