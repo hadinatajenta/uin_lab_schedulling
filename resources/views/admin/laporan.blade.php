@@ -14,7 +14,7 @@
 
     <div class="overflow-x-auto w-full">
         <div class="grid grid-cols-4 gap-4 mb-4 text-white min-w-max">
-            <div class="flex items-center h-24 p-4 rounded bg-gray-800 wedusbg-gray-800 space-x-4">
+            <div class="flex items-center h-24 p-4 rounded bg-[#6467CD] wedusbg-gray-800 space-x-4">
                 <div class="flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -29,7 +29,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center h-24 p-4 rounded bg-gray-800 wedusbg-gray-800 space-x-4">
+            <div class="flex items-center h-24 p-4 rounded bg-[#414AAB] wedusbg-gray-800 space-x-4">
                 <div class="flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center h-24 p-4 rounded bg-gray-800 wedusbg-gray-800 space-x-4">
+            <div class="flex items-center h-24 p-4 rounded bg-[#152F8B] wedusbg-gray-800 space-x-4">
                 <div class="flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div class="flex items-center h-24 p-4 rounded bg-gray-800 wedusbg-gray-800 space-x-4">
+            <div class="flex items-center h-24 p-4 rounded bg-[#00176C] wedusbg-gray-800 space-x-4">
                 <div class="flex-shrink-0">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">

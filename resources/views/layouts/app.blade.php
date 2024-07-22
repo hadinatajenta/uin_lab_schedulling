@@ -24,8 +24,8 @@
     {{-- styles --}}
     <style>
         .active {
-            background: white;
-            color: #111827;
+            background: #8685EF;
+            color: #fff;
         }
     </style>
 </head>
@@ -54,7 +54,7 @@
                         alt="Bonnie image" />
                     <div class="flex flex-col ms-3">
                         <h5 class="mb-1 text-xl font-medium text-gray-900 wedustext-white">{{ Auth::user()->name }}</h5>
-                        <span class="text-sm text-gray-500 wedustext-gray-400">Admin</span>
+                        <span class="text-sm text-gray-500 wedustext-gray-400"> {{ Auth::user()->jabatan }} </span>
                     </div>
 
                 </div>
@@ -62,19 +62,20 @@
                 <ul class="space-y-2 font-medium p-4">
                     <li>
                         <a href="{{ route('dashboard') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('dashboard') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('dashboard') ? 'text-white font-bold bg-[#8685EF]' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                             </svg>
+
                             <span class="flex-1 ms-3 whitespace-nowrap">Data pengguna</span>
 
                         </a>
                     </li>
                     <li>
                         <a href="{{ route('lab') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('lab') || request()->routeIs('addJadwalView') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('lab') || request()->routeIs('addJadwalView') ? 'text-white font-bold bg-[#8685EF]' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -85,7 +86,7 @@
                     </li>
                     <li>
                         <a href="{{ route('laporanView') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('laporanView') || request()->routeIs('addJadwalView') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }} ">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('laporanView') || request()->routeIs('addJadwalView') ? 'text-white font-bold bg-[#8685EF]' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }} ">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -96,7 +97,7 @@
                     </li>
                     <li>
                         <a href="{{ route('alat') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('alat') || request()->routeIs('detailAlat') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('alat') || request()->routeIs('detailAlat') ? 'text-white font-bold bg-[#8685EF]' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -108,7 +109,7 @@
                     </li>
                     <li>
                         <a href="{{ route('limbah') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('limbah') || request()->routeIs('tambahLimbah') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('limbah') || request()->routeIs('tambahLimbah') ? 'text-white font-bold bg-[#8685EF]' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -121,7 +122,7 @@
                     </li>
                     <li>
                         <a href="{{ route('tentangLab') }}"
-                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('tentangLab') || request()->routeIs('editInfoLab') ? 'text-white bg-gray-900' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
+                            class="flex items-center p-2 rounded-lg group {{ request()->routeIs('tentangLab') || request()->routeIs('editInfoLab') ? 'text-white font-bold bg-[#8685EF]' : 'text-gray-900 hover:bg-gray-100 wedushover:bg-gray-700' }}">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                 stroke-width="1.5" stroke="currentColor" class="size-6">
                                 <path stroke-linecap="round" stroke-linejoin="round"

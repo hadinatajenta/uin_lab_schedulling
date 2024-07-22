@@ -23,8 +23,9 @@ class UsersController extends Controller
         $jumlahUser = User::all();
         $dosen = User::where('jabatan', 'dosen')->get();
         $admin = User::where('jabatan', 'admin lab')->get();
-        $jaslab = Jaslab::all(); 
-        return view('admin.users', compact('users', 'jumlahUser', 'dosen', 'admin','jaslab'));
+        $mahasiswa = User::where('jabatan', 'Mahasiswa')->get();
+        $jaslab = Jaslab::all();
+        return view('admin.users', compact('users', 'jumlahUser', 'dosen', 'admin', 'jaslab', 'mahasiswa'));
     }
 
     public function addUser(Request $request)
@@ -80,14 +81,15 @@ class UsersController extends Controller
         }
     }
 
-    public function ubahJaslab(Request $request,$id){
+    public function ubahJaslab(Request $request, $id)
+    {
         $jaslab = Jaslab::find($id);
-        if($jaslab){
+        if ($jaslab) {
             $jaslab->warna = $request->input('warna');
             $jaslab->save();
-            return redirect()->back()->with('success','Berhasil perbarui warna jaslab!');
-        }else{
-            return redirect()->back()->with('error','Informasi jaslab tidak ditemukan!');
+            return redirect()->back()->with('success', 'Berhasil perbarui warna jaslab!');
+        } else {
+            return redirect()->back()->with('error', 'Informasi jaslab tidak ditemukan!');
         }
     }
 }

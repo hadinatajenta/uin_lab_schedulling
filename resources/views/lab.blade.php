@@ -11,9 +11,11 @@
             </p>
         </div>
         <div class="flex self-start p-2">
-            <a href="{{ route('addJadwalView') }}"
-                class="text-white bg-gray-800 hover:bg-gray-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 wedusbg-blue-600 wedushover:bg-blue-700 focus:outline-none wedusfocus:ring-blue-800">Tambah
-                Jadwal</a>
+            @if (Auth::user()->jabatan !== 'Mahasiswa')
+                <a href="{{ route('addJadwalView') }}"
+                    class="text-white bg-[#152F8B]  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 wedusbg-blue-600 wedushover:bg-blue-700 focus:outline-none wedusfocus:ring-blue-800">Tambah
+                    Jadwal</a>
+            @endif
         </div>
     </div>
     <x-alert />
@@ -36,9 +38,9 @@
                         <button id="next" class="text-lg font-bold">&gt;</button>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4 p-2 bg-gray-800 rounded-full mx-2">
-                    <div class="text-center p-2 font-bold text-white">Status</div>
-                    <div class="rounded-full  text-center font-bold bg-orange-100 text-gray-800 p-2">
+                <div class="grid grid-cols-2 gap-4 p-2 bg-[#8685EF] rounded-full mx-2">
+                    <div class="text-center p-2 font-bold text-gray">Status</div>
+                    <div class="rounded-full  text-center font-bold bg-[#FEFEDF] text-gray-800 p-2">
                         Dijadwalkan
                     </div>
                 </div>
@@ -63,7 +65,7 @@
 
         {{-- Right side --}}
         <div class="col-span-12 md:col-span-8 bg-white  rounded shadow-md">
-            <div class="flex bg-gray-800  rounded-t-md text-white p-2 items-center mb-4">
+            <div class="flex bg-[#8685EF]  rounded-t-md text-gray p-2 items-center mb-4">
                 <div class="me-3">
                     <h1 class="text-xl font-bold ms-2">Jadwal untuk </h1>
                 </div>
@@ -272,9 +274,11 @@
                     <th scope="col" class="px-6 py-3">
                         Status
                     </th>
-                    <th scope="col" class="px-6 py-3">
-                        Action
-                    </th>
+                    @if (Auth::user()->jabatan !== 'Mahasiswa')
+                        <th scope="col" class="px-6 py-3">
+                            Action
+                        </th>
+                    @endif
                 </tr>
             </thead>
             <tbody id="alat-table">
@@ -320,10 +324,12 @@
                             @endif
                         </td>
                         <td class="flex items-center px-6 py-4">
-                            <a href="{{ route('updateJadwal', $jadwal->id) }}"
-                                class="font-medium text-blue-600 wedustext-blue-500 hover:underline">Edit</a>
-                            <x-pop-up id="{{ $jadwal->id }}" action="{{ route('hapusJadwal', $jadwal->id) }}"
-                                buttonName="Hapus" />
+                            @if (Auth::user()->jabatan !== 'Mahasiswa')
+                                <a href="{{ route('updateJadwal', $jadwal->id) }}"
+                                    class="font-medium text-blue-600 wedustext-blue-500 hover:underline">Edit</a>
+                                <x-pop-up id="{{ $jadwal->id }}" action="{{ route('hapusJadwal', $jadwal->id) }}"
+                                    buttonName="Hapus" />
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -375,9 +381,10 @@
                         cell.textContent = dateCount++;
                         if (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() &&
                             cell.textContent == new Date().getDate()) {
-                            cell.classList.add("bg-gray-800");
+                            cell.classList.add("bg-[#8685EF]");
                             cell.classList.add("rounded-full");
-                            cell.classList.add("text-white");
+                            cell.classList.add("text-gray");
+                            cell.classList.add("font-bold");
                         }
                     }
 

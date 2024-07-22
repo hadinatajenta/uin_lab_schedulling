@@ -17,7 +17,7 @@
         <div class="grid grid-cols-3 gap-4 min-w-max">
             {{-- Daftar alat --}}
             <form action="">
-                <input type="hidden" name="cari" value="Alat">
+                <input type="hidden" name="jenis_alat" value="Alat">
                 <button type="submit"
                     class="flex items-center p-6 border w-full border-gray-200 bg-white rounded shadow hover:bg-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -32,10 +32,11 @@
                     </div>
                 </button>
             </form>
+
             {{-- Daftar bahan --}}
             <form action="">
-                <input type="hidden" name="cari" value="Bahan">
-                <button value="bahan" type="submit"
+                <input type="hidden" name="jenis_alat" value="Bahan">
+                <button type="submit"
                     class="flex items-center w-full p-6 border border-gray-200 bg-white rounded shadow hover:shadow-md hover:bg-gray-100">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="w-6 h-6">
@@ -49,6 +50,7 @@
                     </div>
                 </button>
             </form>
+
             {{-- Total alat dan bahan --}}
             <div class="flex items-center p-6 border border-gray-200 bg-white rounded shadow">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

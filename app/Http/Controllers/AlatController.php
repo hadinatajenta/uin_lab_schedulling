@@ -17,11 +17,18 @@ class AlatController extends Controller
         $bahanPadat = Alat::where('jenis_alat', 'Alat')->get();
         $bahanCair = Alat::where('jenis_alat', 'Bahan')->get();
         $keyword = $request->input('cari');
+
+        $jenisAlat = $request->input('jenis_alat');
+        $query = Alat::query();
+
         if ($keyword) {
-            $alat = Alat::where('nama_alat', 'LIKE', "%{$keyword}%")->get();
-        } else {
-            $alat = Alat::paginate(20);
+            $query->where('nama_alat', 'LIKE', "%{$keyword}%");
         }
+        if ($jenisAlat) {
+            $query->where('jenis_alat', $jenisAlat);
+        }
+        $alat = $query->paginate(20);
+
         $all = $alat->count();
         return view('alat', compact('alat', 'bahanPadat', 'bahanCair', 'all'));
     }
