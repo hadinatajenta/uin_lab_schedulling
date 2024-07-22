@@ -67,7 +67,7 @@
         <div class="col-span-12 md:col-span-8 bg-white  rounded shadow-md">
             <div class="flex bg-[#8685EF]  rounded-t-md text-gray p-2 items-center mb-4">
                 <div class="me-3">
-                    <h1 class="text-xl font-bold ms-2">Jadwal untuk </h1>
+                    <h1 class=" font-bold ms-2">Jadwal untuk </h1>
                 </div>
                 <div class=" bg-orange-100 rounded-full wedusborder-gray-700">
                     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab"
@@ -92,69 +92,86 @@
                     {{-- Hari ini --}}
                     <div class="hidden p-4 rounded-lg " id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <ol class="relative border-s border-gray-200 wedusborder-gray-700">
-                            @foreach ($jadwal as $agenda)
-                                <li class="mb-10 ms-6">
-                                    <span
-                                        class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white wedusring-gray-900 wedusbg-blue-900">
-                                        <svg class="w-2.5 h-2.5 text-blue-800 wedustext-blue-300" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                        </svg>
-                                    </span>
-                                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 wedustext-white">
-                                        {{ $agenda->mata_kuliah }} - Kelas {{ $agenda->kelas }} Semester
-                                        {{ $agenda->semester }}
-                                    </h3>
-                                    <time
-                                        class="block mb-2 text-sm font-normal leading-none text-gray-400 wedustext-gray-500">Dijadwalkan
-                                        untuk
-                                        {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->locale('id_ID')->isoFormat('MMMM Do, YYYY') }}
-                                    </time>
-                                    <p class="mb-4 text-base font-normal text-gray-500 wedustext-gray-400">Jadwal pemakaian
-                                        lab
-                                        untuk Matkul {{ $agenda->mata_kuliah }} Submateri {{ $agenda->submateri ?? '-' }}
-                                        dengan dosen pembimbing
-                                        {{ $agenda->dosen }}. Pukul
-                                        {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} -
-                                        {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
+                            @if (count($jadwal) > 1)
+                                @foreach ($jadwal as $agenda)
+                                    <li class="mb-10 ms-6">
+                                        <span
+                                            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white wedusring-gray-900 wedusbg-blue-900">
+                                            <svg class="w-2.5 h-2.5 text-blue-800 wedustext-blue-300" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                            </svg>
+                                        </span>
+                                        <h3
+                                            class="flex items-center mb-1 text-lg font-semibold text-gray-900 wedustext-white">
+                                            {{ $agenda->mata_kuliah }} - Kelas {{ $agenda->kelas }} Semester
+                                            {{ $agenda->semester }}
+                                        </h3>
+                                        <time
+                                            class="block mb-2 text-sm font-normal leading-none text-gray-400 wedustext-gray-500">Dijadwalkan
+                                            untuk
+                                            {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->locale('id_ID')->isoFormat('MMMM Do, YYYY') }}
+                                        </time>
+                                        <p class="mb-4 text-base font-normal text-gray-500 wedustext-gray-400">Jadwal
+                                            pemakaian
+                                            lab
+                                            untuk Matkul {{ $agenda->mata_kuliah }} Submateri
+                                            {{ $agenda->submateri ?? '-' }}
+                                            dengan dosen pembimbing
+                                            {{ $agenda->dosen }}. Pukul
+                                            {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} -
+                                            {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
 
-                                    </p>
+                                        </p>
+                                    </li>
+                                @endforeach
+                            @else
+                                <li class="mb-10 ms-6">
+                                    Tidak ada Jadwal
                                 </li>
-                            @endforeach
+                            @endif
                         </ol>
                     </div>
                     {{-- besok --}}
                     <div class="hidden p-4 rounded-lg  wedusbg-gray-800" id="dashboard" role="tabpanel"
                         aria-labelledby="dashboard-tab">
                         <ol class="relative border-s border-gray-200 wedusborder-gray-700">
-                            @foreach ($jadwal_besok as $agenda)
+                            @if (count($jadwal) > 1)
+                                @foreach ($jadwal_besok as $agenda)
+                                    <li class="mb-10 ms-6">
+                                        <span
+                                            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white wedusring-gray-900 wedusbg-blue-900">
+                                            <svg class="w-2.5 h-2.5 text-blue-800 wedustext-blue-300" aria-hidden="true"
+                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                <path
+                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                            </svg>
+                                        </span>
+                                        <h3
+                                            class="flex items-center mb-1 text-lg font-semibold text-gray-900 wedustext-white">
+                                            {{ $agenda->mata_kuliah }} - Kelas {{ $agenda->kelas }} Semester
+                                            {{ $agenda->semester }}
+                                        </h3>
+                                        <time
+                                            class="block mb-2 text-sm font-normal leading-none text-gray-400 wedustext-gray-500">Dijadwalkan
+                                            untuk
+                                            {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->locale('id_ID')->isoFormat('MMMM Do, YYYY') }}
+                                        </time>
+                                        <p class="mb-4 text-base font-normal text-gray-500 wedustext-gray-400">Jadwal
+                                            pemakaian
+                                            lab
+                                            untuk Praktikum Biologi dengan dosen pembimbing Dr.Sucrypto. Pukul
+                                            {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} -
+                                            {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
+                                        </p>
+                                    </li>
+                                @endforeach
+                            @else
                                 <li class="mb-10 ms-6">
-                                    <span
-                                        class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white wedusring-gray-900 wedusbg-blue-900">
-                                        <svg class="w-2.5 h-2.5 text-blue-800 wedustext-blue-300" aria-hidden="true"
-                                            xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path
-                                                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                        </svg>
-                                    </span>
-                                    <h3 class="flex items-center mb-1 text-lg font-semibold text-gray-900 wedustext-white">
-                                        {{ $agenda->mata_kuliah }} - Kelas {{ $agenda->kelas }} Semester
-                                        {{ $agenda->semester }}
-                                    </h3>
-                                    <time
-                                        class="block mb-2 text-sm font-normal leading-none text-gray-400 wedustext-gray-500">Dijadwalkan
-                                        untuk
-                                        {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->locale('id_ID')->isoFormat('MMMM Do, YYYY') }}
-                                    </time>
-                                    <p class="mb-4 text-base font-normal text-gray-500 wedustext-gray-400">Jadwal pemakaian
-                                        lab
-                                        untuk Praktikum Biologi dengan dosen pembimbing Dr.Sucrypto. Pukul
-                                        {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} -
-                                        {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
-                                    </p>
+                                    Tidak ada Jadwal
                                 </li>
-                            @endforeach
+                            @endif
                         </ol>
                     </div>
                 </div>

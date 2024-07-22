@@ -8,6 +8,7 @@ use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\LimbahController;
 use App\Http\Controllers\AboutLabController;
+use App\Http\Controllers\PeminjamanConttroller;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -37,6 +38,10 @@ Route::prefix('/admin')->group(function () {
     Route::post('/detail-alat/{id}', [AlatController::class, 'detailAlat'])->name('updateAlat');
     Route::get('/edit-alat/{id}', [AlatController::class, 'editAlat'])->name('editAlat');
     Route::put('/update-alat/{id}', [AlatController::class, 'updateAlat'])->name('perbarui');
+    //Peminjaman
+    Route::get('pinjam-alat/{id}', [PeminjamanConttroller::class, 'pinjamAlat'])->name('pinjamAlat');
+    Route::get('laporan-peminjaman', [PeminjamanConttroller::class, 'laporanPeminjaman'])->name('laporanPeminjaman');
+    Route::post('ajukan-peminjaman/{id}', [PeminjamanConttroller::class, 'ajukanPeminjaman'])->name('ajukanPeminjaman');
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'laporanView'])->name('laporanView');
     // Limbah
@@ -54,5 +59,7 @@ Route::prefix('/admin')->group(function () {
 
 });
 
+Route::get('/chart-data', [PeminjamanConttroller::class, 'getChartData']);
+Route::get('/pie-chart-data', [PeminjamanConttroller::class, 'getPieChartData']);
 
 require __DIR__ . '/auth.php';
