@@ -27,7 +27,7 @@ class AlatController extends Controller
         if ($jenisAlat) {
             $query->where('jenis_alat', $jenisAlat);
         }
-        $alat = $query->paginate(20);
+        $alat = $query->get();
 
         $all = $alat->count();
         return view('alat', compact('alat', 'bahanPadat', 'bahanCair', 'all'));
