@@ -63,7 +63,7 @@
                 <span class="text-gray-500 text-sm">Total Pemakaian bahan</span>
             </div>
             <div>
-                <h1 class="h1 text-3xl font-bold">61 ml</h1>
+                <h1 class="h1 text-3xl font-bold">- ml</h1>
             </div>
         </div>
     </div>
