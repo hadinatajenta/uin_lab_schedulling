@@ -1,409 +1,518 @@
 @extends('layouts.app')
 
-@section('title', 'Pengguna')
+@section('title', 'Data Pengguna')
 
 @section('content')
-    <div class=" ">
-        {{-- First section --}}
-        <div class="flex flex-col md:flex-row justify-start lg:justify-between mb-4  ">
-            <div>
-                <h4 class="text-2xl font-bold wedustext-white">Pengguna</h4>
-                <p class="text-sm font-normal text-gray-500 lg:text-sm wedustext-gray-400">
-                    Menampilkan semua daftar pengguna.
-                </p>
+    <div class="px-2 pb-8">
+        {{-- Header Section --}}
+        <x-ui.page-header title="Data Pengguna" description="Kelola pengguna sistem laboratorium.">
+            @if (Auth::user()->jabatan !== 'Mahasiswa')
+                <button type="button" data-modal-target="add-modal" data-modal-toggle="add-modal"
+                    class="inline-flex items-center justify-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <x-atoms.icon name="plus-circle" class="w-4 h-4 mr-2" />
+                    Tambah Pengguna
+                </button>
+            @endif
+        </x-ui.page-header>
+
+        {{-- Filtering & Search Bar --}}
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+            {{-- Role Tabs --}}
+            <div
+                class="flex items-center space-x-1 p-1 bg-zinc-100/80 border border-zinc-200/50 rounded-xl overflow-x-auto max-w-full hide-scrollbar">
+                @php
+                    $currentJabatan = request('jabatan', '');
+                    $tabs = [
+                        '' => 'Semua',
+                        'admin lab' => 'Admin Lab',
+                        'dosen' => 'Dosen',
+                        'asisten dosen' => 'Asisten Dosen',
+                        'Mahasiswa' => 'Mahasiswa'
+                    ];
+                @endphp
+                @foreach($tabs as $val => $label)
+                    <a href="{{ route('users.index', ['jabatan' => $val, 'keyword' => request('keyword')]) }}"
+                        class="px-3 py-1.5 text-xs font-semibold rounded-lg transition-all whitespace-nowrap {{ $currentJabatan === (string) $val ? 'bg-white text-zinc-900 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-200/50' }}">
+                        {{ $label }}
+                    </a>
+                @endforeach
             </div>
-            <div class="flex self-start p-2">
-                @if (Auth::user()->jabatan !== 'Mahasiswa')
-                    <button type="button" data-modal-target="add-modal" data-modal-toggle="add-modal"
-                        class="text-white flex items-center btn-sm bg-[#152F8B] hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded text-sm px-5 py-2.5 me-2 mb-2 wedusbg-gray-800 wedushover:bg-gray-700 wedusfocus:ring-gray-700 wedusborder-gray-700">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M18 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM3 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 9.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
-                        </svg>
-                        <span class="ms-3">Tambah Pengguna</span>
-                    </button>
+
+            {{-- Search Input --}}
+            <form method="GET" action="{{ route('users.index') }}" class="w-full sm:w-64 relative flex items-center">
+                @if(request('jabatan'))
+                    <input type="hidden" name="jabatan" value="{{ request('jabatan') }}">
                 @endif
-            </div>
-        </div>
-        <div class="flex flex-col md:flex-row items-center md:items-start justify-start md:justify-between mb-4">
-            {{-- Tambah pengguna --}}
-            <div id="add-modal" tabindex="-1" aria-hidden="true"
-                class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                <form method="POST" action="{{ route('add.users') }}" class="relative p-4 w-full max-w-2xl max-h-full">
-                    @csrf
-                    <!-- Modal content -->
-                    <div class="relative bg-white rounded-lg shadow wedusbg-gray-700">
-                        <!-- Modal header -->
-                        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t wedusborder-gray-600">
-                            <h3 class="text-xl font-semibold text-gray-900 wedustext-white">
-                                Tambah pengguna
-                            </h3>
-                            <button type="button"
-                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center wedushover:bg-gray-600 wedushover:text-white"
-                                data-modal-hide="add-modal">
-                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                    viewBox="0 0 14 14">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                </svg>
-                                <span class="sr-only">Close modal</span>
-                            </button>
-                        </div>
-                        <!-- Modal body -->
-                        <div class="p-4 md:p-5 space-y-4">
-                            <div class="relative">
-                                <input type="text" id="floating_outlined" name="name"
-                                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none wedustext-white wedusborder-gray-600 wedusfocus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" " />
-                                <label for="floating_outlined"
-                                    class="absolute text-sm text-gray-500 wedustext-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white wedusbg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:wedustext-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
-                                    Nama
-                                </label>
-                            </div>
-                            <div class="relative">
-                                <input type="email" id="floating_outlined" name="email"
-                                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none wedustext-white wedusborder-gray-600 wedusfocus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" " />
-                                <label for="floating_outlined"
-                                    class="absolute text-sm text-gray-500 wedustext-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white wedusbg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:wedustext-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">
-                                    Email
-                                </label>
-                            </div>
-                            <div class="relative">
-                                <input type="password" id="floating_outlined" name="password"
-                                    class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none wedustext-white wedusborder-gray-600 wedusfocus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                    placeholder=" " />
-                                <label for="floating_outlined"
-                                    class="absolute text-sm text-gray-500 wedustext-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white wedusbg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:wedustext-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Password</label>
-                            </div>
-                        </div>
-                        <!-- Modal footer -->
-                        <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b wedusborder-gray-600">
-                            <button type="submit"
-                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center wedusbg-blue-600 wedushover:bg-blue-700 wedusfocus:ring-blue-800">Tambah</button>
-                            <button data-modal-hide="add-modal" type="button"
-                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 wedusfocus:ring-gray-700 wedusbg-gray-800 wedustext-gray-400 wedusborder-gray-600 wedushover:text-white wedushover:bg-gray-700">Batalkan</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div class="grid grid-cols-2 md:grid-cols-3  gap-4 my-4 text-gray">
-            <div class="flex items-center h-24 p-4 rounded-lg bg-[#00B8FF] wedusbg-gray-800 space-x-4">
-                <div class="flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                    </svg>
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <x-atoms.icon name="search" class="w-4 h-4 text-zinc-400" />
                 </div>
-                <div class="flex flex-col text-gray">
-                    <p class="text-lg font-semibold">Dosen</p>
-                    <span class="text-sm">{{ $dosen->count() }}</span>
-                </div>
-            </div>
-            <div class="flex items-center h-24 p-4 rounded-lg bg-[#65FBD2] wedusbg-gray-800 space-x-4">
-                <div class="flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                    </svg>
-                </div>
-                <div class="flex flex-col text-gray">
-                    <p class="text-lg font-semibold">Admin Lab</p>
-                    <span class="text-sm">{{ $admin->count() }}</span>
-                </div>
-            </div>
-            <div class="flex items-center h-24 p-4 rounded-lg bg-[#00DEFB] space-x-4 col-span-2 md:col-span-1">
-                <div class="flex-shrink-0">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="size-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                    </svg>
-                </div>
-                <div class="flex flex-col text-gray">
-                    <p class="text-lg font-semibold">Mahasiswa</p>
-                    <span class="text-sm">{{ $mahasiswa->count() }}</span>
-                </div>
-            </div>
-        </div>
-
-        {{-- Search section --}}
-        <div class="flex items-center mb-4">
-            <form class="w-full mx-auto">
-                <label for="default-search"
-                    class="mb-2 text-sm font-medium text-gray-900 sr-only wedustext-white">Search</label>
-                <div class="relative">
-                    <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 wedustext-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                        </svg>
-                    </div>
-                    <input type="search" id="default-search" name="keyword"
-                        class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
-                        placeholder="Cari Nama, atau E-mail..." />
-                    <button type="submit"
-                        class="text-white absolute end-2.5 bottom-2.5 bg-[#6467CD] hover:bg-[#5257d6] focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 wedusbg-blue-600 wedushover:bg-blue-700 wedusfocus:ring-blue-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                        </svg>
-                    </button>
-                </div>
+                <input type="search" name="keyword" value="{{ request('keyword') }}"
+                    class="block w-full py-2 pl-9 pr-8 text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors"
+                    placeholder="Cari nama atau email..." />
+                @if(request('keyword'))
+                    <a href="{{ route('users.index', ['jabatan' => request('jabatan')]) }}"
+                        class="absolute inset-y-0 right-0 flex items-center pr-2.5 text-zinc-400 hover:text-zinc-600 transition-colors">
+                        <x-atoms.icon name="x-mark" class="w-3.5 h-3.5" />
+                    </a>
+                @endif
             </form>
         </div>
 
-        {{-- Alert --}}
-        <x-alert />
+        {{-- Users Data Table / Card --}}
+        @if($users->isEmpty())
+            <x-ui.empty-state title="Belum ada pengguna"
+                description="Tambahkan pengguna pertama atau sesuaikan filter pencarian untuk memulai." icon="users">
+                @if (Auth::user()->jabatan !== 'Mahasiswa')
+                    <x-slot name="action">
+                        <button type="button" data-modal-target="add-modal" data-modal-toggle="add-modal"
+                            class="inline-flex items-center justify-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2 transition-colors shadow-sm">
+                            Tambah Pengguna
+                        </button>
+                    </x-slot>
+                @endif
+            </x-ui.empty-state>
+        @else
+            <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm ">
+                <div class="overflow-x-auto rounded-b-2xl">
+                    <table class="w-full text-left border-collapse whitespace-nowrap">
+                        <thead>
+                            <tr class="bg-zinc-50/80 border-b border-zinc-200/80">
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Pengguna</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Role</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Jurusan</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider hidden md:table-cell">Bergabung</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-right">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-100/80">
+                            @foreach ($users as $user)
+                                <tr class="group hover:bg-zinc-50/80 transition-all">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center gap-4 min-w-0">
+                                <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=EEF2FF&color=4F46E5&bold=true"
+                                    alt="{{ $user->name }}"
+                                    class="w-10 h-10 rounded-full object-cover ring-4 ring-white shadow-sm shrink-0">
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-[14px] font-bold text-zinc-900 truncate tracking-tight">
+                                        {{ $user->name }}
+                                    </p>
+                                    <p class="text-[13px] font-medium text-zinc-500 truncate mt-0.5">
+                                        {{ $user->email }}
+                                    </p>
+                                </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    @php
+                                        $badgeType = match (strtolower($user->jabatan)) {
+                                            'admin lab' => 'indigo',
+                                            'dosen' => 'emerald',
+                                            'asisten dosen' => 'emerald',
+                                            default => 'neutral'
+                                        };
+                                    @endphp
+                                    <x-ui.badge :type="$badgeType">
+                                        {{ Str::ucfirst($user->jabatan ?? '-') }}
+                                        </x-ui.badge>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-[13px] font-medium text-zinc-600">{{ $user->department->name ?? '-' }}</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
+                                    <span class="text-[12px] font-medium text-zinc-400" title="{{ $user->created_at }}">
+                                        {{ $user->created_at ? $user->created_at->diffForHumans() : '-' }}
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right">
+                                        @if (Auth::user()->jabatan !== 'Mahasiswa')
+                                            <div class="flex items-center justify-end">
+                                        {{-- Row Actions Dropdown --}}
+                                        <div x-data="{ open: false }" class="relative inline-block text-left">
+                                            <button @click="open = !open" @click.outside="open = false"
+                                                class="p-1.5 rounded-lg text-zinc-400 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-zinc-600 hover:bg-zinc-200/50 transition-all">
+                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                    <path
+                                                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                                </svg>
+                                            </button>
 
-        <div class="flex justify-between items-center mb-2">
-            <div>
-                <h2 class="text-xl font-bold">Daftar Pengguna</h2>
-                <h5 class="text-sm font-thin">Menampilkan {{ $users->count() }} Pengguna</h5>
-            </div>
-        </div>
-        {{-- Data section --}}
-        <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mb-4">
-            <table class=" text-sm w-full text-left rtl:text-right text-gray-500 wedustext-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 wedusbg-gray-700 wedustext-gray-400">
-                    <tr>
-                        <th scope="col" class="p-4">
-                            No
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Nama
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Email
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Jabatan
-                        </th>
+                                            <div x-show="open" x-cloak
+                                                class="absolute right-0 mt-1.5 w-44 rounded-xl bg-white border border-zinc-200 shadow-lg py-1.5 z-50 text-left">
+                                                <button type="button" data-modal-target="edit-modal-{{ $user->id }}"
+                                                    data-modal-toggle="edit-modal-{{ $user->id }}"
+                                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center">
+                                                    <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-400" />
+                                                    Edit Pengguna
+                                                </button>
 
-                        @if (Auth::user()->jabatan !== 'Mahasiswa')
-                            <th scope="col" class="px-6 py-3">
-                                Action
-                            </th>
-                        @endif
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $index => $user)
-                        <tr
-                            class="bg-white border-b wedusbg-gray-800 wedusborder-gray-700 hover:bg-gray-50 wedushover:bg-gray-600">
-                            <td class="w-4 p-4">
-                                {{ $index + 1 }}
-                            </td>
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap wedustext-white">
-                                {{ $user->name }}
-                            </th>
-                            <td class="px-6 py-4">
-                                {{ $user->email }}
-                            </td>
-                            <td class="px-6 py-4">
-                                {{ Str::ucfirst($user->jabatan ?? '-') }}
-                            </td>
-                            <td class="flex items-center px-6 py-4">
-                                @if (Auth::user()->jabatan !== 'Mahasiswa')
-                                    <x-edit-modal id="{{ $user->id }}" class="me-4">
+                                                <button type="button"
+                                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
+                                                    <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
+                                                    Reset Password
+                                                </button>
+
+                                                <button type="button"
+                                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
+                                                    <x-atoms.icon name="x-mark" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
+                                                    Nonaktifkan
+                                                </button>
+
+                                                <div class="h-px bg-zinc-100 my-1"></div>
+
+                                                <button type="button" data-modal-target="delete-modal-{{ $user->id }}"
+                                                    data-modal-toggle="delete-modal-{{ $user->id }}"
+                                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center">
+                                                    <x-atoms.icon name="trash" class="w-3.5 h-3.5 mr-2 text-rose-400" />
+                                                    Hapus
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {{-- Edit Modal --}}
                                         <form method="POST" action="{{ route('update.users', $user->id) }}"
-                                            class="relative p-4 w-full max-w-2xl max-h-full">
+                                            id="edit-modal-{{ $user->id }}" tabindex="-1" aria-hidden="true"
+                                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full text-left"
+                                            x-data="{ 
+                                                roles: {{ json_encode(old('roles', $user->roles->pluck('slug')->toArray())) }},
+                                                hasStudent() { return this.roles.includes('student') || this.roles.includes('assistant'); },
+                                                hasLecturer() { return this.roles.includes('lecturer') || this.roles.includes('admin_lab'); }
+                                            }"
+                                        >
                                             @csrf
                                             @method('PUT')
-                                            <!-- Modal content -->
-                                            <div class="relative bg-white rounded-lg shadow wedusbg-gray-700">
-                                                <!-- Modal header -->
-                                                <div
-                                                    class="flex items-center justify-between p-4 md:p-5 border-b rounded-t wedusborder-gray-600">
-                                                    <h3 class="text-xl font-semibold text-gray-900 wedustext-white">
-                                                        Update data - {{ $user->name }}
-                                                    </h3>
-                                                    <button type="button"
-                                                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center wedushover:bg-gray-600 wedushover:text-white"
-                                                        data-modal-hide="edit-modal-{{ $user->id }}">
-                                                        <svg class="w-3 h-3" aria-hidden="true"
-                                                            xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 14 14">
-                                                            <path stroke="currentColor" stroke-linecap="round"
-                                                                stroke-linejoin="round" stroke-width="2"
-                                                                d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                                        </svg>
-                                                        <span class="sr-only">Close modal</span>
-                                                    </button>
-                                                </div>
-                                                <!-- Modal body -->
-                                                <div class="p-4 md:p-5 space-y-4">
-                                                    <div class="relative">
-                                                        <input type="text" id="floating_outlined" name="name"
-                                                            required
-                                                            class="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none wedustext-white wedusborder-gray-600 wedusfocus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                                                            placeholder="Nama pengguna" value="{{ $user->name }}" />
-                                                        <label for="floating_outlined"
-                                                            class="absolute text-sm text-gray-500 wedustext-gray-400 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white wedusbg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:wedustext-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Masukkan
-                                                            nama <span class="text-red-900">*</span> </label>
+                                            <div class="relative p-4 w-full max-w-2xl max-h-full">
+                                                <div class="relative bg-white rounded-2xl shadow-xl border border-zinc-200">
+                                                    <div class="flex items-center justify-between px-5 py-4 border-b border-zinc-100">
+                                                        <h3 class="text-sm font-bold text-zinc-900">Edit Pengguna: {{ $user->name }}
+                                                        </h3>
+                                                        <button type="button"
+                                                            class="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors focus:outline-none"
+                                                            data-modal-hide="edit-modal-{{ $user->id }}">
+                                                            <x-atoms.icon name="x-mark" class="w-4 h-4" />
+                                                        </button>
+                                                    </div>
+                                                    
+                                                    <div class="p-5 space-y-5 max-h-[70vh] overflow-y-auto hide-scrollbar">
+                                                        {{-- Basic Information --}}
+                                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                            <div class="sm:col-span-2">
+                                                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nama Lengkap <span class="text-rose-500">*</span></label>
+                                                                <input type="text" name="name" value="{{ old('name', $user->name) }}" required class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                @error('name')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                                            </div>
+                                                            <div class="sm:col-span-2">
+                                                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nomor HP</label>
+                                                                <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                @error('phone_number')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="h-px bg-zinc-100"></div>
+
+                                                        {{-- Roles Selection --}}
+                                                        <div>
+                                                            <label class="block mb-2.5 text-xs font-bold text-zinc-500 uppercase">Peran / Role <span class="text-rose-500">*</span></label>
+                                                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                                                @foreach(App\Models\Role::all() ?? [] as $role)
+                                                                    <label 
+                                                                        class="relative flex items-center justify-center p-3 border border-zinc-200 rounded-xl cursor-pointer hover:bg-zinc-50 transition-colors" 
+                                                                        :class="{ 
+                                                                            'bg-indigo-50/50 border-indigo-200 ring-1 ring-indigo-500/20': roles.includes('{{ $role->slug }}'),
+                                                                            'opacity-60 cursor-not-allowed bg-zinc-50': 
+                                                                                ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
+                                                                                ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
+                                                                                (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
+                                                                                (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
+                                                                        }"
+                                                                    >
+                                                                        <input 
+                                                                            type="checkbox" 
+                                                                            name="roles[]" 
+                                                                            value="{{ $role->slug }}" 
+                                                                            x-model="roles" 
+                                                                            class="sr-only"
+                                                                            :disabled="
+                                                                                ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
+                                                                                ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
+                                                                                (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
+                                                                                (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
+                                                                            "
+                                                                            @change="
+                                                                                if('{{ $role->slug }}' === 'admin_lab' && roles.includes('admin_lab') && !roles.includes('lecturer')) roles.push('lecturer');
+                                                                                if('{{ $role->slug }}' === 'assistant' && roles.includes('assistant') && !roles.includes('student')) roles.push('student');
+                                                                            "
+                                                                        >
+                                                                        <span class="text-xs font-bold text-zinc-700 select-none" :class="{ 'text-indigo-700': roles.includes('{{ $role->slug }}') }">{{ $role->name }}</span>
+                                                                    </label>
+                                                                @endforeach
+                                                            </div>
+                                                            @error('roles')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                                        </div>
+
+                                                        {{-- Dynamic Student Fields --}}
+                                                        <div x-show="hasStudent()" x-cloak class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
+                                                            <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">Data Mahasiswa</h4>
+                                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                <div>
+                                                                    <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIM <span class="text-rose-500">*</span></label>
+                                                                    <input type="text" name="nim" value="{{ old('nim', $user->nim) }}" :required="hasStudent()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                    @error('nim')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                                                </div>
+                                                                <div>
+                                                                    <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Tahun Angkatan <span class="text-rose-500">*</span></label>
+                                                                    <input type="number" name="entry_year" value="{{ old('entry_year', $user->entry_year) }}" :required="hasStudent()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                    @error('entry_year')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {{-- Dynamic Lecturer Fields --}}
+                                                        <div x-show="hasLecturer()" x-cloak class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
+                                                            <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">Data Dosen</h4>
+                                                            <div>
+                                                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIP <span class="text-rose-500">*</span></label>
+                                                                <input type="text" name="nip" value="{{ old('nip', $user->nip) }}" :required="hasLecturer()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                @error('nip')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                                            </div>
+                                                        </div>
+
+                                                        {{-- General Info (Department) --}}
+                                                        <div x-show="roles.length > 0" x-cloak>
+                                                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Jurusan</label>
+                                                            <select name="department_id" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors">
+                                                                <option value="">Pilih Jurusan...</option>
+                                                                @foreach(App\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
+                                                                    <optgroup label="{{ $faculty ?: 'Lainnya' }}">
+                                                                        @foreach($depts as $dept)
+                                                                            <option value="{{ $dept->id }}" {{ old('department_id', $user->department_id) == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
+                                                                        @endforeach
+                                                                    </optgroup>
+                                                                @endforeach
+                                                            </select>
+                                                            @error('department_id')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                                        </div>
                                                     </div>
 
-                                                    <div class="relative">
-                                                        <label for="countries"
-                                                            class="block mb-2 text-sm font-medium text-gray-900 wedustext-white">Ubah
-                                                            jabatan</label>
-                                                        <select id="jabatan" name="jabatan"
-                                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500">
-                                                            <option selected disabled>Pilih jabatan</option>
-                                                            <option value="dosen"
-                                                                @if ($user->jabatan == 'dosen') selected @endif>Dosen
-                                                            </option>
-                                                            <option value="admin lab"
-                                                                @if ($user->jabatan == 'admin lab') selected @endif>Admin Lab
-                                                            </option>
-                                                            <option value="asisten dosen"
-                                                                @if ($user->jabatan == 'asisten dosen') selected @endif>Asisten
-                                                                Dosen
-                                                            </option>
-                                                            <option value="Mahasiswa"
-                                                                @if ($user->jabatan == 'Mahasiswa') selected @endif>Mahasiswa
-                                                            </option>
-
-                                                        </select>
+                                                    <div
+                                                        class="flex items-center justify-end px-5 py-4 border-t border-zinc-100 bg-zinc-50/50 rounded-b-2xl gap-3">
+                                                        <button data-modal-hide="edit-modal-{{ $user->id }}" type="button"
+                                                            class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
+                                                            Batal
+                                                        </button>
+                                                        <button type="submit"
+                                                            class="text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                                            Simpan Perubahan
+                                                        </button>
                                                     </div>
-
-                                                </div>
-                                                <!-- Modal footer -->
-                                                <div
-                                                    class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b wedusborder-gray-600">
-                                                    <button type="submit"
-                                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center wedusbg-blue-600 wedushover:bg-blue-700 wedusfocus:ring-blue-800">
-                                                        Update</button>
-                                                    <button data-modal-hide="edit-modal-{{ $user->id }}"
-                                                        type="button"
-                                                        class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 wedusfocus:ring-gray-700 wedusbg-gray-800 wedustext-gray-400 wedusborder-gray-600 wedushover:text-white wedushover:bg-gray-700">Batal</button>
                                                 </div>
                                             </div>
                                         </form>
-                                    </x-edit-modal>
-                                    <x-pop-up action="{{ route('delete.users', $user->id) }}" id="{{ $user->id }}"
-                                        buttonName="Hapus">Apa kamu yakin ingin menghapus {{ $user->name ?? '- ' }} dari
-                                        sistem?
-                                    </x-pop-up>
-                                @endif
-                            </td>
-                        </tr>
-                    @endforeach
 
-                </tbody>
-            </table>
-        </div>
-
-        <div class="flex justify-between items-center mb-2">
-            <div>
-                <h2 class="text-xl font-bold">Peraturan Jaslab</h2>
-                <h5 class="text-sm font-thin">Menampilkan Daftar Jabatan beserta warna jaslab yang harus dikenakan sesuai
-                    jabatan.</h5>
-            </div>
-        </div>
-        <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mb-4">
-            <table class=" text-sm w-full text-left rtl:text-right text-gray-500 wedustext-gray-400">
-                <thead class="text-xs text-gray-700 uppercase bg-gray-50 wedusbg-gray-700 wedustext-gray-400">
-                    <tr>
-                        <th scope="col" class="p-4">
-                            No
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Jabatan
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Warna
-                        </th>
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($jaslab as $index => $jl)
-                        <tr
-                            class="bg-white border-b wedusbg-gray-800 wedusborder-gray-700 hover:bg-gray-50 wedushover:bg-gray-600">
-                            <td class="w-4 p-4">
-                                {{ $index + 1 }}
-                            </td>
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap wedustext-white">
-                                {{ $jl->role }}
-                            </th>
-                            <td class="px-6 py-4">
-                                {{ $jl->warna }}
-                            </td>
-                            <td class="flex items-center px-6 py-4">
-                                <a href="#" data-modal-target="update-jaslab-{{ $jl->id }}"
-                                    data-modal-toggle="update-jaslab-{{ $jl->id }}"
-                                    class="font-medium text-blue-600 wedustext-blue-500 hover:underline">Edit</a>
-                                {{-- Modal --}}
-                                <form action="{{ route('ubahJaslab', $jl->id) }}" id="update-jaslab-{{ $jl->id }}"
-                                    method="POST" tabindex="-1" aria-hidden="true"
-                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                                    @csrf
-                                    @method('PUT')
-                                    <div class="relative p-4 w-full max-w-2xl max-h-full">
-                                        <div class="relative bg-white rounded-lg shadow wedusbg-gray-700">
-                                            <!-- Modal header -->
-                                            <div
-                                                class="flex items-center justify-between p-4 md:p-5 border-b rounded-t wedusborder-gray-600">
-                                                <h3 class="text-xl font-semibold text-gray-900 wedustext-white">
-                                                    Ubah Warna Jaslab untuk user Role {{ $jl->role }}
-                                                </h3>
-                                                <button type="button"
-                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center wedushover:bg-gray-600 wedushover:text-white"
-                                                    data-modal-hide="update-jaslab-{{ $jl->id }}">
-                                                    <svg class="w-3 h-3" aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                        viewBox="0 0 14 14">
-                                                        <path stroke="currentColor" stroke-linecap="round"
-                                                            stroke-linejoin="round" stroke-width="2"
-                                                            d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                                    </svg>
-                                                    <span class="sr-only">Close modal</span>
-                                                </button>
-                                            </div>
-                                            <!-- Modal body -->
-                                            <div class="p-4 md:p-5 space-y-4">
-                                                <div class="mb-5">
-                                                    <label for="warna"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 wedustext-white">
-                                                        warna</label>
-                                                    <input type="text" id="warna" name="warna"
-                                                        value="{{ $jl->warna }}"
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
-                                                        placeholder="Masukkan warna Jaslab..." required />
+                                        {{-- Delete Modal --}}
+                                        <form method="POST" action="{{ route('delete.users', $user->id) }}"
+                                            id="delete-modal-{{ $user->id }}" tabindex="-1" aria-hidden="true"
+                                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full text-left">
+                                            @csrf
+                                            @method('DELETE')
+                                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                                <div class="relative bg-white rounded-2xl shadow-xl border border-zinc-200">
+                                                    <button type="button"
+                                                        class="absolute top-3 right-3 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center focus:outline-none"
+                                                        data-modal-hide="delete-modal-{{ $user->id }}">
+                                                        <x-atoms.icon name="x-mark" class="w-4 h-4" />
+                                                        <span class="sr-only">Tutup</span>
+                                                    </button>
+                                                    <div class="p-6 text-center">
+                                                        <div
+                                                            class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4">
+                                                            <x-atoms.icon name="trash" class="w-6 h-6" />
+                                                        </div>
+                                                        <h3 class="text-sm font-bold text-zinc-900 mb-2">Hapus Pengguna</h3>
+                                                        <p class="text-xs text-zinc-500 font-medium mb-6 leading-relaxed">
+                                                            Apakah Anda yakin ingin menghapus <b>{{ $user->name }}</b>? Tindakan ini
+                                                            tidak dapat dibatalkan.
+                                                        </p>
+                                                        <div class="flex items-center justify-center gap-3">
+                                                            <button data-modal-hide="delete-modal-{{ $user->id }}" type="button"
+                                                                class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
+                                                                Batalkan
+                                                            </button>
+                                                            <button type="submit"
+                                                                class="text-white bg-rose-600 hover:bg-rose-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
+                                                                Ya, Hapus
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <!-- Modal footer -->
-                                            <div
-                                                class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b wedusborder-gray-600">
-                                                <button type="submit"
-                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center wedusbg-blue-600 wedushover:bg-blue-700 wedusfocus:ring-blue-800">
-                                                    Perbarui</button>
-                                                <button data-modal-hide="update-jaslab-{{ $jl->id }}"
-                                                    type="button"
-                                                    class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 wedusfocus:ring-gray-700 wedusbg-gray-800 wedustext-gray-400 wedusborder-gray-600 wedushover:text-white wedushover:bg-gray-700">batal</button>
+                                        </form>
                                             </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                                        @endif
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                {{-- Custom Pagination --}}
+                <x-ui.pagination :paginator="$users" />
+            </div>
+        @endif
     </div>
 
+    {{-- Add User Modal --}}
+    <form 
+        method="POST" 
+        action="{{ route('add.users') }}" 
+        id="add-modal" 
+        tabindex="-1" 
+        aria-hidden="true" 
+        class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+        x-data="{ 
+            roles: {{ json_encode(old('roles', [])) }},
+            hasStudent() { return this.roles.includes('student') || this.roles.includes('assistant'); },
+            hasLecturer() { return this.roles.includes('lecturer') || this.roles.includes('admin_lab'); }
+        }"
+    >
+        @csrf
+        <div class="relative p-4 w-full max-w-2xl max-h-full">
+            <div class="relative bg-white rounded-2xl shadow-xl border border-zinc-200">
+                <div class="flex items-center justify-between px-5 py-4 border-b border-zinc-100">
+                    <h3 class="text-sm font-bold text-zinc-900">Tambah Pengguna Baru</h3>
+                    <button 
+                        type="button" 
+                        class="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors focus:outline-none" 
+                        data-modal-hide="add-modal"
+                    >
+                        <x-atoms.icon name="x-mark" class="w-4 h-4" />
+                    </button>
+                </div>
+                
+                <div class="p-5 space-y-5 max-h-[70vh] overflow-y-auto hide-scrollbar">
+                    {{-- Basic Information --}}
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nama Lengkap <span class="text-rose-500">*</span></label>
+                            <input type="text" name="name" value="{{ old('name') }}" required class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="Masukkan nama..." />
+                            @error('name')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Alamat Email <span class="text-rose-500">*</span></label>
+                            <input type="email" name="email" value="{{ old('email') }}" required class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="email@contoh.com" />
+                            @error('email')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                        </div>
+                        <div>
+                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nomor HP</label>
+                            <input type="text" name="phone_number" value="{{ old('phone_number') }}" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="08..." />
+                            @error('phone_number')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                        </div>
+                    </div>
 
+                    <div class="h-px bg-zinc-100"></div>
+
+                    {{-- Roles Selection --}}
+                    <div>
+                        <label class="block mb-2.5 text-xs font-bold text-zinc-500 uppercase">Peran / Role <span class="text-rose-500">*</span></label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            @foreach(App\Models\Role::all() ?? [] as $role)
+                                <label 
+                                    class="relative flex items-center justify-center p-3 border border-zinc-200 rounded-xl cursor-pointer hover:bg-zinc-50 transition-colors" 
+                                    :class="{ 
+                                        'bg-indigo-50/50 border-indigo-200 ring-1 ring-indigo-500/20': roles.includes('{{ $role->slug }}'),
+                                        'opacity-60 cursor-not-allowed bg-zinc-50': 
+                                            ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
+                                            ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
+                                            (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
+                                            (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
+                                    }"
+                                >
+                                    <input 
+                                        type="checkbox" 
+                                        name="roles[]" 
+                                        value="{{ $role->slug }}" 
+                                        x-model="roles" 
+                                        class="sr-only"
+                                        :disabled="
+                                            ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
+                                            ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
+                                            (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
+                                            (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
+                                        "
+                                        @change="
+                                            if('{{ $role->slug }}' === 'admin_lab' && roles.includes('admin_lab') && !roles.includes('lecturer')) roles.push('lecturer');
+                                            if('{{ $role->slug }}' === 'assistant' && roles.includes('assistant') && !roles.includes('student')) roles.push('student');
+                                        "
+                                    >
+                                    <span class="text-xs font-bold text-zinc-700 select-none" :class="{ 'text-indigo-700': roles.includes('{{ $role->slug }}') }">{{ $role->name }}</span>
+                                </label>
+                            @endforeach
+                        </div>
+                        @error('roles')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                        <p class="mt-2 text-[11px] font-medium text-zinc-500">Pilih satu atau lebih peran. Admin Lab otomatis mendapatkan akses Dosen. Asisten otomatis Mahasiswa.</p>
+                    </div>
+
+                    {{-- Dynamic Student Fields --}}
+                    <div x-show="hasStudent()" x-cloak class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
+                        <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">Data Mahasiswa</h4>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIM <span class="text-rose-500">*</span></label>
+                                <input type="text" name="nim" value="{{ old('nim') }}" :required="hasStudent()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="Masukkan NIM..." />
+                                @error('nim')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                            </div>
+                            <div>
+                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Tahun Angkatan <span class="text-rose-500">*</span></label>
+                                <input type="number" name="entry_year" value="{{ old('entry_year') }}" :required="hasStudent()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="2024" />
+                                @error('entry_year')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- Dynamic Lecturer Fields --}}
+                    <div x-show="hasLecturer()" x-cloak class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
+                        <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">Data Dosen</h4>
+                        <div>
+                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIP <span class="text-rose-500">*</span></label>
+                            <input type="text" name="nip" value="{{ old('nip') }}" :required="hasLecturer()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="Masukkan NIP..." />
+                            @error('nip')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                        </div>
+                    </div>
+
+                    {{-- General Info (Department) --}}
+                    <div x-show="roles.length > 0" x-cloak>
+                        <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Jurusan</label>
+                        <select name="department_id" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors">
+                            <option value="">Pilih Jurusan...</option>
+                            @foreach(App\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
+                                <optgroup label="{{ $faculty ?: 'Lainnya' }}">
+                                    @foreach($depts as $dept)
+                                        <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
+                                    @endforeach
+                                </optgroup>
+                            @endforeach
+                        </select>
+                        @error('department_id')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div class="p-3 bg-indigo-50/50 border border-indigo-100 rounded-xl flex items-start gap-3">
+                        <x-atoms.icon name="information-circle" class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
+                        <div>
+                            <p class="text-xs font-bold text-indigo-900">Password Default</p>
+                            <p class="text-[11px] font-medium text-indigo-700/80 mt-0.5">Password pengguna otomatis diatur ke <b>LabUIN@2026</b> dan pengguna wajib mengganti password saat login pertama.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end px-5 py-4 border-t border-zinc-100 bg-zinc-50/50 rounded-b-2xl gap-3">
+                    <button data-modal-hide="add-modal" type="button" class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
+                        Batal
+                    </button>
+                    <button type="submit" class="text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        Tambah Pengguna
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
 @endsection

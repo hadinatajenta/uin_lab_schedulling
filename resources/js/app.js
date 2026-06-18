@@ -5,4 +5,35 @@ import Alpine from "alpinejs";
 
 window.Alpine = Alpine;
 
+document.addEventListener('alpine:init', () => {
+    Alpine.store('sidebar', {
+        expanded: localStorage.getItem('sidebarExpanded') !== 'false',
+        openMenus: JSON.parse(localStorage.getItem('openMenus')) || {},
+        isMobileOpen: false,
+
+        toggle(menuId) {
+            this.openMenus[menuId] = !this.openMenus[menuId];
+            this.saveState();
+        },
+
+        isOpen(menuId) {
+            return this.openMenus[menuId] === true;
+        },
+
+        setOpen(menuId, value) {
+            this.openMenus[menuId] = value;
+            this.saveState();
+        },
+
+        toggleExpanded() {
+            this.expanded = !this.expanded;
+            localStorage.setItem('sidebarExpanded', this.expanded);
+        },
+
+        saveState() {
+            localStorage.setItem('openMenus', JSON.stringify(this.openMenus));
+        }
+    });
+});
+
 Alpine.start();

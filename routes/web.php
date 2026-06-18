@@ -17,8 +17,11 @@ Route::get('/', function () {
 
 // Admin - dosen
 Route::prefix('/admin')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
     // Management user
-    Route::get('/dashboard', [UsersController::class, 'usersView'])->name('dashboard');
+    Route::get('/users', [UsersController::class, 'usersView'])->name('users.index');
     Route::post('/add-user', [UsersController::class, 'addUser'])->name('add.users');
     Route::put('/update-users/{id}', [UsersController::class, 'usersUpdate'])->name('update.users');
     Route::delete('/hapus/{id}', [UsersController::class, 'deleteUser'])->name('delete.users');
@@ -51,6 +54,7 @@ Route::prefix('/admin')->group(function () {
     Route::get('/detail-limbah/{id}', [LimbahController::class, 'detailLimbah'])->name('detailLimbah');
     Route::delete('/hapus-limbah/{id}', [LimbahController::class, 'hapusLimbah'])->name('hapusLimbah');
     // Jaslab
+    Route::get('/pengaturan-jaslab', [UsersController::class, 'jaslabView'])->name('jaslabView');
     Route::put('/jaslab-ubah/{id}', [UsersController::class, 'ubahJaslab'])->name('ubahJaslab');
     // about lab
     Route::get('/tentang-lab', [AboutLabController::class, 'aboutLabView'])->name('tentangLab');

@@ -20,7 +20,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'jabatan'
+        'phone_number',
+        'nim',
+        'nip',
+        'department_id',
+        'entry_year',
+        'supervisor_id',
+        'avatar',
+        'is_active',
+        'must_change_password',
+        'last_login_at',
+        'created_by',
+        'updated_by',
     ];
 
     /**
@@ -43,6 +54,44 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'must_change_password' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    public function hasRole($slug)
+    {
+        return $this->roles->contains('slug', $slug);
+    }
+
+    public function hasAnyRole(array $slugs)
+    {
+        return $this->roles->whereIn('slug', $slugs)->isNotEmpty();
+    }
+
+    public function department()
+    {
+        return $this->belongsTo(Department::class);
+    }
+
+    public function supervisor()
+    {
+        return $this->belongsTo(User::class, 'supervisor_id');
+    }
+
+    public function supervisedStudents()
+    {
+        return $this->hasMany(User::class, 'supervisor_id');
+    }
+
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
     }
 }
