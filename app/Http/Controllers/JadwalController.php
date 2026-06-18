@@ -32,7 +32,9 @@ class JadwalController extends Controller
     // Halaman tambah jadwal
     public function addJadwalView()
     {
-        $user = User::where('jabatan', 'dosen')->get();
+        $user = User::whereHas('roles', function ($q) {
+            $q->where('slug', 'lecturer');
+        })->get();
         return view('admin.addJadwal', compact('user'));
     }
 
@@ -75,7 +77,9 @@ class JadwalController extends Controller
     public function updateJadwal($id)
     {
         $jadwal = Jadwal::find($id);
-        $user = User::where('jabatan', 'dosen')->get();
+        $user = User::whereHas('roles', function ($q) {
+            $q->where('slug', 'lecturer');
+        })->get();
         return view('admin.editJadwal', compact('jadwal', 'user'));
     }
     // Halaman update jadwal

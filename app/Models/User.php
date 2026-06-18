@@ -94,4 +94,29 @@ class User extends Authenticatable
     {
         return $this->hasMany(ActivityLog::class);
     }
+
+    /**
+     * Get the user's legacy jabatan attribute derived from roles.
+     *
+     * @return string|null
+     */
+    public function getJabatanAttribute()
+    {
+        $slugs = $this->roles->pluck('slug')->toArray();
+
+        if (in_array('admin_lab', $slugs)) {
+            return 'admin lab';
+        }
+        if (in_array('assistant', $slugs)) {
+            return 'asisten dosen';
+        }
+        if (in_array('lecturer', $slugs)) {
+            return 'dosen';
+        }
+        if (in_array('student', $slugs)) {
+            return 'Mahasiswa';
+        }
+
+        return null;
+    }
 }

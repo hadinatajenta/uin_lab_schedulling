@@ -73,7 +73,7 @@
                 name="{{ $item['icon'] }}" 
                 class="shrink-0 transition-all duration-200 {{ $iconClasses }} {{ $isMobile ? 'w-5 h-5 mr-3' : '' }}" 
                 @if(!$isMobile)
-                    :class="!$store.sidebar.expanded ? 'w-6 h-6' : 'w-5 h-5 mr-3'"
+                    x-bind:class="!$store.sidebar.expanded ? 'w-6 h-6' : 'w-5 h-5 mr-3'"
                 @endif
             />
         @endif

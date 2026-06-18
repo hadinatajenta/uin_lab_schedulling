@@ -7,7 +7,7 @@
     @else
         class="h-9 px-2.5 justify-between"
     @endif
-    @click="/* implement quick search trigger */"
+    <!-- Quick search trigger will be implemented later -->
 >
     <div class="flex items-center">
         <x-atoms.icon name="search" class="w-4 h-4" />

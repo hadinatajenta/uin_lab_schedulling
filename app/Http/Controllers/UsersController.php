@@ -30,8 +30,16 @@ class UsersController extends Controller
         });
 
         $query->when($roleSlug, function ($q) use ($roleSlug) {
-            $q->whereHas('roles', function ($qRole) use ($roleSlug) {
-                $qRole->where('slug', $roleSlug);
+            $mappedSlug = match (strtolower(trim($roleSlug))) {
+                'admin lab', 'admin_lab' => 'admin_lab',
+                'dosen', 'lecturer' => 'lecturer',
+                'asisten dosen', 'assistant' => 'assistant',
+                'mahasiswa', 'student' => 'student',
+                default => $roleSlug
+            };
+
+            $q->whereHas('roles', function ($qRole) use ($mappedSlug) {
+                $qRole->where('slug', $mappedSlug);
             });
         });
 

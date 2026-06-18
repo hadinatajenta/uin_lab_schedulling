@@ -10,7 +10,7 @@
     <div class="h-full flex flex-col hide-scrollbar relative">
         
         <!-- Header -->
-        <div class="h-16 flex items-center shrink-0 border-b border-zinc-100" :class="$store.sidebar.expanded ? 'px-4 justify-between' : 'px-0 justify-center'">
+        <div class="h-16 flex items-center shrink-0 border-b border-zinc-100 relative" :class="$store.sidebar.expanded ? 'px-4 justify-between' : 'px-0 justify-center'">
             <div class="flex items-center space-x-3 cursor-pointer">
                 <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-sm">
                     <x-atoms.icon name="grid" class="w-5 h-5" />
@@ -25,9 +25,9 @@
                 @click="$store.sidebar.toggleExpanded()"
                 class="p-1.5 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 hidden lg:block" 
                 title="Toggle Sidebar"
-                x-show="$store.sidebar.expanded"
+                :class="$store.sidebar.expanded ? '' : 'absolute -right-3 top-1/2 -translate-y-1/2 bg-white border border-zinc-200 shadow-sm rounded-full p-1 text-zinc-500 hover:text-zinc-700 z-50'"
             >
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
+                <svg class="w-5 h-5 transition-transform duration-200" :class="$store.sidebar.expanded ? '' : 'rotate-180 w-3.5 h-3.5'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"></path></svg>
             </button>
         </div>
         

@@ -3,7 +3,7 @@
 @section('title', 'Data Pengguna')
 
 @section('content')
-    <div class="px-2 pb-8">
+    <div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col">
         {{-- Header Section --}}
         <x-ui.page-header title="Data Pengguna" description="Kelola pengguna sistem laboratorium.">
             @if (Auth::user()->jabatan !== 'Mahasiswa')
@@ -19,15 +19,15 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             {{-- Role Tabs --}}
             <div
-                class="flex items-center space-x-1 p-1 bg-zinc-100/80 border border-zinc-200/50 rounded-xl overflow-x-auto max-w-full hide-scrollbar">
+                class="flex items-center space-x-1 p-1 bg-zinc-100/80 border border-zinc-200/50 rounded-xl max-w-full hide-scrollbar">
                 @php
                     $currentJabatan = request('jabatan', '');
                     $tabs = [
                         '' => 'Semua',
-                        'admin lab' => 'Admin Lab',
-                        'dosen' => 'Dosen',
-                        'asisten dosen' => 'Asisten Dosen',
-                        'Mahasiswa' => 'Mahasiswa'
+                        'admin_lab' => 'Admin Lab',
+                        'lecturer' => 'Dosen',
+                        'assistant' => 'Asisten Dosen',
+                        'student' => 'Mahasiswa'
                     ];
                 @endphp
                 @foreach($tabs as $val => $label)
@@ -72,16 +72,19 @@
                 @endif
             </x-ui.empty-state>
         @else
-            <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm ">
-                <div class="overflow-x-auto rounded-b-2xl">
+            <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm flex-grow flex flex-col justify-between overflow-hidden">
+                <div class="rounded-t-2xl flex-grow overflow-x-auto">
                     <table class="w-full text-left border-collapse whitespace-nowrap">
                         <thead>
                             <tr class="bg-zinc-50/80 border-b border-zinc-200/80">
                                 <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Pengguna</th>
                                 <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Role</th>
                                 <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Jurusan</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider hidden md:table-cell">Bergabung</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-right">Aksi</th>
+                                <th
+                                    class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider hidden md:table-cell">
+                                    Bergabung</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-right">
+                                    Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-100/80">
@@ -89,263 +92,306 @@
                                 <tr class="group hover:bg-zinc-50/80 transition-all">
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-4 min-w-0">
-                                <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=EEF2FF&color=4F46E5&bold=true"
-                                    alt="{{ $user->name }}"
-                                    class="w-10 h-10 rounded-full object-cover ring-4 ring-white shadow-sm shrink-0">
-                                <div class="min-w-0 flex-1">
-                                    <p class="text-[14px] font-bold text-zinc-900 truncate tracking-tight">
-                                        {{ $user->name }}
-                                    </p>
-                                    <p class="text-[13px] font-medium text-zinc-500 truncate mt-0.5">
-                                        {{ $user->email }}
-                                    </p>
-                                </div>
+                                            <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=EEF2FF&color=4F46E5&bold=true"
+                                                alt="{{ $user->name }}"
+                                                class="w-10 h-10 rounded-full object-cover ring-4 ring-white shadow-sm shrink-0">
+                                            <div class="min-w-0 flex-1">
+                                                <p class="text-[14px] font-bold text-zinc-900 truncate tracking-tight">
+                                                    {{ $user->name }}
+                                                </p>
+                                                <p class="text-[13px] font-medium text-zinc-500 truncate mt-0.5">
+                                                    {{ $user->email }}
+                                                </p>
+                                            </div>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                    @php
-                                        $badgeType = match (strtolower($user->jabatan)) {
-                                            'admin lab' => 'indigo',
-                                            'dosen' => 'emerald',
-                                            'asisten dosen' => 'emerald',
-                                            default => 'neutral'
-                                        };
-                                    @endphp
-                                    <x-ui.badge :type="$badgeType">
-                                        {{ Str::ucfirst($user->jabatan ?? '-') }}
+                                        @php
+                                            $badgeType = match (strtolower($user->jabatan)) {
+                                                'admin lab' => 'indigo',
+                                                'dosen' => 'emerald',
+                                                'asisten dosen' => 'emerald',
+                                                default => 'neutral'
+                                            };
+                                        @endphp
+                                        <x-ui.badge :type="$badgeType">
+                                            {{ Str::ucfirst($user->jabatan ?? '-') }}
                                         </x-ui.badge>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <span class="text-[13px] font-medium text-zinc-600">{{ $user->department->name ?? '-' }}</span>
+                                        <span
+                                            class="text-[13px] font-medium text-zinc-600">{{ $user->department->name ?? '-' }}</span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
-                                    <span class="text-[12px] font-medium text-zinc-400" title="{{ $user->created_at }}">
-                                        {{ $user->created_at ? $user->created_at->diffForHumans() : '-' }}
+                                        <span class="text-[12px] font-medium text-zinc-400" title="{{ $user->created_at }}">
+                                            {{ $user->created_at ? $user->created_at->diffForHumans() : '-' }}
                                         </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right">
                                         @if (Auth::user()->jabatan !== 'Mahasiswa')
                                             <div class="flex items-center justify-end">
-                                        {{-- Row Actions Dropdown --}}
-                                        <div x-data="{ open: false }" class="relative inline-block text-left">
-                                            <button @click="open = !open" @click.outside="open = false"
-                                                class="p-1.5 rounded-lg text-zinc-400 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-zinc-600 hover:bg-zinc-200/50 transition-all">
-                                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                                                    <path
-                                                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                                                </svg>
-                                            </button>
-
-                                            <div x-show="open" x-cloak
-                                                class="absolute right-0 mt-1.5 w-44 rounded-xl bg-white border border-zinc-200 shadow-lg py-1.5 z-50 text-left">
-                                                <button type="button" data-modal-target="edit-modal-{{ $user->id }}"
-                                                    data-modal-toggle="edit-modal-{{ $user->id }}"
-                                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center">
-                                                    <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-400" />
-                                                    Edit Pengguna
-                                                </button>
-
-                                                <button type="button"
-                                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
-                                                    <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
-                                                    Reset Password
-                                                </button>
-
-                                                <button type="button"
-                                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
-                                                    <x-atoms.icon name="x-mark" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
-                                                    Nonaktifkan
-                                                </button>
-
-                                                <div class="h-px bg-zinc-100 my-1"></div>
-
-                                                <button type="button" data-modal-target="delete-modal-{{ $user->id }}"
-                                                    data-modal-toggle="delete-modal-{{ $user->id }}"
-                                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center">
-                                                    <x-atoms.icon name="trash" class="w-3.5 h-3.5 mr-2 text-rose-400" />
-                                                    Hapus
-                                                </button>
-                                            </div>
-                                        </div>
-
-                                        {{-- Edit Modal --}}
-                                        <form method="POST" action="{{ route('update.users', $user->id) }}"
-                                            id="edit-modal-{{ $user->id }}" tabindex="-1" aria-hidden="true"
-                                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full text-left"
-                                            x-data="{ 
-                                                roles: {{ json_encode(old('roles', $user->roles->pluck('slug')->toArray())) }},
-                                                hasStudent() { return this.roles.includes('student') || this.roles.includes('assistant'); },
-                                                hasLecturer() { return this.roles.includes('lecturer') || this.roles.includes('admin_lab'); }
-                                            }"
-                                        >
-                                            @csrf
-                                            @method('PUT')
-                                            <div class="relative p-4 w-full max-w-2xl max-h-full">
-                                                <div class="relative bg-white rounded-2xl shadow-xl border border-zinc-200">
-                                                    <div class="flex items-center justify-between px-5 py-4 border-b border-zinc-100">
-                                                        <h3 class="text-sm font-bold text-zinc-900">Edit Pengguna: {{ $user->name }}
-                                                        </h3>
-                                                        <button type="button"
-                                                            class="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors focus:outline-none"
-                                                            data-modal-hide="edit-modal-{{ $user->id }}">
-                                                            <x-atoms.icon name="x-mark" class="w-4 h-4" />
-                                                        </button>
-                                                    </div>
-                                                    
-                                                    <div class="p-5 space-y-5 max-h-[70vh] overflow-y-auto hide-scrollbar">
-                                                        {{-- Basic Information --}}
-                                                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                            <div class="sm:col-span-2">
-                                                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nama Lengkap <span class="text-rose-500">*</span></label>
-                                                                <input type="text" name="name" value="{{ old('name', $user->name) }}" required class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
-                                                                @error('name')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
-                                                            </div>
-                                                            <div class="sm:col-span-2">
-                                                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nomor HP</label>
-                                                                <input type="text" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
-                                                                @error('phone_number')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="h-px bg-zinc-100"></div>
-
-                                                        {{-- Roles Selection --}}
-                                                        <div>
-                                                            <label class="block mb-2.5 text-xs font-bold text-zinc-500 uppercase">Peran / Role <span class="text-rose-500">*</span></label>
-                                                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                                                @foreach(App\Models\Role::all() ?? [] as $role)
-                                                                    <label 
-                                                                        class="relative flex items-center justify-center p-3 border border-zinc-200 rounded-xl cursor-pointer hover:bg-zinc-50 transition-colors" 
-                                                                        :class="{ 
-                                                                            'bg-indigo-50/50 border-indigo-200 ring-1 ring-indigo-500/20': roles.includes('{{ $role->slug }}'),
-                                                                            'opacity-60 cursor-not-allowed bg-zinc-50': 
-                                                                                ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
-                                                                                ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
-                                                                                (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
-                                                                                (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
-                                                                        }"
-                                                                    >
-                                                                        <input 
-                                                                            type="checkbox" 
-                                                                            name="roles[]" 
-                                                                            value="{{ $role->slug }}" 
-                                                                            x-model="roles" 
-                                                                            class="sr-only"
-                                                                            :disabled="
-                                                                                ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
-                                                                                ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
-                                                                                (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
-                                                                                (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
-                                                                            "
-                                                                            @change="
-                                                                                if('{{ $role->slug }}' === 'admin_lab' && roles.includes('admin_lab') && !roles.includes('lecturer')) roles.push('lecturer');
-                                                                                if('{{ $role->slug }}' === 'assistant' && roles.includes('assistant') && !roles.includes('student')) roles.push('student');
-                                                                            "
-                                                                        >
-                                                                        <span class="text-xs font-bold text-zinc-700 select-none" :class="{ 'text-indigo-700': roles.includes('{{ $role->slug }}') }">{{ $role->name }}</span>
-                                                                    </label>
-                                                                @endforeach
-                                                            </div>
-                                                            @error('roles')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
-                                                        </div>
-
-                                                        {{-- Dynamic Student Fields --}}
-                                                        <div x-show="hasStudent()" x-cloak class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
-                                                            <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">Data Mahasiswa</h4>
-                                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                                                <div>
-                                                                    <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIM <span class="text-rose-500">*</span></label>
-                                                                    <input type="text" name="nim" value="{{ old('nim', $user->nim) }}" :required="hasStudent()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
-                                                                    @error('nim')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
-                                                                </div>
-                                                                <div>
-                                                                    <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Tahun Angkatan <span class="text-rose-500">*</span></label>
-                                                                    <input type="number" name="entry_year" value="{{ old('entry_year', $user->entry_year) }}" :required="hasStudent()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
-                                                                    @error('entry_year')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        {{-- Dynamic Lecturer Fields --}}
-                                                        <div x-show="hasLecturer()" x-cloak class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
-                                                            <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">Data Dosen</h4>
-                                                            <div>
-                                                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIP <span class="text-rose-500">*</span></label>
-                                                                <input type="text" name="nip" value="{{ old('nip', $user->nip) }}" :required="hasLecturer()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
-                                                                @error('nip')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
-                                                            </div>
-                                                        </div>
-
-                                                        {{-- General Info (Department) --}}
-                                                        <div x-show="roles.length > 0" x-cloak>
-                                                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Jurusan</label>
-                                                            <select name="department_id" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors">
-                                                                <option value="">Pilih Jurusan...</option>
-                                                                @foreach(App\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
-                                                                    <optgroup label="{{ $faculty ?: 'Lainnya' }}">
-                                                                        @foreach($depts as $dept)
-                                                                            <option value="{{ $dept->id }}" {{ old('department_id', $user->department_id) == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
-                                                                        @endforeach
-                                                                    </optgroup>
-                                                                @endforeach
-                                                            </select>
-                                                            @error('department_id')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
-                                                        </div>
-                                                    </div>
-
-                                                    <div
-                                                        class="flex items-center justify-end px-5 py-4 border-t border-zinc-100 bg-zinc-50/50 rounded-b-2xl gap-3">
-                                                        <button data-modal-hide="edit-modal-{{ $user->id }}" type="button"
-                                                            class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
-                                                            Batal
-                                                        </button>
-                                                        <button type="submit"
-                                                            class="text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                                                            Simpan Perubahan
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-
-                                        {{-- Delete Modal --}}
-                                        <form method="POST" action="{{ route('delete.users', $user->id) }}"
-                                            id="delete-modal-{{ $user->id }}" tabindex="-1" aria-hidden="true"
-                                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full text-left">
-                                            @csrf
-                                            @method('DELETE')
-                                            <div class="relative p-4 w-full max-w-md max-h-full">
-                                                <div class="relative bg-white rounded-2xl shadow-xl border border-zinc-200">
-                                                    <button type="button"
-                                                        class="absolute top-3 right-3 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center focus:outline-none"
-                                                        data-modal-hide="delete-modal-{{ $user->id }}">
-                                                        <x-atoms.icon name="x-mark" class="w-4 h-4" />
-                                                        <span class="sr-only">Tutup</span>
+                                                {{-- Row Actions Dropdown --}}
+                                                <div x-data="{ open: false }" class="relative inline-block text-left">
+                                                    <button @click="open = !open" @click.outside="open = false"
+                                                        class="p-1.5 rounded-lg text-zinc-400 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-zinc-600 hover:bg-zinc-200/50 transition-all">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path
+                                                                d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                                        </svg>
                                                     </button>
-                                                    <div class="p-6 text-center">
-                                                        <div
-                                                            class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4">
-                                                            <x-atoms.icon name="trash" class="w-6 h-6" />
-                                                        </div>
-                                                        <h3 class="text-sm font-bold text-zinc-900 mb-2">Hapus Pengguna</h3>
-                                                        <p class="text-xs text-zinc-500 font-medium mb-6 leading-relaxed">
-                                                            Apakah Anda yakin ingin menghapus <b>{{ $user->name }}</b>? Tindakan ini
-                                                            tidak dapat dibatalkan.
-                                                        </p>
-                                                        <div class="flex items-center justify-center gap-3">
-                                                            <button data-modal-hide="delete-modal-{{ $user->id }}" type="button"
-                                                                class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
-                                                                Batalkan
-                                                            </button>
-                                                            <button type="submit"
-                                                                class="text-white bg-rose-600 hover:bg-rose-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
-                                                                Ya, Hapus
-                                                            </button>
-                                                        </div>
+
+                                                    <div x-show="open" x-cloak
+                                                        class="absolute right-0 mt-1.5 w-44 rounded-xl bg-white border border-zinc-200 shadow-lg py-1.5 z-50 text-left">
+                                                        <button type="button" data-modal-target="edit-modal-{{ $user->id }}"
+                                                            data-modal-toggle="edit-modal-{{ $user->id }}"
+                                                            class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center">
+                                                            <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-400" />
+                                                            Edit Pengguna
+                                                        </button>
+
+                                                        <button type="button"
+                                                            class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
+                                                            <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
+                                                            Reset Password
+                                                        </button>
+
+                                                        <button type="button"
+                                                            class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
+                                                            <x-atoms.icon name="x-mark" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
+                                                            Nonaktifkan
+                                                        </button>
+
+                                                        <div class="h-px bg-zinc-100 my-1"></div>
+
+                                                        <button type="button" data-modal-target="delete-modal-{{ $user->id }}"
+                                                            data-modal-toggle="delete-modal-{{ $user->id }}"
+                                                            class="w-full text-left px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center">
+                                                            <x-atoms.icon name="trash" class="w-3.5 h-3.5 mr-2 text-rose-400" />
+                                                            Hapus
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </form>
+
+                                                {{-- Edit Modal --}}
+                                                <form method="POST" action="{{ route('update.users', $user->id) }}"
+                                                    id="edit-modal-{{ $user->id }}" tabindex="-1" aria-hidden="true"
+                                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full text-left"
+                                                    x-data="{ 
+                                                                roles: {{ json_encode(old('roles', $user->roles->pluck('slug')->toArray())) }},
+                                                                hasStudent() { return this.roles.includes('student') || this.roles.includes('assistant'); },
+                                                                hasLecturer() { return this.roles.includes('lecturer') || this.roles.includes('admin_lab'); }
+                                                            }">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <div class="relative p-4 w-full max-w-2xl max-h-full">
+                                                        <div class="relative bg-white rounded-2xl shadow-xl border border-zinc-200">
+                                                            <div
+                                                                class="flex items-center justify-between px-5 py-4 border-b border-zinc-100">
+                                                                <h3 class="text-sm font-bold text-zinc-900">Edit Pengguna:
+                                                                    {{ $user->name }}
+                                                                </h3>
+                                                                <button type="button"
+                                                                    class="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors focus:outline-none"
+                                                                    data-modal-hide="edit-modal-{{ $user->id }}">
+                                                                    <x-atoms.icon name="x-mark" class="w-4 h-4" />
+                                                                </button>
+                                                            </div>
+
+                                                            <div class="p-5 space-y-5 max-h-[70vh] overflow-y-auto hide-scrollbar">
+                                                                {{-- Basic Information --}}
+                                                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                    <div class="sm:col-span-2">
+                                                                        <label
+                                                                            class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nama
+                                                                            Lengkap <span class="text-rose-500">*</span></label>
+                                                                        <input type="text" name="name"
+                                                                            value="{{ old('name', $user->name) }}" required
+                                                                            class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                        @error('name')<p
+                                                                            class="text-rose-500 text-[10px] mt-1 font-semibold">
+                                                                        {{ $message }}</p>@enderror
+                                                                    </div>
+                                                                    <div class="sm:col-span-2">
+                                                                        <label
+                                                                            class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nomor
+                                                                            HP</label>
+                                                                        <input type="text" name="phone_number"
+                                                                            value="{{ old('phone_number', $user->phone_number) }}"
+                                                                            class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                        @error('phone_number')<p
+                                                                            class="text-rose-500 text-[10px] mt-1 font-semibold">
+                                                                        {{ $message }}</p>@enderror
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="h-px bg-zinc-100"></div>
+
+                                                                {{-- Roles Selection --}}
+                                                                <div>
+                                                                    <label
+                                                                        class="block mb-2.5 text-xs font-bold text-zinc-500 uppercase">Peran
+                                                                        / Role <span class="text-rose-500">*</span></label>
+                                                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                                                        @foreach(App\Models\Role::all() ?? [] as $role)
+                                                                            <label
+                                                                                class="relative flex items-center justify-center p-3 border border-zinc-200 rounded-xl cursor-pointer hover:bg-zinc-50 transition-colors"
+                                                                                :class="{ 
+                                                                                                'bg-indigo-50/50 border-indigo-200 ring-1 ring-indigo-500/20': roles.includes('{{ $role->slug }}'),
+                                                                                                'opacity-60 cursor-not-allowed bg-zinc-50': 
+                                                                                                    ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
+                                                                                                    ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
+                                                                                                    (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
+                                                                                                    (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
+                                                                                            }">
+                                                                                <input type="checkbox" name="roles[]"
+                                                                                    value="{{ $role->slug }}" x-model="roles"
+                                                                                    class="sr-only" :disabled="
+                                                                                                    ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
+                                                                                                    ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
+                                                                                                    (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
+                                                                                                    (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
+                                                                                                " @change="
+                                                                                                    if('{{ $role->slug }}' === 'admin_lab' && roles.includes('admin_lab') && !roles.includes('lecturer')) roles.push('lecturer');
+                                                                                                    if('{{ $role->slug }}' === 'assistant' && roles.includes('assistant') && !roles.includes('student')) roles.push('student');
+                                                                                                ">
+                                                                                <span class="text-xs font-bold text-zinc-700 select-none"
+                                                                                    :class="{ 'text-indigo-700': roles.includes('{{ $role->slug }}') }">{{ $role->name }}</span>
+                                                                            </label>
+                                                                        @endforeach
+                                                                    </div>
+                                                                    @error('roles')<p
+                                                                        class="text-rose-500 text-[10px] mt-1 font-semibold">
+                                                                    {{ $message }}</p>@enderror
+                                                                </div>
+
+                                                                {{-- Dynamic Student Fields --}}
+                                                                <div x-show="hasStudent()" x-cloak
+                                                                    class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
+                                                                    <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">
+                                                                        Data Mahasiswa</h4>
+                                                                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                                        <div>
+                                                                            <label
+                                                                                class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIM
+                                                                                <span class="text-rose-500">*</span></label>
+                                                                            <input type="text" name="nim"
+                                                                                value="{{ old('nim', $user->nim) }}"
+                                                                                :required="hasStudent()"
+                                                                                class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                            @error('nim')<p
+                                                                                class="text-rose-500 text-[10px] mt-1 font-semibold">
+                                                                            {{ $message }}</p>@enderror
+                                                                        </div>
+                                                                        <div>
+                                                                            <label
+                                                                                class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Tahun
+                                                                                Angkatan <span class="text-rose-500">*</span></label>
+                                                                            <input type="number" name="entry_year"
+                                                                                value="{{ old('entry_year', $user->entry_year) }}"
+                                                                                :required="hasStudent()"
+                                                                                class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                            @error('entry_year')<p
+                                                                                class="text-rose-500 text-[10px] mt-1 font-semibold">
+                                                                            {{ $message }}</p>@enderror
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                {{-- Dynamic Lecturer Fields --}}
+                                                                <div x-show="hasLecturer()" x-cloak
+                                                                    class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
+                                                                    <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">
+                                                                        Data Dosen</h4>
+                                                                    <div>
+                                                                        <label
+                                                                            class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIP
+                                                                            <span class="text-rose-500">*</span></label>
+                                                                        <input type="text" name="nip"
+                                                                            value="{{ old('nip', $user->nip) }}"
+                                                                            :required="hasLecturer()"
+                                                                            class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
+                                                                        @error('nip')<p
+                                                                            class="text-rose-500 text-[10px] mt-1 font-semibold">
+                                                                        {{ $message }}</p>@enderror
+                                                                    </div>
+                                                                </div>
+
+                                                                {{-- General Info (Department) --}}
+                                                                <div x-show="roles.length > 0" x-cloak>
+                                                                    <label
+                                                                        class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Jurusan</label>
+                                                                    <select name="department_id"
+                                                                        class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors">
+                                                                        <option value="">Pilih Jurusan...</option>
+                                                                        @foreach(App\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
+                                                                            <optgroup label="{{ $faculty ?: 'Lainnya' }}">
+                                                                                @foreach($depts as $dept)
+                                                                                    <option value="{{ $dept->id }}" {{ old('department_id', $user->department_id) == $dept->id ? 'selected' : '' }}>
+                                                                                        {{ $dept->name }}</option>
+                                                                                @endforeach
+                                                                            </optgroup>
+                                                                        @endforeach
+                                                                    </select>
+                                                                    @error('department_id')<p
+                                                                        class="text-rose-500 text-[10px] mt-1 font-semibold">
+                                                                    {{ $message }}</p>@enderror
+                                                                </div>
+                                                            </div>
+
+                                                            <div
+                                                                class="flex items-center justify-end px-5 py-4 border-t border-zinc-100 bg-zinc-50/50 rounded-b-2xl gap-3">
+                                                                <button data-modal-hide="edit-modal-{{ $user->id }}" type="button"
+                                                                    class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
+                                                                    Batal
+                                                                </button>
+                                                                <button type="submit"
+                                                                    class="text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                                                                    Simpan Perubahan
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+
+                                                {{-- Delete Modal --}}
+                                                <form method="POST" action="{{ route('delete.users', $user->id) }}"
+                                                    id="delete-modal-{{ $user->id }}" tabindex="-1" aria-hidden="true"
+                                                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full text-left">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="relative p-4 w-full max-w-md max-h-full">
+                                                        <div class="relative bg-white rounded-2xl shadow-xl border border-zinc-200">
+                                                            <button type="button"
+                                                                class="absolute top-3 right-3 text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center focus:outline-none"
+                                                                data-modal-hide="delete-modal-{{ $user->id }}">
+                                                                <x-atoms.icon name="x-mark" class="w-4 h-4" />
+                                                                <span class="sr-only">Tutup</span>
+                                                            </button>
+                                                            <div class="p-6 text-center">
+                                                                <div
+                                                                    class="w-12 h-12 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4">
+                                                                    <x-atoms.icon name="trash" class="w-6 h-6" />
+                                                                </div>
+                                                                <h3 class="text-sm font-bold text-zinc-900 mb-2">Hapus Pengguna</h3>
+                                                                <p class="text-xs text-zinc-500 font-medium mb-6 leading-relaxed">
+                                                                    Apakah Anda yakin ingin menghapus <b>{{ $user->name }}</b>? Tindakan
+                                                                    ini
+                                                                    tidak dapat dibatalkan.
+                                                                </p>
+                                                                <div class="flex items-center justify-center gap-3">
+                                                                    <button data-modal-hide="delete-modal-{{ $user->id }}" type="button"
+                                                                        class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
+                                                                        Batalkan
+                                                                    </button>
+                                                                    <button type="submit"
+                                                                        class="text-white bg-rose-600 hover:bg-rose-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500">
+                                                                        Ya, Hapus
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
                                             </div>
                                         @endif
                                     </td>
@@ -362,50 +408,53 @@
     </div>
 
     {{-- Add User Modal --}}
-    <form 
-        method="POST" 
-        action="{{ route('add.users') }}" 
-        id="add-modal" 
-        tabindex="-1" 
-        aria-hidden="true" 
+    <form method="POST" action="{{ route('add.users') }}" id="add-modal" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
         x-data="{ 
-            roles: {{ json_encode(old('roles', [])) }},
-            hasStudent() { return this.roles.includes('student') || this.roles.includes('assistant'); },
-            hasLecturer() { return this.roles.includes('lecturer') || this.roles.includes('admin_lab'); }
-        }"
-    >
+                roles: {{ json_encode(old('roles', [])) }},
+                hasStudent() { return this.roles.includes('student') || this.roles.includes('assistant'); },
+                hasLecturer() { return this.roles.includes('lecturer') || this.roles.includes('admin_lab'); }
+            }">
         @csrf
         <div class="relative p-4 w-full max-w-2xl max-h-full">
             <div class="relative bg-white rounded-2xl shadow-xl border border-zinc-200">
                 <div class="flex items-center justify-between px-5 py-4 border-b border-zinc-100">
                     <h3 class="text-sm font-bold text-zinc-900">Tambah Pengguna Baru</h3>
-                    <button 
-                        type="button" 
-                        class="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors focus:outline-none" 
-                        data-modal-hide="add-modal"
-                    >
+                    <button type="button"
+                        class="text-zinc-400 hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center transition-colors focus:outline-none"
+                        data-modal-hide="add-modal">
                         <x-atoms.icon name="x-mark" class="w-4 h-4" />
                     </button>
                 </div>
-                
+
                 <div class="p-5 space-y-5 max-h-[70vh] overflow-y-auto hide-scrollbar">
                     {{-- Basic Information --}}
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="sm:col-span-2">
-                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nama Lengkap <span class="text-rose-500">*</span></label>
-                            <input type="text" name="name" value="{{ old('name') }}" required class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="Masukkan nama..." />
-                            @error('name')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nama Lengkap <span
+                                    class="text-rose-500">*</span></label>
+                            <input type="text" name="name" value="{{ old('name') }}" required
+                                class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors"
+                                placeholder="Masukkan nama..." />
+                            @error('name')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
-                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Alamat Email <span class="text-rose-500">*</span></label>
-                            <input type="email" name="email" value="{{ old('email') }}" required class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="email@contoh.com" />
-                            @error('email')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Alamat Email <span
+                                    class="text-rose-500">*</span></label>
+                            <input type="email" name="email" value="{{ old('email') }}" required
+                                class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors"
+                                placeholder="email@contoh.com" />
+                            @error('email')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
                         </div>
                         <div>
                             <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Nomor HP</label>
-                            <input type="text" name="phone_number" value="{{ old('phone_number') }}" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="08..." />
-                            @error('phone_number')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                            <input type="text" name="phone_number" value="{{ old('phone_number') }}"
+                                class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors"
+                                placeholder="08..." />
+                            @error('phone_number')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>
+                            @enderror
                         </div>
                     </div>
 
@@ -413,68 +462,77 @@
 
                     {{-- Roles Selection --}}
                     <div>
-                        <label class="block mb-2.5 text-xs font-bold text-zinc-500 uppercase">Peran / Role <span class="text-rose-500">*</span></label>
+                        <label class="block mb-2.5 text-xs font-bold text-zinc-500 uppercase">Peran / Role <span
+                                class="text-rose-500">*</span></label>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                             @foreach(App\Models\Role::all() ?? [] as $role)
-                                <label 
-                                    class="relative flex items-center justify-center p-3 border border-zinc-200 rounded-xl cursor-pointer hover:bg-zinc-50 transition-colors" 
+                                <label
+                                    class="relative flex items-center justify-center p-3 border border-zinc-200 rounded-xl cursor-pointer hover:bg-zinc-50 transition-colors"
                                     :class="{ 
-                                        'bg-indigo-50/50 border-indigo-200 ring-1 ring-indigo-500/20': roles.includes('{{ $role->slug }}'),
-                                        'opacity-60 cursor-not-allowed bg-zinc-50': 
-                                            ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
-                                            ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
-                                            (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
-                                            (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
-                                    }"
-                                >
-                                    <input 
-                                        type="checkbox" 
-                                        name="roles[]" 
-                                        value="{{ $role->slug }}" 
-                                        x-model="roles" 
-                                        class="sr-only"
-                                        :disabled="
-                                            ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
-                                            ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
-                                            (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
-                                            (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
-                                        "
-                                        @change="
-                                            if('{{ $role->slug }}' === 'admin_lab' && roles.includes('admin_lab') && !roles.includes('lecturer')) roles.push('lecturer');
-                                            if('{{ $role->slug }}' === 'assistant' && roles.includes('assistant') && !roles.includes('student')) roles.push('student');
-                                        "
-                                    >
-                                    <span class="text-xs font-bold text-zinc-700 select-none" :class="{ 'text-indigo-700': roles.includes('{{ $role->slug }}') }">{{ $role->name }}</span>
+                                                'bg-indigo-50/50 border-indigo-200 ring-1 ring-indigo-500/20': roles.includes('{{ $role->slug }}'),
+                                                'opacity-60 cursor-not-allowed bg-zinc-50': 
+                                                    ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
+                                                    ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
+                                                    (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
+                                                    (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
+                                            }">
+                                    <input type="checkbox" name="roles[]" value="{{ $role->slug }}" x-model="roles"
+                                        class="sr-only" :disabled="
+                                                    ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || 
+                                                    ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) ||
+                                                    (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) ||
+                                                    (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())
+                                                " @change="
+                                                    if('{{ $role->slug }}' === 'admin_lab' && roles.includes('admin_lab') && !roles.includes('lecturer')) roles.push('lecturer');
+                                                    if('{{ $role->slug }}' === 'assistant' && roles.includes('assistant') && !roles.includes('student')) roles.push('student');
+                                                ">
+                                    <span class="text-xs font-bold text-zinc-700 select-none"
+                                        :class="{ 'text-indigo-700': roles.includes('{{ $role->slug }}') }">{{ $role->name }}</span>
                                 </label>
                             @endforeach
                         </div>
                         @error('roles')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
-                        <p class="mt-2 text-[11px] font-medium text-zinc-500">Pilih satu atau lebih peran. Admin Lab otomatis mendapatkan akses Dosen. Asisten otomatis Mahasiswa.</p>
+                        <p class="mt-2 text-[11px] font-medium text-zinc-500">Pilih satu atau lebih peran. Admin Lab
+                            otomatis mendapatkan akses Dosen. Asisten otomatis Mahasiswa.</p>
                     </div>
 
                     {{-- Dynamic Student Fields --}}
-                    <div x-show="hasStudent()" x-cloak class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
+                    <div x-show="hasStudent()" x-cloak
+                        class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
                         <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">Data Mahasiswa</h4>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIM <span class="text-rose-500">*</span></label>
-                                <input type="text" name="nim" value="{{ old('nim') }}" :required="hasStudent()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="Masukkan NIM..." />
-                                @error('nim')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIM <span
+                                        class="text-rose-500">*</span></label>
+                                <input type="text" name="nim" value="{{ old('nim') }}" :required="hasStudent()"
+                                    class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors"
+                                    placeholder="Masukkan NIM..." />
+                                @error('nim')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>
+                                @enderror
                             </div>
                             <div>
-                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Tahun Angkatan <span class="text-rose-500">*</span></label>
-                                <input type="number" name="entry_year" value="{{ old('entry_year') }}" :required="hasStudent()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="2024" />
-                                @error('entry_year')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                                <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Tahun Angkatan <span
+                                        class="text-rose-500">*</span></label>
+                                <input type="number" name="entry_year" value="{{ old('entry_year') }}"
+                                    :required="hasStudent()"
+                                    class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors"
+                                    placeholder="2024" />
+                                @error('entry_year')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}
+                                </p>@enderror
                             </div>
                         </div>
                     </div>
 
                     {{-- Dynamic Lecturer Fields --}}
-                    <div x-show="hasLecturer()" x-cloak class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
+                    <div x-show="hasLecturer()" x-cloak
+                        class="space-y-4 p-4 rounded-xl bg-zinc-50/50 border border-zinc-100">
                         <h4 class="text-xs font-bold text-zinc-800 uppercase tracking-wide">Data Dosen</h4>
                         <div>
-                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIP <span class="text-rose-500">*</span></label>
-                            <input type="text" name="nip" value="{{ old('nip') }}" :required="hasLecturer()" class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" placeholder="Masukkan NIP..." />
+                            <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">NIP <span
+                                    class="text-rose-500">*</span></label>
+                            <input type="text" name="nip" value="{{ old('nip') }}" :required="hasLecturer()"
+                                class="bg-white border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors"
+                                placeholder="Masukkan NIP..." />
                             @error('nip')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
                         </div>
                     </div>
@@ -482,33 +540,40 @@
                     {{-- General Info (Department) --}}
                     <div x-show="roles.length > 0" x-cloak>
                         <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Jurusan</label>
-                        <select name="department_id" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors">
+                        <select name="department_id"
+                            class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors">
                             <option value="">Pilih Jurusan...</option>
                             @foreach(App\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
                                 <optgroup label="{{ $faculty ?: 'Lainnya' }}">
                                     @foreach($depts as $dept)
-                                        <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>
+                                        <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>
+                                            {{ $dept->name }}</option>
                                     @endforeach
                                 </optgroup>
                             @endforeach
                         </select>
-                        @error('department_id')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>@enderror
+                        @error('department_id')<p class="text-rose-500 text-[10px] mt-1 font-semibold">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     <div class="p-3 bg-indigo-50/50 border border-indigo-100 rounded-xl flex items-start gap-3">
                         <x-atoms.icon name="information-circle" class="w-5 h-5 text-indigo-500 shrink-0 mt-0.5" />
                         <div>
                             <p class="text-xs font-bold text-indigo-900">Password Default</p>
-                            <p class="text-[11px] font-medium text-indigo-700/80 mt-0.5">Password pengguna otomatis diatur ke <b>LabUIN@2026</b> dan pengguna wajib mengganti password saat login pertama.</p>
+                            <p class="text-[11px] font-medium text-indigo-700/80 mt-0.5">Password pengguna otomatis diatur
+                                ke <b>LabUIN@2026</b> dan pengguna wajib mengganti password saat login pertama.</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex items-center justify-end px-5 py-4 border-t border-zinc-100 bg-zinc-50/50 rounded-b-2xl gap-3">
-                    <button data-modal-hide="add-modal" type="button" class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
+                <div
+                    class="flex items-center justify-end px-5 py-4 border-t border-zinc-100 bg-zinc-50/50 rounded-b-2xl gap-3">
+                    <button data-modal-hide="add-modal" type="button"
+                        class="py-2.5 px-4 text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 hover:bg-zinc-50 rounded-xl transition-colors">
                         Batal
                     </button>
-                    <button type="submit" class="text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button type="submit"
+                        class="text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2.5 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                         Tambah Pengguna
                     </button>
                 </div>
