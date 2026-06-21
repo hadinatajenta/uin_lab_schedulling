@@ -9,7 +9,7 @@
             @if (Auth::user()->jabatan !== 'Mahasiswa')
                 <a href="{{ route('addJadwalView') }}"
                     class="w-full md:w-auto inline-flex items-center justify-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-sm md:text-xs px-4 h-11 md:h-10 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <x-atoms.icon name="plus-circle" class="w-5 h-5 md:w-4 md:h-4 mr-2" />
+                    <span class="material-symbols-rounded text-[20px] md:text-[18px] mr-2">add</span>
                     Tambah Jadwal
                 </a>
             @endif

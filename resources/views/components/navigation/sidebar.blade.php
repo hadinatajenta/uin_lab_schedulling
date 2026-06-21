@@ -10,13 +10,11 @@
         <!-- Header -->
         <div class="h-16 flex items-center shrink-0 border-b border-zinc-100 relative px-4 justify-between">
             <div class="flex items-center space-x-3 cursor-pointer">
-                <div
-                    class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-sm">
-                    <x-atoms.icon name="grid" class="w-5 h-5" />
-                </div>
+                <img src="{{ asset('images/logo-uin.svg') }}" alt="Logo UIN" class="w-8 h-8 shrink-0 object-contain" />
                 <div>
-                    <h2 class="text-[15px] font-bold text-zinc-900 leading-none tracking-tight">Lab UIN</h2>
-                    <p class="text-[11px] text-zinc-500 font-medium mt-1 uppercase tracking-wider">Management</p>
+                    <h2 class="text-[15px] font-bold text-zinc-900 leading-none tracking-tight">Lab UIN Raden Intan</h2>
+                    <p class="text-[11px] text-zinc-500 font-medium mt-1 uppercase tracking-wider">Lab Management System
+                    </p>
                 </div>
             </div>
         </div>
@@ -69,7 +67,12 @@
                             <button @click="open = !open"
                                 class="w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold tracking-wider text-zinc-500 uppercase hover:text-zinc-900 transition-colors rounded-lg hover:bg-zinc-50 outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 group"
                                 x-transition.opacity>
-                                <span class="group-hover:translate-x-0.5 transition-transform">{{ $section['section'] }}</span>
+                                <div class="flex items-center group-hover:translate-x-0.5 transition-transform">
+                                    @if(isset($section['icon']))
+                                        <span class="material-symbols-rounded text-[14px] mr-1.5">{{ $section['icon'] }}</span>
+                                    @endif
+                                    <span>{{ $section['section'] }}</span>
+                                </div>
                                 <svg class="w-3.5 h-3.5 text-zinc-400 transition-transform duration-200"
                                     :class="open ? 'rotate-180 text-zinc-600' : ''" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">

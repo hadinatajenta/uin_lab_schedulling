@@ -14,11 +14,15 @@ class AlatController extends Controller
     // halaman alat
     public function alatView(Request $request)
     {
-        $bahanPadat = Alat::where('jenis_alat', 'Alat')->get();
-        $bahanCair = Alat::where('jenis_alat', 'Bahan')->get();
-        $keyword = $request->input('cari');
+        // Optimasi Count (tanpa memuat data ke RAM)
+        $bahanPadatCount = Alat::where('jenis_alat', 'Alat')->count();
+        $bahanCairCount = Alat::where('jenis_alat', 'Bahan')->count();
+        $all = Alat::count();
 
+        $keyword = $request->input('cari');
         $jenisAlat = $request->input('jenis_alat');
+        $perPage = $request->input('per_page', 10); // Dynamic per page, default 10
+
         $query = Alat::query();
 
         if ($keyword) {
@@ -27,10 +31,11 @@ class AlatController extends Controller
         if ($jenisAlat) {
             $query->where('jenis_alat', $jenisAlat);
         }
-        $alat = $query->get();
+        
+        // Dynamic Pagination
+        $alat = $query->paginate($perPage);
 
-        $all = $alat->count();
-        return view('alat', compact('alat', 'bahanPadat', 'bahanCair', 'all'));
+        return view('alat', compact('alat', 'bahanPadatCount', 'bahanCairCount', 'all'));
     }
 
     // view tambah alat
@@ -41,22 +46,29 @@ class AlatController extends Controller
     // function tambah alat
     public function addAlat(Request $request)
     {
+        $messages = [
+            'nama_alat.required' => 'Nama barang wajib diisi.',
+            'jenis_alat.required' => 'Kategori barang wajib dipilih.',
+            'jenis_alat.in' => 'Kategori barang tidak valid.',
+            'jumlah_satuan.required_if' => 'Jumlah satuan (unit) wajib diisi untuk kategori Alat.',
+            'jumlah_ml.required_if' => 'Jumlah takaran (ml) wajib diisi untuk kategori Bahan.',
+        ];
+
         // Validasi input
         $request->validate([
-            'nama_alat' => 'required',
-            'jenis_alat' => 'nullable',
-            'deskripsi' => 'nullable',
-            'spesifikasi' => 'nullable',
-            'kondisi' => 'nullable',
-            'gambar' => 'nullable',
-            'jumlah_satuan' => 'nullable',
-            'jumlah_ml' => 'nullable',
-            'cara_penggunaan' => 'nullable',
-            'link_youtube' => 'nullable',
-            'tanggal_pembelian' => 'nullable',
-            'tanggal_expired' => 'nullable',
-        ]);
-
+            'nama_alat' => 'required|string|max:255',
+            'jenis_alat' => 'required|in:Alat,Bahan',
+            'deskripsi' => 'nullable|string',
+            'spesifikasi' => 'nullable|string',
+            'kondisi' => 'nullable|string',
+            'gambar' => 'nullable|image|max:5120',
+            'jumlah_satuan' => 'required_if:jenis_alat,Alat|nullable|numeric|min:0',
+            'jumlah_ml' => 'required_if:jenis_alat,Bahan|nullable|numeric|min:0',
+            'cara_penggunaan' => 'nullable|string',
+            'link_youtube' => 'nullable|string',
+            'tanggal_pembelian' => 'nullable|date',
+            'tanggal_expired' => 'nullable|date',
+        ], $messages);
 
         // Buat objek Alat baru
         $alat = new Alat();
@@ -80,22 +92,24 @@ class AlatController extends Controller
         $tanggal_pembelian = $request->input('tanggal_pembelian');
         $alat->tanggal_pembelian = $tanggal_pembelian;
 
+        // Sanitasi Data berdasarkan Jenis Alat
         if ($alat->jenis_alat == 'Alat') {
             $alat->jumlah_satuan = $request->input('jumlah_satuan');
+            $alat->jumlah_ml = null;
+            $alat->tanggal_expired = null; // Alat tidak expired
         } elseif ($alat->jenis_alat == 'Bahan') {
             $alat->jumlah_ml = $request->input('jumlah_ml');
+            $alat->jumlah_satuan = null;
             $tanggal_expired = $request->input('tanggal_expired');
             $alat->tanggal_expired = $tanggal_expired;
 
-            if (strtotime($tanggal_pembelian) > strtotime($tanggal_expired)) {
-                return redirect()->back()->with('error', 'Tanggal pembelian tidak boleh melebihi tanggal expired.');
+            if ($tanggal_pembelian && $tanggal_expired && (strtotime($tanggal_pembelian) > strtotime($tanggal_expired))) {
+                return redirect()->back()->withInput()->with('error', 'Tanggal pembelian tidak boleh melebihi tanggal expired.');
             }
         }
 
-        if ($alat) {
-            $alat->save();
-            return redirect()->route('alat')->with('success', 'Berhasil menambahkan data Alat baru!');
-        }
+        $alat->save();
+        return redirect()->route('alat')->with('success', 'Berhasil menambahkan data baru!');
     }
 
     // delete alat
@@ -135,20 +149,28 @@ class AlatController extends Controller
 
     public function updateAlat(Request $request, $id)
     {
+        $messages = [
+            'nama_alat.required' => 'Nama barang wajib diisi.',
+            'jenis_alat.required' => 'Kategori barang wajib dipilih.',
+            'jenis_alat.in' => 'Kategori barang tidak valid.',
+            'jumlah_satuan.required_if' => 'Jumlah satuan (unit) wajib diisi untuk kategori Alat.',
+            'jumlah_ml.required_if' => 'Jumlah takaran (ml) wajib diisi untuk kategori Bahan.',
+        ];
+
         $request->validate([
-            'nama_alat' => 'required',
-            'jenis_alat' => 'nullable',
-            'deskripsi' => 'nullable',
-            'spesifikasi' => 'nullable',
-            'kondisi' => 'nullable',
-            'gambar' => 'nullable',
-            'jumlah_satuan' => 'nullable',
-            'jumlah_ml' => 'nullable',
-            'cara_penggunaan' => 'nullable',
-            'link_youtube' => 'nullable',
-            'tanggal_pembelian' => 'nullable',
-            'tanggal_expired' => 'nullable',
-        ]);
+            'nama_alat' => 'required|string|max:255',
+            'jenis_alat' => 'required|in:Alat,Bahan',
+            'deskripsi' => 'nullable|string',
+            'spesifikasi' => 'nullable|string',
+            'kondisi' => 'nullable|string',
+            'gambar' => 'nullable|image|max:5120',
+            'jumlah_satuan' => 'required_if:jenis_alat,Alat|nullable|numeric|min:0',
+            'jumlah_ml' => 'required_if:jenis_alat,Bahan|nullable|numeric|min:0',
+            'cara_penggunaan' => 'nullable|string',
+            'link_youtube' => 'nullable|string',
+            'tanggal_pembelian' => 'nullable|date',
+            'tanggal_expired' => 'nullable|date',
+        ], $messages);
 
         $alat = Alat::find($id);
 
@@ -177,22 +199,24 @@ class AlatController extends Controller
         $tanggal_pembelian = $request->input('tanggal_pembelian');
         $alat->tanggal_pembelian = $tanggal_pembelian;
 
+        // Sanitasi Data berdasarkan Jenis Alat
         if ($alat->jenis_alat == 'Alat') {
             $alat->jumlah_satuan = $request->input('jumlah_satuan');
+            $alat->jumlah_ml = null;
+            $alat->tanggal_expired = null;
         } elseif ($alat->jenis_alat == 'Bahan') {
             $alat->jumlah_ml = $request->input('jumlah_ml');
+            $alat->jumlah_satuan = null;
             $tanggal_expired = $request->input('tanggal_expired');
             $alat->tanggal_expired = $tanggal_expired;
 
-            if (strtotime($tanggal_pembelian) > strtotime($tanggal_expired)) {
-                return redirect()->back()->with('error', 'Tanggal pembelian tidak boleh melebihi tanggal expired.');
+            if ($tanggal_pembelian && $tanggal_expired && (strtotime($tanggal_pembelian) > strtotime($tanggal_expired))) {
+                return redirect()->back()->withInput()->with('error', 'Tanggal pembelian tidak boleh melebihi tanggal expired.');
             }
         }
 
-        if ($alat) {
-            $alat->save();
-            return redirect()->route('alat')->with('success', 'Berhasil memperbarui data Alat!');
-        }
+        $alat->save();
+        return redirect()->route('alat')->with('success', 'Berhasil memperbarui data!');
     }
 
 

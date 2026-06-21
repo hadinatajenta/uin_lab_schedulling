@@ -18,7 +18,7 @@ class UsersController extends Controller
         $keyword = $request->input('keyword');
         $roleSlug = $request->input('jabatan'); // Kept variable name for backwards compatibility in UI
 
-        $query = User::with('roles', 'department');
+        $query = User::query(); // Mulai dari base query tanpa eager loading
 
         $query->when($keyword, function ($q) use ($keyword) {
             $q->where(function ($sub) use ($keyword) {
@@ -43,7 +43,25 @@ class UsersController extends Controller
             });
         });
 
-        $users = $query->latest()->paginate(10)->withQueryString();
+        // Fast Pagination (Deferred Join)
+        // 1. Ambil paginasi hanya pada kolom ID untuk memangkas memori & overhead
+        $paginator = $query->select('users.id')->latest()->paginate(10)->withQueryString();
+
+        // 2. Ambil model utuh (dengan eager loading) hanya untuk ID yang tampil di halaman ini
+        if ($paginator->isNotEmpty()) {
+            $userIds = $paginator->pluck('id')->toArray();
+            
+            $usersData = User::with(['roles', 'department'])
+                ->whereIn('id', $userIds)
+                ->get()
+                ->keyBy('id');
+            
+            // Mengembalikan urutan sesuai dengan paginator
+            $sortedUsers = collect($userIds)->map(fn($id) => $usersData[$id]);
+            $paginator->setCollection($sortedUsers);
+        }
+
+        $users = $paginator;
         $roles = Role::all();
 
         return view('admin.users', compact('users', 'roles'));

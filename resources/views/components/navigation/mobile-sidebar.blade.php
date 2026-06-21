@@ -34,10 +34,8 @@
 >
     <!-- Header -->
     <div class="h-16 flex items-center justify-between px-4 border-b border-zinc-100 shrink-0">
-        <div class="flex items-center space-x-3">
-            <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shrink-0 shadow-sm">
-                <x-atoms.icon name="grid" class="w-5 h-5" />
-            </div>
+        <div class="flex items-center space-x-3 cursor-pointer">
+            <img src="{{ asset('images/logo-uin.svg') }}" alt="Logo UIN" class="w-8 h-8 shrink-0 object-contain" />
             <div>
                 <h2 class="text-[15px] font-bold text-zinc-900 leading-none tracking-tight">Lab UIN</h2>
                 <p class="text-[11px] text-zinc-500 font-medium mt-1 uppercase tracking-wider">Management</p>
@@ -45,9 +43,9 @@
         </div>
         <button 
             @click="$store.sidebar.isMobileOpen = false"
-            class="p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="p-2 rounded-xl text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
-            <x-atoms.icon name="x-mark" class="w-6 h-6" />
+            <span class="material-symbols-rounded text-[24px]">close</span>
         </button>
     </div>
 
@@ -61,9 +59,14 @@
         <ul class="space-y-6">
             @foreach($navigation as $section)
                 <li>
-                    <div class="px-2 mb-2 text-xs font-semibold tracking-wider text-zinc-400 uppercase">
-                        {{ $section['section'] }}
-                    </div>
+                    @if($section['section'] !== 'GENERAL')
+                        <div class="px-2 mb-2 text-xs font-semibold tracking-wider text-zinc-400 uppercase flex items-center">
+                            @if(isset($section['icon']))
+                                <span class="material-symbols-rounded text-[16px] mr-1.5">{{ $section['icon'] }}</span>
+                            @endif
+                            {{ $section['section'] }}
+                        </div>
+                    @endif
                     <ul class="space-y-1">
                         @foreach($section['items'] as $item)
                             @if(isset($item['children']))

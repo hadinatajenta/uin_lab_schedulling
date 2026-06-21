@@ -153,7 +153,6 @@
         </div>
     </div>
 
-    {{-- Admin Help Modal (shows after 3+ failed attempts) --}}
     @if (session('show_admin_help'))
         <div x-data="{ showModal: true }" x-show="showModal" x-cloak
             class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
@@ -164,7 +163,6 @@
                 x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95"
                 x-transition:enter-end="opacity-100 scale-100" @click.outside="showModal = false">
 
-                {{-- Warning Icon --}}
                 <div
                     class="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-5 ring-1 ring-amber-100">
                     <svg class="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -197,7 +195,6 @@
         </div>
     @endif
 
-    {{-- Alpine.js login form logic --}}
     <script>
         function loginForm() {
             return {

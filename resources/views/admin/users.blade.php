@@ -9,7 +9,7 @@
             @if (Auth::user()->jabatan !== 'Mahasiswa')
                 <button type="button" data-modal-target="add-modal" data-modal-toggle="add-modal"
                     class="w-full md:w-auto inline-flex items-center justify-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-sm md:text-xs px-4 h-11 md:h-10 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <x-atoms.icon name="plus-circle" class="w-5 h-5 md:w-4 md:h-4 mr-2" />
+                    <span class="material-symbols-rounded text-[20px] md:text-[18px] mr-2">add</span>
                     Tambah Pengguna
                 </button>
             @endif
@@ -77,6 +77,7 @@
                     <table class="w-full text-left border-collapse whitespace-nowrap">
                         <thead>
                             <tr class="bg-zinc-50/80 border-b border-zinc-200/80">
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider w-10 text-center">No.</th>
                                 <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Pengguna</th>
                                 <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Role</th>
                                 <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Jurusan</th>
@@ -90,6 +91,9 @@
                         <tbody class="divide-y divide-zinc-100/80">
                             @foreach ($users as $user)
                                 <tr class="group hover:bg-zinc-50/80 transition-all">
+                                    <td class="px-6 py-4 text-center text-[13px] font-semibold text-zinc-500">
+                                        {{ $users->firstItem() + $loop->index }}
+                                    </td>
                                     <td class="px-6 py-4">
                                         <div class="flex items-center gap-4 min-w-0">
                                             <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=EEF2FF&color=4F46E5&bold=true"
@@ -264,7 +268,6 @@
                         {{-- Extracted Modals --}}
         @foreach($users as $user)
             @if (Auth::user()->jabatan !== 'Mahasiswa')
-                {{-- Edit Modal --}}
                                                 <form method="POST" action="{{ route('update.users', $user->id) }}"
                                                     id="edit-modal-{{ $user->id }}" tabindex="-1" aria-hidden="true"
                                                     class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full text-left"
@@ -301,7 +304,8 @@
                                                                             class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-medium rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 block w-full p-2.5 transition-colors" />
                                                                         @error('name')<p
                                                                             class="text-rose-500 text-[10px] mt-1 font-semibold">
-                                                                        {{ $message }}</p>@enderror
+                                                                        {{ $message }}</p>
+                                                                        @enderror
                                                                     </div>
                                                                     <div class="sm:col-span-2">
                                                                         <label
@@ -487,8 +491,10 @@
             @endif
         @endforeach
 
-                {{-- Custom Pagination --}}
-                <div class="mt-4"><x-ui.pagination :paginator="$users" /></div>
+                {{-- Pagination Lengkap Laravel --}}
+                <div class="mt-4 px-2">
+                    {{ $users->links() }}
+                </div>
             </div>
         @endif
     </div>

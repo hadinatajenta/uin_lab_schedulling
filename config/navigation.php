@@ -16,22 +16,23 @@ return [
 
     [
         'section' => 'MANAJEMEN LAB',
+        'icon' => 'business_center',
         'items' => [
             [
                 'title' => 'Data Pengguna',
-                'icon' => 'person',
+                'icon' => 'group',
                 'route' => 'users.index',
                 'active_matches' => ['users.*', 'users.index'],
             ],
             [
                 'title' => 'Penjadwalan',
-                'icon' => 'calendar',
+                'icon' => 'calendar_month',
                 'route' => 'lab',
                 'active_matches' => ['lab', 'addJadwalView'],
             ],
             [
                 'title' => 'Alat & Bahan',
-                'icon' => 'beaker',
+                'icon' => 'science',
                 'route' => 'alat',
                 'active_matches' => ['alat', 'detailAlat'],
             ],
@@ -40,16 +41,17 @@ return [
 
     [
         'section' => 'LAPORAN',
+        'icon' => 'analytics',
         'items' => [
             [
                 'title' => 'Peminjaman',
-                'icon' => 'clipboard-document-list',
+                'icon' => 'list_alt',
                 'route' => 'laporanPeminjaman',
                 'active_matches' => ['laporanPeminjaman', 'laporanView'],
             ],
             [
                 'title' => 'Limbah',
-                'icon' => 'trash',
+                'icon' => 'delete',
                 'route' => 'limbah',
                 'active_matches' => ['limbah', 'tambahLimbah'],
             ],
@@ -58,22 +60,23 @@ return [
 
     [
         'section' => 'PENGATURAN',
+        'icon' => 'settings',
         'items' => [
             [
                 'title' => 'Aktivitas Pengguna',
-                'icon' => 'clock',
+                'icon' => 'history',
                 'route' => 'activity.logs',
                 'active_matches' => ['activity.logs'],
             ],
             [
                 'title' => 'Jasa Lab',
-                'icon' => 'briefcase',
+                'icon' => 'work',
                 'route' => 'jaslabView',
                 'active_matches' => ['jaslabView'],
             ],
             [
                 'title' => 'Tentang Lab',
-                'icon' => 'information-circle',
+                'icon' => 'info',
                 'route' => 'tentangLab',
                 'active_matches' => ['tentangLab', 'editInfoLab'],
             ],
