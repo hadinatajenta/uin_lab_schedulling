@@ -3,25 +3,16 @@
 @section('title', 'Dashboard')
 
 @section('content')
-<div class="px-2 pb-12 max-w-7xl mx-auto">
-    {{-- Header Section --}}
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
-        <div>
-            <h1 class="text-2xl font-bold tracking-tight text-zinc-900">Dashboard Operasional</h1>
-            <p class="text-sm font-medium text-zinc-500 mt-1">
-                Ikhtisar status laboratorium hari ini, {{ Auth::user()->name ?? 'Administrator' }}
-            </p>
-        </div>
-        <div class="flex flex-col items-start md:items-end text-zinc-500 font-medium">
-            <span class="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</span>
-            <span class="text-sm text-zinc-800 font-semibold mt-1 bg-zinc-100 px-3 py-1 rounded-lg">
+<div class="px-2 pb-12 max-w-7xl mx-auto space-y-6">
+    <x-ui.page-header title="Dashboard Operasional" description="Ikhtisar status laboratorium hari ini, {{ Auth::user()->name ?? 'Administrator' }}">
+        <div class="flex items-center gap-2">
+            <span class="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700 shadow-sm">
                 {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}
             </span>
         </div>
-    </div>
+    </x-ui.page-header>
 
-    {{-- Section 1: Overview --}}
-    <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider mb-3">Tinjauan Umum</h2>
+    <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider">Tinjauan Umum</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <x-dashboard.stat-card 
             label="Total Pengguna" 
@@ -49,8 +40,7 @@
         />
     </div>
 
-    {{-- Section 2: Operational Activities --}}
-    <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider mb-3">Operasional Hari Ini</h2>
+    <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider">Operasional Hari Ini</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10">
         <div class="bg-white border border-zinc-200/80 rounded-2xl p-5 flex items-center justify-between shadow-sm">
             <div>
@@ -93,22 +83,19 @@
         </div>
     </div>
 
-    {{-- Content Layout --}}
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-        {{-- Left: Activity Feed --}}
         <div>
             <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider mb-4">Aktivitas Terbaru</h2>
             <x-dashboard.activity-feed :activities="$activities" />
         </div>
 
-        {{-- Right: Upcoming Schedule --}}
         <div>
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider">Jadwal Mendatang</h2>
                 <a href="{{ route('lab') }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700">Lihat Semua</a>
             </div>
             
-            <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
+            <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
                 @if($upcomingSchedules->isEmpty())
                     <div class="p-8 text-center">
                         <div class="w-12 h-12 rounded-full bg-zinc-50 flex items-center justify-center mx-auto mb-3">
@@ -146,7 +133,6 @@
         </div>
     </div>
 
-    {{-- Section 5: Quick Actions at Bottom --}}
     <div>
         <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider mb-4">Aksi Cepat</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">

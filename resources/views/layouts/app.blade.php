@@ -28,16 +28,16 @@
 </head>
 
 <body class="font-sans antialiased text-zinc-900 bg-zinc-50 transition-colors" x-data>
-    <div class="min-h-screen flex flex-col">
+    <div class="min-h-screen flex flex-col bg-zinc-50">
         <x-navigation.topbar />
         <x-navigation.mobile-sidebar />
         <x-navigation.sidebar />
 
         <div class="flex-1 flex flex-col lg:ml-64">
-            <div class="flex-1 p-4 lg:p-6 mx-auto w-full max-w-7xl">
+            <main class="flex-1 w-full mx-auto max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
                 @yield('content')
-            </div>
-            <div class="mt-auto px-4 lg:px-6 py-4 border-t border-zinc-200 bg-white">
+            </main>
+            <div class="mt-auto px-4 lg:px-6 py-4 border-t border-zinc-200/80 bg-white/90 backdrop-blur-sm">
                 <x-footer />
             </div>
         </div>

@@ -1,10 +1,10 @@
 @props(['rounded' => true])
 
-<div {{ $attributes->merge(['class' => 'bg-white border border-zinc-200/80 shadow-sm overflow-hidden' . ($rounded ? ' rounded-2xl' : '')]) }}>
+<div {{ $attributes->merge(['class' => 'ui-surface bg-white shadow-sm overflow-hidden' . ($rounded ? ' rounded-3xl' : '')]) }}>
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse whitespace-nowrap">
             <thead>
-                <tr class="bg-indigo-50/50 border-b border-indigo-100/80">
+                <tr class="ui-surface-muted border-b border-zinc-200/80">
                     {{ $header }}
                 </tr>
             </thead>

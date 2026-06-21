@@ -27,10 +27,12 @@ class JadwalController extends Controller
             ->get();
 
         $keyword = $request->input('keyword');
+        $perPage = $request->input('per_page', 10); // Dynamic per_page, default 10
+
         if (isset($keyword)) {
-            $schedule = Jadwal::where('mata_kuliah', 'LIKE', "%{$keyword}%")->orWhere('kelas', 'LIKE', "%{$keyword}%")->paginate(15)->withQueryString();
+            $schedule = Jadwal::where('mata_kuliah', 'LIKE', "%{$keyword}%")->orWhere('kelas', 'LIKE', "%{$keyword}%")->paginate($perPage)->withQueryString();
         } else {
-            $schedule = Jadwal::orderBy('created_at', 'desc')->paginate(15)->withQueryString();
+            $schedule = Jadwal::orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
         }
         return view('lab', compact('jadwal', 'jadwal_besok', 'jadwal_minggu_ini', 'schedule'));
     }

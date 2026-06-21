@@ -10,6 +10,9 @@ use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\Models\Department;
+use App\Jobs\ProcessBulkUsersJob;
 
 class UsersController extends Controller
 {
@@ -45,7 +48,8 @@ class UsersController extends Controller
 
         // Fast Pagination (Deferred Join)
         // 1. Ambil paginasi hanya pada kolom ID untuk memangkas memori & overhead
-        $paginator = $query->select('users.id')->latest()->paginate(10)->withQueryString();
+        $perPage = $request->input('per_page', 10); // Dynamic per_page, default 10
+        $paginator = $query->select('users.id')->latest()->paginate($perPage)->withQueryString();
 
         // 2. Ambil model utuh (dengan eager loading) hanya untuk ID yang tampil di halaman ini
         if ($paginator->isNotEmpty()) {
@@ -65,6 +69,111 @@ class UsersController extends Controller
         $roles = Role::all();
 
         return view('admin.users', compact('users', 'roles'));
+    }
+
+    public function importView()
+    {
+        return view('admin.import-users');
+    }
+
+    private function validateSingleRow($type, $row)
+    {
+        $errors = [];
+        // Basic fields
+        if (empty($row['name'])) $errors['name'] = 'Nama wajib diisi.';
+        
+        if (empty($row['email'])) {
+            $errors['email'] = 'Email wajib diisi.';
+        } elseif (!filter_var($row['email'], FILTER_VALIDATE_EMAIL)) {
+            $errors['email'] = 'Format email tidak valid.';
+        } elseif (User::where('email', $row['email'])->exists()) {
+            $errors['email'] = 'Email sudah terdaftar.';
+        }
+
+        if (empty($row['department_code'])) {
+            $errors['department_code'] = 'Jurusan wajib diisi.';
+        } elseif (!Department::where('id', $row['department_code'])->exists()) {
+            $errors['department_code'] = 'ID Jurusan tidak ditemukan.';
+        }
+
+        if (empty($row['role'])) {
+            $errors['role'] = 'Peran wajib diisi.';
+        } elseif (!Role::where('slug', $row['role'])->exists()) {
+            $errors['role'] = 'Slug peran tidak valid.';
+        }
+
+        if ($type === 'staf') {
+            if (empty($row['nip'])) {
+                $errors['nip'] = 'NIP wajib diisi.';
+            } elseif (User::where('nip', $row['nip'])->exists()) {
+                $errors['nip'] = 'NIP sudah terdaftar.';
+            }
+        } else {
+            if (empty($row['nim'])) {
+                $errors['nim'] = 'NIM wajib diisi.';
+            } elseif (User::where('nim', $row['nim'])->exists()) {
+                $errors['nim'] = 'NIM sudah terdaftar.';
+            }
+        }
+
+        return $errors;
+    }
+
+    public function validateBulk(Request $request)
+    {
+        $type = $request->input('type');
+        $rows = $request->input('rows', []);
+        
+        foreach ($rows as &$row) {
+            $errors = $this->validateSingleRow($type, $row);
+            $row['errors'] = (object) $errors;
+            $row['isValid'] = empty($errors);
+        }
+
+        return response()->json(['success' => true, 'data' => $rows]);
+    }
+
+    public function validateRow(Request $request)
+    {
+        $type = $request->input('type');
+        $row = $request->input('row');
+        
+        $errors = $this->validateSingleRow($type, $row);
+        $row['errors'] = (object) $errors;
+        $row['isValid'] = empty($errors);
+
+        return response()->json(['success' => true, 'data' => $row]);
+    }
+
+    public function processBulk(Request $request)
+    {
+        $type = $request->input('type');
+        $rows = $request->input('rows', []);
+        
+        $validRows = [];
+        foreach ($rows as $row) {
+            $errors = $this->validateSingleRow($type, $row);
+            if (empty($errors)) {
+                $validRows[] = $row;
+            }
+        }
+
+        if (count($validRows) === 0) {
+            return response()->json(['success' => false, 'message' => 'Tidak ada data valid untuk diproses.']);
+        }
+
+        // Log awal
+        ActivityLog::create([
+            'user_id' => Auth::id(),
+            'action' => 'import_users',
+            'description' => "Memulai proses import " . count($validRows) . " data pengguna ($type)."
+        ]);
+
+        ProcessBulkUsersJob::dispatch($validRows, $type, Auth::id());
+
+        session()->flash('success', '🚀 Import Sedang Diproses! Sebanyak ' . count($validRows) . ' data pengguna sedang ditambahkan ke sistem di latar belakang. Silakan cek riwayat di Activity Logs.');
+
+        return response()->json(['success' => true]);
     }
 
     public function jaslabView()

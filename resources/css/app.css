@@ -1,3 +1,73 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    :root {
+        --color-bg: 250 250 250;
+        --color-surface: 255 255 255;
+        --color-surface-muted: 244 244 245;
+        --color-border: 228 228 231;
+        --color-text: 24 24 27;
+        --color-text-muted: 113 113 122;
+        --color-primary: 79 70 229;
+        --color-primary-foreground: 255 255 255;
+        --color-primary-soft: 238 242 255;
+        --color-secondary: 16 185 129;
+        --color-secondary-soft: 236 253 245;
+        --color-danger: 244 63 94;
+        --color-danger-soft: 255 241 242;
+        --color-warning: 245 158 11;
+        --color-warning-soft: 255 251 235;
+    }
+
+    body {
+        background-color: rgb(var(--color-bg));
+        color: rgb(var(--color-text));
+    }
+}
+
+@layer components {
+    .ui-surface {
+        background-color: rgb(var(--color-surface));
+        border-color: rgb(var(--color-border));
+    }
+
+    .ui-surface-muted {
+        background-color: rgb(var(--color-surface-muted));
+    }
+
+    .ui-text-muted {
+        color: rgb(var(--color-text-muted));
+    }
+
+    .ui-primary {
+        background-color: rgb(var(--color-primary));
+        color: rgb(var(--color-primary-foreground));
+    }
+
+    .ui-primary-soft {
+        background-color: rgb(var(--color-primary-soft));
+        color: rgb(var(--color-primary));
+    }
+
+    .ui-secondary-soft {
+        background-color: rgb(var(--color-secondary-soft));
+        color: rgb(var(--color-secondary));
+    }
+
+    .ui-danger {
+        background-color: rgb(var(--color-danger));
+        color: rgb(var(--color-primary-foreground));
+    }
+
+    .ui-danger-soft {
+        background-color: rgb(var(--color-danger-soft));
+        color: rgb(var(--color-danger));
+    }
+
+    .ui-warning-soft {
+        background-color: rgb(var(--color-warning-soft));
+        color: rgb(var(--color-warning));
+    }
+}

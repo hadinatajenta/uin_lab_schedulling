@@ -3,195 +3,303 @@
 @section('title', 'Detail alat')
 
 @section('content')
-    <!-- component -->
-    <section class="text-gray-700 body-font overflow-hidden bg-white">
-        <div class="container px-5 py-24 mx-auto">
-            @csrf
-            <div class="lg:w-4/5 mx-auto flex flex-wrap mb-4">
-                <img alt="ecommerce" class="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-                    src="{{ asset('storage/' . $alat->gambar) }}">
-                <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
-                    <h2 class="text-sm title-font text-gray-500 tracking-widest">Alat lab</h2>
-                    <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">{{ $alat->nama_alat }}</h1>
-                    <div class="flex mb-4">
-                        <span class="flex items-center">
-                            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                                </path>
-                            </svg>
-                            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                                </path>
-                            </svg>
-                            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                                </path>
-                            </svg>
-                            <svg fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                                </path>
-                            </svg>
-                            <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" class="w-4 h-4 text-red-500" viewBox="0 0 24 24">
-                                <path
-                                    d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z">
-                                </path>
-                            </svg>
-                            <span class="text-gray-600 ml-3">4 Reviews</span>
-                        </span>
-                        <span class="flex ml-3 pl-3 py-2 border-l-2 border-gray-200">
-                            <a class="text-gray-500">
-                                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    class="w-5 h-5" viewBox="0 0 24 24">
-                                    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
-                                </svg>
+    @php
+        $jenisLabel = $alat->jenis_alat ?? '-';
+        $kondisiLabel = $alat->kondisi ?? '-';
+
+        $jumlahLabel = '-';
+        if (!is_null($alat->jumlah_ml)) {
+            $jumlahLabel = $alat->jumlah_ml . ' ml';
+        } elseif (!is_null($alat->jumlah_satuan)) {
+            $jumlahLabel = $alat->jumlah_satuan . ' unit';
+        }
+
+        $tanggalPembelian = $alat->tanggal_pembelian ? \Carbon\Carbon::parse($alat->tanggal_pembelian)->translatedFormat('d F Y') : '-';
+        $tanggalExpired = $alat->tanggal_expired ? \Carbon\Carbon::parse($alat->tanggal_expired)->translatedFormat('d F Y') : '-';
+        $hasImage = !empty($alat->gambar);
+        $imageUrl = $hasImage ? asset('storage/' . $alat->gambar) : null;
+
+        $tocItems = [
+            ['id' => 'ringkasan', 'label' => 'Ringkasan'],
+            ['id' => 'informasi-inti', 'label' => 'Informasi inti'],
+            ['id' => 'deskripsi', 'label' => 'Deskripsi'],
+            ['id' => 'spesifikasi', 'label' => 'Spesifikasi'],
+            ['id' => 'panduan', 'label' => 'Panduan'],
+            ['id' => 'media', 'label' => 'Media'],
+        ];
+    @endphp
+
+    <div class="px-2 pb-12 max-w-7xl mx-auto">
+        <div class="mb-8">
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Detail Alat & Bahan</p>
+            <h1 class="mt-2 text-2xl font-bold tracking-tight text-zinc-900">{{ $alat->nama_alat }}</h1>
+            <p class="text-sm text-zinc-500 mt-1">
+                Tampilan dibuat seperti halaman artikel agar konten panjang lebih mudah dipindai.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
+            <aside class="xl:col-span-3 xl:sticky xl:top-6 self-start space-y-4">
+                <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-5">
+                    <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Daftar isi</p>
+                    <nav class="mt-4 space-y-1">
+                        @foreach ($tocItems as $item)
+                            <a
+                                href="#{{ $item['id'] }}"
+                                class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-indigo-700 transition-colors"
+                            >
+                                <span>{{ $item['label'] }}</span>
+                                <span class="text-zinc-300">›</span>
                             </a>
-                            <a class="ml-2 text-gray-500">
-                                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    class="w-5 h-5" viewBox="0 0 24 24">
-                                    <path
-                                        d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z">
-                                    </path>
-                                </svg>
-                            </a>
-                            <a class="ml-2 text-gray-500">
-                                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    class="w-5 h-5" viewBox="0 0 24 24">
-                                    <path
-                                        d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z">
-                                    </path>
-                                </svg>
-                            </a>
-                        </span>
-                    </div>
-                    {{-- deskripsi --}}
-                    <table class="min-w-full bg-white  ">
-                        <tbody>
-                            <tr class="">
-                                <td class="py-2   font-medium text-gray-700">Deskripsi</td>
-                                <td class="py-2 px-4  ">:</td>
-                                <td class="py-2 px-4  ">{{ $alat->deskripsi ?? '-' }}</td>
-                            </tr>
-                            <tr class="bg-white align-top">
-                                <td class="py-2 text font-medium text-gray-700">Spesifikasi</td>
-                                <td class="py-2 px-4  ">:</td>
-                                <td class="py-2 px-4  ">{{ $alat->spesifikasi ?? '-' }}</td>
-                            </tr>
-                            <tr class="bg-white align-top">
-                                <td class="py-2 text font-medium text-gray-700">Kondisi</td>
-                                <td class="py-2 px-4  ">:</td>
-                                <td class="py-2 px-4  ">{{ $alat->kondisi ?? '-' }}</td>
-                            </tr>
-                            <tr class="bg-white align-top">
-                                <td class="py-2 text font-medium text-gray-700">Link YouTube</td>
-                                <td class="py-2 px-4  ">:</td>
-                                <td class="py-2 px-4  ">{{ $alat->link_youtube ?? '-' }}</td>
-                            </tr>
-                            <tr class="">
-                                <td class="py-2  font-medium text-gray-700">Jumlah</td>
-                                <td class="py-2 px-4">:</td>
-                                <td class="py-2 px-4">
-                                    {{ $alat->jumlah_ml ?? $alat->jumlah_satuan }}
-                                    @if ($alat->jumlah_ml)
-                                        ml
-                                    @else
-                                        unit
-                                    @endif
-                                </td>
-                            </tr>
-                            <tr class="bg-white align-top">
-                                <td class="py-2 text font-medium text-gray-700">Tanggal pembelian</td>
-                                <td class="py-2 px-4  ">:</td>
-                                <td class="py-2 px-4  ">{{ $alat->tanggal_pembelian ?? '-' }}</td>
-                            </tr>
-                            @if ($alat->jumlah_ml)
-                                <tr class="bg-white align-top">
-                                    <td class="py-2 text font-medium text-gray-700 text-nowrap">Tanggal exp</td>
-                                    <td class="py-2 px-4  ">:</td>
-                                    <td class="py-2 px-4  ">{{ $alat->tanggal_expired }}</td>
-                                </tr>
-                            @endif
-                        </tbody>
-                    </table>
-                    <hr>
-                    {{-- <div class="flex mt-6 items-center pb-5 border-b-2 border-gray-200 mb-5">
-                        <div class="flex">
-                            <span class="mr-3">Color</span>
-                            <button class="border-2 border-gray-300 rounded-full w-6 h-6 focus:outline-none"></button>
-                            <button
-                                class="border-2 border-gray-300 ml-1 bg-gray-700 rounded-full w-6 h-6 focus:outline-none"></button>
-                            <button
-                                class="border-2 border-gray-300 ml-1 bg-red-500 rounded-full w-6 h-6 focus:outline-none"></button>
+                        @endforeach
+                    </nav>
+                </div>
+
+                <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-5">
+                    <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Quick facts</p>
+                    <div class="mt-4 space-y-3">
+                        <div>
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Kategori</p>
+                            <p class="text-sm font-semibold text-zinc-900">{{ $jenisLabel }}</p>
                         </div>
-                        <div class="flex ml-6 items-center">
-                            <span class="mr-3">Size</span>
-                            <div class="relative">
-                                <select
-                                    class="rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-red-500 text-base pl-3 pr-10">
-                                    <option>SM</option>
-                                    <option>M</option>
-                                    <option>L</option>
-                                    <option>XL</option>
-                                </select>
-                                <span
-                                    class="absolute right-0 top-0 h-full w-10 text-center text-gray-600 pointer-events-none flex items-center justify-center">
-                                    <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2" class="w-4 h-4" viewBox="0 0 24 24">
-                                        <path d="M6 9l6 6 6-6"></path>
-                                    </svg>
-                                </span>
+                        <div>
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Kondisi</p>
+                            <p class="text-sm font-semibold text-zinc-900">{{ $kondisiLabel }}</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Jumlah</p>
+                            <p class="text-sm font-semibold text-zinc-900">{{ $jumlahLabel }}</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Pembelian</p>
+                            <p class="text-sm font-semibold text-zinc-900">{{ $tanggalPembelian }}</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Expired</p>
+                            <p class="text-sm font-semibold text-zinc-900">{{ $tanggalExpired }}</p>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <main class="xl:col-span-9 space-y-6">
+                <article id="ringkasan" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
+                    <div class="relative bg-zinc-50">
+                        <div class="aspect-[16/8] w-full">
+                            @if ($hasImage)
+                                <img
+                                    src="{{ $imageUrl }}"
+                                    alt="{{ $alat->nama_alat }}"
+                                    class="h-full w-full object-cover object-center"
+                                >
+                            @else
+                                <div class="flex h-full w-full items-center justify-center">
+                                    <div class="text-center px-6">
+                                        <div class="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-white border border-zinc-200 text-zinc-400">
+                                            <x-atoms.icon name="cube" class="w-8 h-8" />
+                                        </div>
+                                        <p class="text-sm font-semibold text-zinc-900">Tidak ada gambar</p>
+                                        <p class="text-xs text-zinc-500 mt-1">Siap dikembangkan ke galeri multi-gambar.</p>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div class="absolute left-4 top-4 flex gap-2">
+                            <span class="rounded-full bg-zinc-900/80 px-3 py-1 text-xs font-semibold text-white backdrop-blur">
+                                {{ $jenisLabel }}
+                            </span>
+                            <span class="rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-zinc-800 backdrop-blur">
+                                {{ $kondisiLabel }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-6 md:p-8">
+                        <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Ringkasan</p>
+                        <h2 class="mt-2 text-2xl font-bold text-zinc-900">{{ $alat->nama_alat }}</h2>
+                        <p class="mt-3 max-w-3xl text-sm leading-7 text-zinc-600">
+                            {{ $alat->deskripsi ?? 'Data ini belum memiliki deskripsi.' }}
+                        </p>
+
+                        <div class="mt-6 flex flex-wrap gap-3">
+                            <div class="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3">
+                                <p class="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Jumlah</p>
+                                <p class="mt-1 text-sm font-semibold text-zinc-900">{{ $jumlahLabel }}</p>
+                            </div>
+                            <div class="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3">
+                                <p class="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Tanggal pembelian</p>
+                                <p class="mt-1 text-sm font-semibold text-zinc-900">{{ $tanggalPembelian }}</p>
+                            </div>
+                            <div class="rounded-2xl border border-zinc-200 bg-zinc-50 px-4 py-3">
+                                <p class="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Tanggal expired</p>
+                                <p class="mt-1 text-sm font-semibold text-zinc-900">{{ $tanggalExpired }}</p>
                             </div>
                         </div>
-                    </div> --}}
-                    {{-- <div class="flex">
-                        <span class="title-font font-medium text-2xl text-gray-900">$58.00</span>
-                        <button
-                            class="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">Button</button>
-                        <button
-                            class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-                            <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                class="w-5 h-5" viewBox="0 0 24 24">
-                                <path
-                                    d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z">
-                                </path>
-                            </svg>
-                        </button>
-                    </div> --}}
-                </div>
-            </div>
-            <hr>
-            {{-- section2  --}}
-            <div class="mt-4">
-                <h1 class="text-gray-900 text-3xl title-font font-medium mb-1">
-                    @if ($alat->jenis_alat == 'Bahan')
-                        Informasi tentang {{ $alat->nama_alat }}
-                    @else
-                        Cara penggunaan
+
+                        <div class="mt-6 flex flex-wrap gap-2">
+                            @if ($alat->link_youtube)
+                                <a
+                                    href="{{ $alat->link_youtube }}"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    class="inline-flex items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 transition-colors"
+                                >
+                                    Buka YouTube
+                                </a>
+                            @endif
+                            <a
+                                href="{{ route('alat') }}"
+                                class="inline-flex items-center rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 transition-colors"
+                            >
+                                Kembali
+                            </a>
+                        </div>
+                    </div>
+                </article>
+
+                <section id="informasi-inti" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Informasi inti</p>
+                            <h2 class="mt-1 text-xl font-bold text-zinc-900">Detail singkat</h2>
+                        </div>
+                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+                            Sekilas
+                        </span>
+                    </div>
+
+                    <dl class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+                            <dt class="text-xs font-bold uppercase tracking-wider text-zinc-500">Nama</dt>
+                            <dd class="mt-1 text-sm font-semibold text-zinc-900">{{ $alat->nama_alat ?? '-' }}</dd>
+                        </div>
+                        <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+                            <dt class="text-xs font-bold uppercase tracking-wider text-zinc-500">Kategori</dt>
+                            <dd class="mt-1 text-sm font-semibold text-zinc-900">{{ $jenisLabel }}</dd>
+                        </div>
+                        <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+                            <dt class="text-xs font-bold uppercase tracking-wider text-zinc-500">Kondisi</dt>
+                            <dd class="mt-1 text-sm font-semibold text-zinc-900">{{ $kondisiLabel }}</dd>
+                        </div>
+                        <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-4">
+                            <dt class="text-xs font-bold uppercase tracking-wider text-zinc-500">Jumlah</dt>
+                            <dd class="mt-1 text-sm font-semibold text-zinc-900">{{ $jumlahLabel }}</dd>
+                        </div>
+                    </dl>
+                </section>
+
+                <section id="deskripsi" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Deskripsi</p>
+                            <h2 class="mt-1 text-xl font-bold text-zinc-900">Ringkasan barang</h2>
+                        </div>
+                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                            Singkat
+                        </span>
+                    </div>
+
+                    <div class="mt-5 rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
+                        <p class="whitespace-pre-line text-sm leading-7 text-zinc-700">
+                            {{ $alat->deskripsi ?? 'Tidak ada deskripsi yang diisi.' }}
+                        </p>
+                    </div>
+                </section>
+
+                <section id="spesifikasi" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Spesifikasi</p>
+                            <h2 class="mt-1 text-xl font-bold text-zinc-900">Rincian teknis</h2>
+                        </div>
+                        <span class="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-700">
+                            Detail
+                        </span>
+                    </div>
+
+                    <div class="mt-5 rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
+                        <p class="whitespace-pre-line text-sm leading-7 text-zinc-700">
+                            {{ $alat->spesifikasi ?? 'Tidak ada spesifikasi yang diisi.' }}
+                        </p>
+                    </div>
+                </section>
+
+                <section id="panduan" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Panduan</p>
+                            <h2 class="mt-1 text-xl font-bold text-zinc-900">
+                                {{ $alat->jenis_alat == 'Bahan' ? 'Informasi penggunaan' : 'Cara penggunaan' }}
+                            </h2>
+                        </div>
+                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+                            Panjang
+                        </span>
+                    </div>
+
+                    <div class="mt-5 rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
+                        @if ($alat->cara_penggunaan)
+                            <div class="prose prose-sm max-w-none prose-zinc prose-p:leading-7 prose-li:leading-7 prose-headings:scroll-mt-24">
+                                {!! $alat->cara_penggunaan !!}
+                            </div>
+                        @else
+                            <p class="text-sm leading-7 text-zinc-600">
+                                Belum ada panduan penggunaan yang ditambahkan.
+                            </p>
+                        @endif
+                    </div>
+
+                    @if ($alat->link_youtube)
+                        <div class="mt-5 rounded-2xl border border-zinc-200 bg-white p-4">
+                            <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Link YouTube</p>
+                            <a
+                                href="{{ $alat->link_youtube }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                class="mt-2 block break-all text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+                            >
+                                {{ $alat->link_youtube }}
+                            </a>
+                        </div>
                     @endif
-                </h1>
-                <div class="bg-white rounded-lg mb-4 h-auto">
-                    {!! $alat->cara_penggunaan !!}
-                </div>
-            </div>
+                </section>
+
+                <section id="media" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                    <div class="flex items-center justify-between gap-3">
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Media</p>
+                            <h2 class="mt-1 text-xl font-bold text-zinc-900">Gambar alat</h2>
+                        </div>
+                        <span class="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-700">
+                            1 slot
+                        </span>
+                    </div>
+
+                    <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        @if ($hasImage)
+                            <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
+                                <img
+                                    src="{{ $imageUrl }}"
+                                    alt="{{ $alat->nama_alat }}"
+                                    class="h-64 w-full object-cover object-center"
+                                >
+                            </div>
+                        @else
+                            <div class="flex h-64 items-center justify-center rounded-2xl border border-dashed border-zinc-200 bg-zinc-50">
+                                <p class="text-sm text-zinc-500">Belum ada gambar yang tersedia.</p>
+                            </div>
+                        @endif
+
+                        <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
+                            <p class="text-sm font-semibold text-zinc-900">Catatan pengembangan</p>
+                            <p class="mt-2 text-sm leading-7 text-zinc-600">
+                                Struktur ini sudah disiapkan agar nanti bisa ditambah galeri multi-gambar tanpa mengubah layout utama.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </main>
         </div>
-    </section>
-@endsection
-
-
-@section('script')
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#editor'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
+    </div>
 @endsection

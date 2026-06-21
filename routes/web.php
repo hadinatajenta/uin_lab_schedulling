@@ -25,6 +25,10 @@ Route::prefix('/admin')->middleware(['auth'])->group(function () {
     Route::post('/add-user', [UsersController::class, 'addUser'])->name('add.users');
     Route::put('/update-users/{id}', [UsersController::class, 'usersUpdate'])->name('update.users');
     Route::delete('/hapus/{id}', [UsersController::class, 'deleteUser'])->name('delete.users');
+    Route::get('/users/import', [UsersController::class, 'importView'])->name('users.import.view');
+    Route::post('/users/validate-bulk', [UsersController::class, 'validateBulk'])->name('users.import.validateBulk');
+    Route::post('/users/validate-row', [UsersController::class, 'validateRow'])->name('users.import.validateRow');
+    Route::post('/users/process-bulk', [UsersController::class, 'processBulk'])->name('users.import.processBulk');
     // Management lab
     Route::get('/list-jadwal', [JadwalController::class, 'jadwalView'])->name('lab');
     Route::get('/jadwal-baru', [JadwalController::class, 'addJadwalView'])->name('addJadwalView');
