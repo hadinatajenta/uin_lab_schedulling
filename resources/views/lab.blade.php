@@ -219,31 +219,27 @@
             </x-ui.empty-state>
         @else
             {{-- Desktop Table --}}
-            <div class="hidden lg:flex bg-white border border-zinc-200/80 rounded-2xl shadow-sm flex-grow flex-col justify-between overflow-hidden">
-                <div class="rounded-t-2xl flex-grow overflow-x-auto">
-                    <table class="w-full text-left border-collapse whitespace-nowrap">
-                        <thead>
-                            <tr class="bg-zinc-50/80 border-b border-zinc-200/80">
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Mata Kuliah</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Submateri</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Dosen</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Kelas</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Tanggal</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Waktu</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Status</th>
-                                @if (Auth::user()->jabatan !== 'Mahasiswa')
-                                    <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-right">Aksi</th>
-                                @endif
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-zinc-100/80">
-                            @foreach ($schedule as $jadwal)
-                                @php
-                                    $currentDateTime = \Carbon\Carbon::now();
-                                    $jadwalDateTime = \Carbon\Carbon::parse($jadwal->tanggal_jadwal . ' ' . $jadwal->waktu_selesai);
-                                    $isSelesai = $jadwalDateTime < $currentDateTime;
-                                @endphp
-                                <tr class="schedule-item group hover:bg-zinc-50/80 transition-all"
+            <x-ui.table class="hidden lg:block mb-6">
+                <x-slot name="header">
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Mata Kuliah</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Submateri</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Dosen</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Kelas</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Tanggal</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Waktu</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Status</th>
+                    @if (Auth::user()->jabatan !== 'Mahasiswa')
+                        <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider text-right">Aksi</th>
+                    @endif
+                </x-slot>
+                
+                @foreach ($schedule as $jadwal)
+                    @php
+                        $currentDateTime = \Carbon\Carbon::now();
+                        $jadwalDateTime = \Carbon\Carbon::parse($jadwal->tanggal_jadwal . ' ' . $jadwal->waktu_selesai);
+                        $isSelesai = $jadwalDateTime < $currentDateTime;
+                    @endphp
+                    <tr class="schedule-item group hover:bg-zinc-50/80 transition-all"
                                     data-matkul="{{ strtolower($jadwal->mata_kuliah ?? '') }}"
                                     data-kelas="{{ strtolower($jadwal->kelas ?? '') }}">
                                     <td class="px-6 py-4">
@@ -331,11 +327,9 @@
                                     @endif
                                 </tr>
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
+            </x-ui.table>
                 {{-- Desktop Pagination --}}
-                <x-ui.pagination :paginator="$schedule" />
+                <x-ui.pagination :paginator="$schedule" label="Total Jadwal" class="mt-6" />
             </div>
 
             {{-- Mobile & Tablet Cards --}}
@@ -446,9 +440,7 @@
             </div>
 
             {{-- Mobile Pagination --}}
-            <div class="lg:hidden mt-4">
-                <x-ui.pagination :paginator="$schedule" />
-            </div>
+            <x-ui.pagination :paginator="$schedule" label="Total Jadwal" class="lg:hidden mt-6" />
 
             {{-- Delete Modals (extracted to prevent ID duplication) --}}
             @foreach ($schedule as $jadwal)

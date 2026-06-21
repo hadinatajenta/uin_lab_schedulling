@@ -105,20 +105,15 @@
 
     {{-- LIST VIEW --}}
     <div x-show="viewMode === 'list'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" style="display: none;">
-        <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden mb-6">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left border-collapse whitespace-nowrap">
-                    <thead>
-                        <tr class="bg-zinc-50/80 border-b border-zinc-200/80">
-                            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider w-10 text-center">No.</th>
-                            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Barang</th>
-                            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Kategori</th>
-                            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Kondisi</th>
-                            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-right">Jumlah</th>
-                            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-zinc-100/80">
+        <x-ui.table class="mb-6">
+            <x-slot name="header">
+                <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider w-10 text-center">No.</th>
+                <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Barang</th>
+                <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Kategori</th>
+                <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Kondisi</th>
+                <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider text-right">Jumlah</th>
+                <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider text-center">Aksi</th>
+            </x-slot>
                         @forelse($alat as $item)
                             <tr class="group hover:bg-zinc-50/50 transition-colors">
                                 <td class="px-6 py-4 text-center text-[13px] font-semibold text-zinc-500">
@@ -183,16 +178,10 @@
                                 </td>
                             </tr>
                         @endforelse
-                    </tbody>
-                </table>
-            </div>
+        </x-ui.table>
             
-            @if($alat->hasPages())
-                <div class="p-4 border-t border-zinc-100/80 bg-zinc-50/50">
-                    {{ $alat->withQueryString()->links() }}
-                </div>
-            @endif
-        </div>
+            {{-- List Pagination --}}
+            <x-ui.pagination :paginator="$alat" label="Total Alat & Bahan" />
     </div>
 
     {{-- GRID VIEW --}}
@@ -262,11 +251,8 @@
             @endforelse
         </div>
         
-        @if($alat->hasPages())
-            <div class="bg-white p-4 border border-zinc-200/80 rounded-xl shadow-sm">
-                {{ $alat->withQueryString()->links() }}
-            </div>
-        @endif
+        {{-- Grid Pagination --}}
+        <x-ui.pagination :paginator="$alat" label="Total Alat & Bahan" class="mt-6" />
     </div>
 </div>
 

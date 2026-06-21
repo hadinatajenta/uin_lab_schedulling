@@ -72,23 +72,15 @@
                 @endif
             </x-ui.empty-state>
         @else
-            <div class="hidden lg:flex bg-white border border-zinc-200/80 rounded-2xl shadow-sm flex-grow flex flex-col justify-between overflow-hidden">
-                <div class="rounded-t-2xl flex-grow overflow-x-auto">
-                    <table class="w-full text-left border-collapse whitespace-nowrap">
-                        <thead>
-                            <tr class="bg-zinc-50/80 border-b border-zinc-200/80">
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider w-10 text-center">No.</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Pengguna</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Role</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Jurusan</th>
-                                <th
-                                    class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider hidden md:table-cell">
-                                    Bergabung</th>
-                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-right">
-                                    Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-zinc-100/80">
+            <x-ui.table class="hidden lg:block flex-grow">
+                <x-slot name="header">
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider w-10 text-center">No.</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Pengguna</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Role</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider">Jurusan</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider hidden md:table-cell">Bergabung</th>
+                    <th class="px-6 py-4 text-[10px] font-bold text-indigo-900 uppercase tracking-wider text-right">Aksi</th>
+                </x-slot>
                             @foreach ($users as $user)
                                 <tr class="group hover:bg-zinc-50/80 transition-all">
                                     <td class="px-6 py-4 text-center text-[13px] font-semibold text-zinc-500">
@@ -180,11 +172,11 @@
                                             </div>
                                         @endif
                                     </td>
-                                </tr>
                             @endforeach
-                        </tbody>
-                    </table>
-                </div>
+            </x-ui.table>
+
+                {{-- Desktop Pagination --}}
+                <x-ui.pagination :paginator="$users" label="Total Pengguna" class="mt-6" />
 
 
             {{-- Mobile & Tablet Cards --}}
@@ -491,11 +483,8 @@
             @endif
         @endforeach
 
-                {{-- Pagination Lengkap Laravel --}}
-                <div class="mt-4 px-2">
-                    {{ $users->links() }}
-                </div>
-            </div>
+            {{-- Mobile Pagination --}}
+            <x-ui.pagination :paginator="$users" label="Total Pengguna" class="lg:hidden mt-4" />
         @endif
     </div>
 

@@ -32,8 +32,8 @@ class AlatController extends Controller
             $query->where('jenis_alat', $jenisAlat);
         }
         
-        // Dynamic Pagination
-        $alat = $query->paginate($perPage);
+        // Dynamic Pagination (withQueryString preserves filters in URLs)
+        $alat = $query->paginate($perPage)->withQueryString();
 
         return view('alat', compact('alat', 'bahanPadatCount', 'bahanCairCount', 'all'));
     }
