@@ -10,7 +10,7 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="bg-white border border-zinc-200/80 rounded-3xl p-5 shadow-sm">
                 <div class="flex items-center gap-3 mb-3">
-                    <div class="w-10 h-10 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                         <x-atoms.icon name="cube" class="w-5 h-5" />
                     </div>
                     <p class="text-sm font-semibold text-zinc-500">Peminjaman bulan ini</p>

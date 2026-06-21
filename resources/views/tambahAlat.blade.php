@@ -5,7 +5,7 @@
 @section('content')
 <div class="mb-6">
     <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
-        <a href="{{ route('alat') }}" class="hover:text-indigo-600 transition-colors">Alat & Bahan</a>
+        <a href="{{ route('alat') }}" class="hover:text-emerald-600 transition-colors">Alat & Bahan</a>
         <span class="material-symbols-rounded text-[16px]">chevron_right</span>
         <span class="font-semibold text-zinc-900">Tambah Data Baru</span>
     </div>
@@ -26,7 +26,7 @@
     <div class="lg:col-span-2 bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
         <div class="p-5 border-b border-zinc-100/80 bg-zinc-50/50">
             <h5 class="text-sm font-bold text-zinc-800 uppercase tracking-wider flex items-center gap-2">
-                <span class="material-symbols-rounded text-indigo-500 text-[20px]">info</span>
+                <span class="material-symbols-rounded text-emerald-500 text-[20px]">info</span>
                 Informasi Utama
             </h5>
         </div>
@@ -36,7 +36,7 @@
             <div>
                 <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Nama Barang <span class="text-rose-500">*</span></label>
                 <input type="text" name="nama_alat" value="{{ old('nama_alat') }}" required
-                    class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors"
+                    class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-colors"
                     placeholder="Masukkan nama alat atau bahan...">
                 @error('nama_alat') <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
@@ -67,7 +67,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Kondisi Barang</label>
                     <div class="relative">
-                        <select name="kondisi" class="w-full pl-4 pr-10 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors appearance-none">
+                        <select name="kondisi" class="w-full pl-4 pr-10 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-colors appearance-none">
                             <option value="">Pilih Kondisi...</option>
                             <option value="Baik" {{ old('kondisi') == 'Baik' ? 'selected' : '' }}>Baik</option>
                             <option value="Rusak Ringan" {{ old('kondisi') == 'Rusak Ringan' ? 'selected' : '' }}>Rusak Ringan</option>
@@ -122,13 +122,13 @@
                 <div>
                     <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Spesifikasi</label>
                     <textarea name="spesifikasi" rows="4"
-                        class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors resize-none"
+                        class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-colors resize-none"
                         placeholder="Merek, tipe, dimensi, dll...">{{ old('spesifikasi') }}</textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Deskripsi Singkat</label>
                     <textarea name="deskripsi" rows="4"
-                        class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors resize-none"
+                        class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-colors resize-none"
                         placeholder="Penjelasan fungsi barang...">{{ old('deskripsi') }}</textarea>
                 </div>
             </div>
@@ -143,18 +143,18 @@
         <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
             <div class="p-5 border-b border-zinc-100/80 bg-zinc-50/50">
                 <h5 class="text-sm font-bold text-zinc-800 uppercase tracking-wider flex items-center gap-2">
-                    <span class="material-symbols-rounded text-indigo-500 text-[20px]">image</span>
+                    <span class="material-symbols-rounded text-emerald-500 text-[20px]">image</span>
                     Media Barang
                 </h5>
             </div>
             <div class="p-6">
                 <div class="flex items-center justify-center w-full">
-                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-48 border-2 border-zinc-300 border-dashed rounded-2xl cursor-pointer bg-zinc-50 hover:bg-zinc-100 hover:border-indigo-400 transition-colors group">
+                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-48 border-2 border-zinc-300 border-dashed rounded-2xl cursor-pointer bg-zinc-50 hover:bg-zinc-100 hover:border-emerald-400 transition-colors group">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                            <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                            <div class="w-12 h-12 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
                                 <span class="material-symbols-rounded text-[24px]">cloud_upload</span>
                             </div>
-                            <p class="mb-1 text-sm text-zinc-600 font-semibold"><span class="text-indigo-600">Klik untuk upload</span> atau drag and drop</p>
+                            <p class="mb-1 text-sm text-zinc-600 font-semibold"><span class="text-emerald-600">Klik untuk upload</span> atau drag and drop</p>
                             <p class="text-xs text-zinc-500">SVG, PNG, JPG (MAX. 5MB)</p>
                         </div>
                         <input id="dropzone-file" type="file" name="gambar" accept="image/*" class="hidden" />
@@ -168,7 +168,7 @@
         <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
             <div class="p-5 border-b border-zinc-100/80 bg-zinc-50/50">
                 <h5 class="text-sm font-bold text-zinc-800 uppercase tracking-wider flex items-center gap-2">
-                    <span class="material-symbols-rounded text-indigo-500 text-[20px]">date_range</span>
+                    <span class="material-symbols-rounded text-emerald-500 text-[20px]">date_range</span>
                     Metadata Tambahan
                 </h5>
             </div>
@@ -176,7 +176,7 @@
                 <div>
                     <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Tanggal Pembelian</label>
                     <input type="date" name="tanggal_pembelian" value="{{ old('tanggal_pembelian') }}"
-                        class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors">
+                        class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-colors">
                 </div>
 
                 {{-- Tanggal Expired hanya relevan untuk Bahan, tapi kita sembunyikan dengan alpine jika Alat --}}
@@ -194,7 +194,7 @@
                             <span class="material-symbols-rounded text-rose-500 text-[20px]">play_circle</span>
                         </div>
                         <input type="url" name="link_youtube" value="{{ old('link_youtube') }}"
-                            class="w-full pl-10 pr-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors"
+                            class="w-full pl-10 pr-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-colors"
                             placeholder="https://youtube.com/...">
                     </div>
                 </div>
@@ -202,14 +202,14 @@
                 <div>
                     <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Cara Penggunaan</label>
                     <textarea name="cara_penggunaan" rows="2"
-                        class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:bg-white transition-colors resize-none"
+                        class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-colors resize-none"
                         placeholder="Langkah-langkah penggunaan...">{{ old('cara_penggunaan') }}</textarea>
                 </div>
             </div>
             
             {{-- Submit Area --}}
             <div class="p-6 pt-0">
-                <button type="submit" class="w-full flex items-center justify-center gap-2 bg-indigo-600 text-white font-bold rounded-xl px-4 py-3 shadow-sm shadow-indigo-600/20 hover:bg-indigo-700 hover:-translate-y-0.5 transition-all focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button type="submit" class="w-full flex items-center justify-center gap-2 bg-emerald-600 text-white font-bold rounded-xl px-4 py-3 shadow-sm shadow-emerald-600/20 hover:bg-emerald-700 hover:-translate-y-0.5 transition-all focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                     <span class="material-symbols-rounded text-[20px]">save</span>
                     Simpan Data
                 </button>

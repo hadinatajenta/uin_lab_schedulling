@@ -12,7 +12,7 @@
         <form method="GET" action="{{ route('activity.logs') }}" class="flex flex-col md:flex-row gap-4">
             <div class="flex-1">
                 <label for="user_id" class="block text-xs font-bold text-zinc-700 mb-1.5">Pilih Aktor (User)</label>
-                <select name="user_id" id="user_id" class="w-full text-sm rounded-xl border-zinc-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                <select name="user_id" id="user_id" class="w-full text-sm rounded-xl border-zinc-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200">
                     <option value="">-- Semua Pengguna --</option>
                     @foreach($users as $u)
                         <option value="{{ $u->id }}" {{ request('user_id') == $u->id ? 'selected' : '' }}>
@@ -25,17 +25,17 @@
             <div class="w-full md:w-48">
                 <label for="date_start" class="block text-xs font-bold text-zinc-700 mb-1.5">Dari Tanggal</label>
                 <input type="date" name="date_start" id="date_start" value="{{ request('date_start') }}" 
-                    class="w-full text-sm rounded-xl border-zinc-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                    class="w-full text-sm rounded-xl border-zinc-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200">
             </div>
 
             <div class="w-full md:w-48">
                 <label for="date_end" class="block text-xs font-bold text-zinc-700 mb-1.5">Sampai Tanggal</label>
                 <input type="date" name="date_end" id="date_end" value="{{ request('date_end') }}" 
-                    class="w-full text-sm rounded-xl border-zinc-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200">
+                    class="w-full text-sm rounded-xl border-zinc-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200">
             </div>
             
             <div class="flex items-end gap-2">
-                <button type="submit" class="h-[42px] px-5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                <button type="submit" class="h-[42px] px-5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
                     Filter
                 </button>
                 <a href="{{ route('activity.logs') }}" class="h-[42px] px-5 flex items-center justify-center bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-sm font-bold rounded-xl transition-colors">
@@ -100,7 +100,7 @@
                             <p class="text-[11px] text-zinc-400 mb-3 flex items-center gap-2">
                                 IP: {{ $log->ip_address ?? '-' }}
                                 @if($log->old_values || $log->new_values)
-                                    <button @click="expanded = !expanded" class="text-indigo-600 hover:text-indigo-800 font-bold ml-2 underline decoration-indigo-200 underline-offset-2">
+                                    <button @click="expanded = !expanded" class="text-emerald-600 hover:text-emerald-800 font-bold ml-2 underline decoration-emerald-200 underline-offset-2">
                                         <span x-text="expanded ? 'Sembunyikan Detail' : 'Lihat Detail'"></span>
                                     </button>
                                 @endif

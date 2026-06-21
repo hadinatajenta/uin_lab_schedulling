@@ -215,7 +215,7 @@
 @section('content')
     <div class="px-4 pb-8 min-h-[calc(100vh-12rem)] flex flex-col space-y-6" x-data="importUsers()">
         <x-ui.page-header title="Import Pengguna (Bulk)" description="Unggah file Excel untuk menambahkan banyak pengguna sekaligus.">
-            <a href="{{ route('users.index') }}" class="inline-flex items-center text-sm font-semibold text-zinc-600 hover:text-indigo-600 transition-colors">
+            <a href="{{ route('users.index') }}" class="inline-flex items-center text-sm font-semibold text-zinc-600 hover:text-emerald-600 transition-colors">
                 <x-atoms.icon name="arrow-left" class="w-4 h-4 mr-1.5" />
                 Kembali ke Daftar
             </a>
@@ -237,7 +237,7 @@
                     <h3 class="text-base font-bold text-zinc-800">1. Pilih Tipe Data</h3>
                     <div class="grid grid-cols-2 gap-4">
                         <label class="relative flex cursor-pointer rounded-2xl border bg-white p-4 shadow-sm focus:outline-none"
-                            :class="importType === 'staf' ? 'border-indigo-600 ring-1 ring-indigo-600' : 'border-zinc-200 hover:bg-zinc-50'">
+                            :class="importType === 'staf' ? 'border-emerald-600 ring-1 ring-emerald-600' : 'border-zinc-200 hover:bg-zinc-50'">
                             <input type="radio" x-model="importType" value="staf" class="sr-only">
                             <span class="flex flex-1">
                                 <span class="flex flex-col">
@@ -245,11 +245,11 @@
                                     <span class="mt-1 flex items-center text-xs text-zinc-500 font-medium">Admin Lab & Dosen</span>
                                 </span>
                             </span>
-                            <x-atoms.icon name="check-circle" class="h-5 w-5 text-indigo-600" x-show="importType === 'staf'" />
+                            <x-atoms.icon name="check-circle" class="h-5 w-5 text-emerald-600" x-show="importType === 'staf'" />
                         </label>
 
                         <label class="relative flex cursor-pointer rounded-2xl border bg-white p-4 shadow-sm focus:outline-none"
-                            :class="importType === 'mahasiswa' ? 'border-indigo-600 ring-1 ring-indigo-600' : 'border-zinc-200 hover:bg-zinc-50'">
+                            :class="importType === 'mahasiswa' ? 'border-emerald-600 ring-1 ring-emerald-600' : 'border-zinc-200 hover:bg-zinc-50'">
                             <input type="radio" x-model="importType" value="mahasiswa" class="sr-only">
                             <span class="flex flex-1">
                                 <span class="flex flex-col">
@@ -257,13 +257,13 @@
                                     <span class="mt-1 flex items-center text-xs text-zinc-500 font-medium">Asisten & Mahasiswa</span>
                                 </span>
                             </span>
-                            <x-atoms.icon name="check-circle" class="h-5 w-5 text-indigo-600" x-show="importType === 'mahasiswa'" />
+                            <x-atoms.icon name="check-circle" class="h-5 w-5 text-emerald-600" x-show="importType === 'mahasiswa'" />
                         </label>
                     </div>
                     <div class="flex items-center justify-between mt-2">
                         <p class="text-xs text-zinc-500 font-medium">Download template Excel/CSV untuk menyesuaikan data.</p>
                         <a :href="importType === 'staf' ? '/templates/template-staf.csv' : '/templates/template-mahasiswa.csv'"
-                           class="inline-flex items-center text-xs font-bold text-indigo-600 hover:text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-lg transition-colors">
+                           class="inline-flex items-center text-xs font-bold text-emerald-600 hover:text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg transition-colors">
                             <x-atoms.icon name="arrow-down-tray" class="w-3.5 h-3.5 mr-1" />
                             Download Template
                         </a>
@@ -273,14 +273,14 @@
                 <div class="space-y-4">
                     <h3 class="text-base font-bold text-zinc-800">2. Unggah File</h3>
                     <div class="mt-2 flex justify-center rounded-2xl border border-dashed border-zinc-300 px-6 py-12 transition-colors"
-                         :class="isDragging ? 'border-indigo-500 bg-indigo-50/50' : 'hover:border-zinc-400 bg-zinc-50/50'"
+                         :class="isDragging ? 'border-emerald-500 bg-emerald-50/50' : 'hover:border-zinc-400 bg-zinc-50/50'"
                          @dragover.prevent="isDragging = true"
                          @dragleave.prevent="isDragging = false"
                          @drop.prevent="handleDrop">
                         <div class="text-center">
                             <x-atoms.icon name="document-plus" class="mx-auto h-10 w-10 text-zinc-400" />
                             <div class="mt-4 flex text-sm leading-6 text-zinc-600 justify-center">
-                                <label for="file-upload" class="relative cursor-pointer rounded-md bg-transparent font-semibold text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2">
+                                <label for="file-upload" class="relative cursor-pointer rounded-md bg-transparent font-semibold text-emerald-600 hover:text-emerald-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-emerald-600 focus-within:ring-offset-2">
                                     <span>Pilih file</span>
                                     <input id="file-upload" type="file" accept=".xlsx, .csv" class="sr-only" @change="handleFileSelect">
                                 </label>
@@ -308,8 +308,8 @@
                         Batal
                     </button>
                     <button type="button" @click="submitBulk" :disabled="!allValid || isSubmitting"
-                        class="px-5 py-2 inline-flex items-center text-sm font-semibold text-white rounded-xl transition-all shadow-sm shadow-indigo-600/10 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        :class="(!allValid || isSubmitting) ? 'bg-indigo-300 cursor-not-allowed' : 'bg-indigo-600 hover:bg-indigo-700'">
+                        class="px-5 py-2 inline-flex items-center text-sm font-semibold text-white rounded-xl transition-all shadow-sm shadow-emerald-600/10 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
+                        :class="(!allValid || isSubmitting) ? 'bg-emerald-300 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700'">
                         <span x-show="isSubmitting" class="material-symbols-rounded animate-spin text-[18px] mr-2">progress_activity</span>
                         <span x-text="isSubmitting ? 'Memproses...' : 'Proses & Simpan Data'"></span>
                     </button>
@@ -330,7 +330,7 @@
             {{-- Table --}}
             <div class="relative overflow-x-auto rounded-2xl border border-zinc-200">
                 <table class="w-full text-left text-sm text-zinc-600">
-                    <thead class="bg-indigo-50/50 text-xs text-indigo-900 font-bold uppercase border-b border-zinc-200">
+                    <thead class="bg-emerald-50/50 text-xs text-emerald-900 font-bold uppercase border-b border-zinc-200">
                         <tr>
                             <th scope="col" class="px-4 py-3 w-16 text-center">No</th>
                             <th scope="col" class="px-4 py-3 min-w-[200px]">Nama Lengkap</th>
@@ -351,7 +351,7 @@
                         <template x-if="isProcessing">
                             <tr>
                                 <td colspan="8" class="px-6 py-12 text-center">
-                                    <span class="material-symbols-rounded animate-spin text-[32px] text-indigo-600 mb-2">progress_activity</span>
+                                    <span class="material-symbols-rounded animate-spin text-[32px] text-emerald-600 mb-2">progress_activity</span>
                                     <p class="text-sm font-medium text-zinc-500">Sedang memvalidasi data...</p>
                                 </td>
                             </tr>
@@ -380,7 +380,7 @@
                                         </div>
                                     </template>
                                     <template x-if="row.editing">
-                                        <input type="text" x-model="row.name" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2">
+                                        <input type="text" x-model="row.name" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 py-1.5 px-2">
                                     </template>
                                 </td>
 
@@ -395,7 +395,7 @@
                                         </div>
                                     </template>
                                     <template x-if="row.editing">
-                                        <input type="email" x-model="row.email" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2">
+                                        <input type="email" x-model="row.email" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 py-1.5 px-2">
                                     </template>
                                 </td>
 
@@ -411,7 +411,7 @@
                                             </div>
                                         </template>
                                         <template x-if="row.editing">
-                                            <input type="text" x-model="row.nip" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2">
+                                            <input type="text" x-model="row.nip" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 py-1.5 px-2">
                                         </template>
                                     </td>
                                 </template>
@@ -428,7 +428,7 @@
                                             </div>
                                         </template>
                                         <template x-if="row.editing">
-                                            <input type="text" x-model="row.nim" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2">
+                                            <input type="text" x-model="row.nim" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 py-1.5 px-2">
                                         </template>
                                     </td>
                                 </template>
@@ -444,7 +444,7 @@
                                         </div>
                                     </template>
                                     <template x-if="row.editing">
-                                        <input type="text" x-model="row.department_code" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2">
+                                        <input type="text" x-model="row.department_code" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 py-1.5 px-2">
                                     </template>
                                 </td>
 
@@ -459,14 +459,14 @@
                                         </div>
                                     </template>
                                     <template x-if="row.editing">
-                                        <input type="text" x-model="row.role" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 py-1.5 px-2">
+                                        <input type="text" x-model="row.role" class="block w-full text-xs font-medium border-zinc-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 py-1.5 px-2">
                                     </template>
                                 </td>
 
                                 {{-- Status --}}
                                 <td class="px-4 py-3 text-center">
                                     <template x-if="row.isValidating">
-                                        <span class="material-symbols-rounded animate-spin text-[18px] text-indigo-500">progress_activity</span>
+                                        <span class="material-symbols-rounded animate-spin text-[18px] text-emerald-500">progress_activity</span>
                                     </template>
                                     <template x-if="!row.isValidating && row.isValid">
                                         <span class="inline-flex items-center px-2 py-1 rounded-md bg-emerald-100 text-emerald-700 text-xs font-bold border border-emerald-200">
@@ -484,7 +484,7 @@
                                 <td class="px-4 py-3 text-center">
                                     <div class="flex items-center justify-center gap-1">
                                         <template x-if="!row.editing">
-                                            <button @click="row.editing = true" class="p-1.5 rounded-lg text-zinc-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors" title="Edit">
+                                            <button @click="row.editing = true" class="p-1.5 rounded-lg text-zinc-400 hover:text-emerald-600 hover:bg-emerald-50 transition-colors" title="Edit">
                                                 <span class="material-symbols-rounded text-[18px]">edit</span>
                                             </button>
                                         </template>

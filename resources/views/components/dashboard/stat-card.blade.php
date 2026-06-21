@@ -2,7 +2,7 @@
     'label',
     'value',
     'icon',
-    'type' => 'indigo'
+    'type' => 'emerald'
 ])
 
 @php
@@ -20,8 +20,8 @@
             'border' => 'hover:border-zinc-300',
         ],
         default => [
-            'iconBg' => 'bg-indigo-50 text-indigo-600',
-            'border' => 'hover:border-indigo-200/80',
+            'iconBg' => 'bg-emerald-50 text-emerald-600',
+            'border' => 'hover:border-emerald-200/80',
         ]
     };
 @endphp

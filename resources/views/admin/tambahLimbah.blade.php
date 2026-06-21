@@ -39,19 +39,19 @@
  <div class="mb-4 relative">
  <label for="cara_penggunaan">Cara penggunaan</label>
  <textarea name="cara_penggunaan"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
  </textarea>
  </div>
  <div class="mb-4 relative">
  <label for="materi">Materi</label>
  <textarea id="editor" name="materi"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
  </textarea>
  </div>
  <div class="mb-4 relative">
  <label for="cara_pengolahan">Cara pengolahan</label>
  <textarea name="cara_pengolahan"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
  </textarea>
  </div>
  <div class="flex items-center justify-between">

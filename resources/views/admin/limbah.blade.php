@@ -7,7 +7,7 @@
         <x-ui.page-header title="Limbah" description="Informasi limbah dan cara pengelolaan pasca pakai.">
             @if (Auth::user()->jabatan !== 'Mahasiswa')
                 <a href="{{ route('tambahLimbah') }}"
-                    class="w-full md:w-auto inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 h-11 md:h-10 text-white font-semibold text-sm md:text-xs shadow-sm shadow-indigo-600/10 hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                    class="w-full md:w-auto inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 h-11 md:h-10 text-white font-semibold text-sm md:text-xs shadow-sm shadow-emerald-600/10 hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                     <span class="material-symbols-rounded text-[20px] md:text-[18px] mr-2">add</span>
                     Tambah Limbah
                 </a>
@@ -22,10 +22,10 @@
                         <x-atoms.icon name="search" class="w-4 h-4 text-zinc-400" />
                     </div>
                     <input type="search" id="search" name="cari"
-                        class="block w-full h-12 pl-10 pr-4 text-sm text-zinc-800 border border-zinc-200 rounded-xl bg-zinc-50 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+                        class="block w-full h-12 pl-10 pr-4 text-sm text-zinc-800 border border-zinc-200 rounded-xl bg-zinc-50 focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500"
                         placeholder="Cari limbah..." />
                     <button type="submit"
-                        class="text-white absolute end-2.5 bottom-2.5 bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-lg text-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        class="text-white absolute end-2.5 bottom-2.5 bg-emerald-600 hover:bg-emerald-700 font-semibold rounded-lg text-sm px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500">
                         Cari
                     </button>
                 </div>
@@ -47,7 +47,7 @@
                     <div class="p-5 flex-1">
                         <div class="flex items-start justify-between gap-3 mb-3">
                             <h3 class="text-lg font-bold text-zinc-900 leading-tight">{{ $lbh->nama_limbah }}</h3>
-                            <x-ui.badge type="indigo">Limbah</x-ui.badge>
+                            <x-ui.badge type="emerald">Limbah</x-ui.badge>
                         </div>
                         <p class="text-sm text-zinc-600 leading-6">
                             {{ strlen($lbh->cara_pengolahan) > 120 ? substr($lbh->cara_pengolahan, 0, 120) . '...' : $lbh->cara_pengolahan }}

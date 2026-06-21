@@ -8,7 +8,7 @@
             @if (Auth::user()->jabatan !== 'Mahasiswa')
                 <div x-data="{ open: false }" class="relative inline-block text-left w-full md:w-auto">
                     <button @click="open = !open" @click.outside="open = false" type="button"
-                        class="w-full md:w-auto inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 h-11 md:h-10 text-white font-semibold text-sm md:text-xs shadow-sm shadow-indigo-600/10 hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        class="w-full md:w-auto inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 h-11 md:h-10 text-white font-semibold text-sm md:text-xs shadow-sm shadow-emerald-600/10 hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                         <span class="material-symbols-rounded text-[20px] md:text-[18px] mr-2">add</span>
                         Tambah Pengguna
                         <span class="material-symbols-rounded text-[20px] md:text-[18px] ml-1 opacity-70">expand_more</span>
@@ -24,7 +24,7 @@
                         class="absolute right-0 mt-2 w-56 rounded-xl bg-white border border-zinc-200 shadow-lg py-1.5 z-50 text-left">
                         
                         <button type="button" data-modal-target="add-modal" data-modal-toggle="add-modal" @click="open = false"
-                            class="w-full text-left px-4 py-2.5 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 hover:text-indigo-600 transition-colors flex items-center">
+                            class="w-full text-left px-4 py-2.5 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 hover:text-emerald-600 transition-colors flex items-center">
                             <span class="material-symbols-rounded text-[18px] mr-2 text-zinc-400">person_add</span>
                             Input Manual
                         </button>
@@ -70,7 +70,7 @@
                         <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" />
                     </div>
                     <input type="search" name="keyword" value="{{ request('keyword') }}"
-                        class="block w-full h-12 md:h-10 pl-10 pr-10 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors"
+                        class="block w-full h-12 md:h-10 pl-10 pr-10 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors"
                         placeholder="Cari nama atau email..." />
                     @if(request('keyword'))
                         <a href="{{ route('users.index', ['jabatan' => request('jabatan')]) }}"
@@ -88,7 +88,7 @@
                 @if (Auth::user()->jabatan !== 'Mahasiswa')
                     <x-slot name="action">
                         <button type="button" data-modal-target="add-modal" data-modal-toggle="add-modal"
-                            class="inline-flex items-center justify-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2 transition-colors shadow-sm">
+                            class="inline-flex items-center justify-center text-white bg-emerald-600 hover:bg-emerald-700 font-semibold rounded-xl text-xs px-4 py-2 transition-colors shadow-sm">
                             Tambah Pengguna
                         </button>
                     </x-slot>
@@ -124,7 +124,7 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             @php
                                 $badgeType = match (strtolower($user->jabatan)) {
-                                    'admin lab' => 'indigo',
+                                    'admin lab' => 'emerald',
                                     'dosen' => 'emerald',
                                     'asisten dosen' => 'emerald',
                                     default => 'neutral',
@@ -217,7 +217,7 @@
                                 <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Role</span>
                                 @php
                                     $badgeType = match (strtolower($user->jabatan)) {
-                                        'admin lab' => 'indigo',
+                                        'admin lab' => 'emerald',
                                         'dosen' => 'emerald',
                                         'asisten dosen' => 'emerald',
                                         default => 'neutral',

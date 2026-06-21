@@ -43,7 +43,7 @@
         </div>
         <button 
             @click="$store.sidebar.isMobileOpen = false"
-            class="p-2 rounded-xl text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            class="p-2 rounded-xl text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"
         >
             <span class="material-symbols-rounded text-[24px]">close</span>
         </button>

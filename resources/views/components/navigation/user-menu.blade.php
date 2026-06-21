@@ -4,7 +4,7 @@
     <button 
         @click="userMenuOpen = !userMenuOpen"
         @click.outside="userMenuOpen = false"
-        class="w-full flex items-center rounded-xl transition-colors hover:bg-zinc-200/50 outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+        class="w-full flex items-center rounded-xl transition-colors hover:bg-zinc-200/50 outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
         @if(!$isMobile)
             :class="!$store.sidebar.expanded ? 'p-2 justify-center' : 'p-1.5 justify-between'"
         @else
@@ -12,7 +12,7 @@
         @endif
     >
         <div class="flex items-center space-x-3 overflow-hidden">
-            <div class="w-9 h-9 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 shrink-0 font-bold text-sm uppercase ring-2 ring-white">
+            <div class="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0 font-bold text-sm uppercase ring-2 ring-white">
                 {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
             </div>
             

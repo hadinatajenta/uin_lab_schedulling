@@ -2,7 +2,7 @@
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between py-4">
         <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm ui-text-muted">
             <span class="font-medium text-zinc-600">© {{ date('Y') }}</span>
-            <a href="{{ url('/') }}" class="font-semibold text-indigo-600 hover:text-indigo-700 transition-colors">
+            <a href="{{ url('/') }}" class="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
                 Lab Biologi UIN
             </a>
             <span class="hidden sm:inline text-zinc-300">•</span>

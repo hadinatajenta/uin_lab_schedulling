@@ -9,7 +9,7 @@
 
     <div class="px-2 pb-12 max-w-7xl mx-auto">
         <div class="mb-8">
-            <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Detail Limbah</p>
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-600">Detail Limbah</p>
             <h1 class="mt-2 text-2xl font-bold tracking-tight text-zinc-900">{{ $findLimbah->nama_limbah }}</h1>
             <p class="text-sm text-zinc-500 mt-1">Published on {{ $createdAt }}</p>
         </div>
@@ -19,13 +19,13 @@
                 <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-5">
                     <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Daftar isi</p>
                     <nav class="mt-4 space-y-1">
-                        <a href="#cara-penggunaan" class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-indigo-700 transition-colors">
+                        <a href="#cara-penggunaan" class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-emerald-700 transition-colors">
                             <span>Cara penggunaan</span><span class="text-zinc-300">›</span>
                         </a>
-                        <a href="#materi" class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-indigo-700 transition-colors">
+                        <a href="#materi" class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-emerald-700 transition-colors">
                             <span>Materi</span><span class="text-zinc-300">›</span>
                         </a>
-                        <a href="#cara-pengolahan" class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-indigo-700 transition-colors">
+                        <a href="#cara-pengolahan" class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-emerald-700 transition-colors">
                             <span>Cara pengolahan</span><span class="text-zinc-300">›</span>
                         </a>
                     </nav>
@@ -38,7 +38,7 @@
                         <section id="cara-penggunaan">
                             <div class="flex items-center justify-between gap-3 mb-4">
                                 <h2 class="text-xl font-bold text-zinc-900">Cara penggunaan</h2>
-                                <x-ui.badge type="indigo">Panduan</x-ui.badge>
+                                <x-ui.badge type="emerald">Panduan</x-ui.badge>
                             </div>
                             <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
                                 <p class="text-sm leading-7 text-zinc-700">{{ $findLimbah->cara_penggunaan }}</p>

@@ -7,7 +7,7 @@
     <x-ui.page-header title="Penjadwalan" description="Kelola jadwal pemakaian ruangan laboratorium.">
         @if (Auth::user()->jabatan !== 'Mahasiswa')
             <a href="{{ route('addJadwalView') }}"
-                class="w-full md:w-auto inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 h-11 md:h-10 text-white font-semibold text-sm md:text-xs shadow-sm shadow-indigo-600/10 hover:bg-indigo-700 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                class="w-full md:w-auto inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 h-11 md:h-10 text-white font-semibold text-sm md:text-xs shadow-sm shadow-emerald-600/10 hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
                 <span class="material-symbols-rounded text-[20px] md:text-[18px] mr-2">add</span>
                 Tambah Jadwal
             </a>
@@ -52,17 +52,17 @@
                 <div class="border-b border-zinc-100" x-data="{ activeTab: 'today' }">
                     <div class="flex items-center gap-1 p-1.5 overflow-x-auto whitespace-nowrap">
                         <button @click="activeTab = 'today'"
-                            :class="activeTab === 'today' ? 'bg-white text-indigo-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                            :class="activeTab === 'today' ? 'bg-white text-emerald-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
                             class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-xl transition-all text-center">
                             Hari Ini
                         </button>
                         <button @click="activeTab = 'tomorrow'"
-                            :class="activeTab === 'tomorrow' ? 'bg-white text-indigo-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                            :class="activeTab === 'tomorrow' ? 'bg-white text-emerald-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
                             class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-xl transition-all text-center">
                             Besok
                         </button>
                         <button @click="activeTab = 'week'"
-                            :class="activeTab === 'week' ? 'bg-white text-indigo-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                            :class="activeTab === 'week' ? 'bg-white text-emerald-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
                             class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-xl transition-all text-center whitespace-nowrap">
                             7 Hari Kedepan
                         </button>
@@ -71,7 +71,7 @@
                     @php
                         $tabClasses = 'p-5 md:p-6';
                         $timelineClasses = 'relative border-s-2 border-zinc-200 ms-3';
-                        $nodeClasses = 'absolute flex items-center justify-center w-7 h-7 bg-indigo-100 rounded-full -start-3.5 ring-4 ring-white';
+                        $nodeClasses = 'absolute flex items-center justify-center w-7 h-7 bg-emerald-100 rounded-full -start-3.5 ring-4 ring-white';
                     @endphp
 
                     <div x-show="activeTab === 'today'" class="{{ $tabClasses }}">
@@ -80,7 +80,7 @@
                                 @foreach ($jadwal as $agenda)
                                     <li class="mb-8 ms-6 last:mb-0">
                                         <span class="{{ $nodeClasses }}">
-                                            <svg class="w-3 h-3 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                             </svg>
                                         </span>
@@ -112,7 +112,7 @@
                                 @foreach ($jadwal_besok as $agenda)
                                     <li class="mb-8 ms-6 last:mb-0">
                                         <span class="{{ $nodeClasses }}">
-                                            <svg class="w-3 h-3 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                             </svg>
                                         </span>
@@ -144,7 +144,7 @@
                                 @foreach ($jadwal_minggu_ini as $agenda)
                                     <li class="mb-8 ms-6 last:mb-0">
                                         <span class="{{ $nodeClasses }}">
-                                            <svg class="w-3 h-3 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                            <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
                                                 <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                                             </svg>
                                         </span>
@@ -186,7 +186,7 @@
                     <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" />
                 </div>
                 <input type="search" id="search"
-                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors"
+                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors"
                     placeholder="Cari mata kuliah..." />
             </div>
             <div class="relative flex-1 md:max-w-xs">
@@ -194,7 +194,7 @@
                     <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" />
                 </div>
                 <input type="search" id="search-kelas"
-                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors"
+                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors"
                     placeholder="Cari kelas..." />
             </div>
         </div>
@@ -205,7 +205,7 @@
                 @if (Auth::user()->jabatan !== 'Mahasiswa')
                     <x-slot name="action">
                         <a href="{{ route('addJadwalView') }}"
-                            class="inline-flex items-center justify-center rounded-xl bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-indigo-700 transition-colors">
+                            class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors">
                             Tambah Jadwal
                         </a>
                     </x-slot>
@@ -245,7 +245,7 @@
                             @if ($jadwal->status === 'selesai')
                                 <x-ui.badge type="success">Selesai</x-ui.badge>
                             @elseif ($jadwal->status === 'berlangsung')
-                                <x-ui.badge type="indigo">Berlangsung</x-ui.badge>
+                                <x-ui.badge type="emerald">Berlangsung</x-ui.badge>
                             @elseif ($jadwal->status === 'dibatalkan')
                                 <x-ui.badge type="danger">Dibatalkan</x-ui.badge>
                             @else
@@ -356,7 +356,7 @@
                                 @if ($jadwal->status === 'selesai')
                                     <x-ui.badge type="success">Selesai</x-ui.badge>
                                 @elseif ($jadwal->status === 'berlangsung')
-                                    <x-ui.badge type="indigo">Berlangsung</x-ui.badge>
+                                    <x-ui.badge type="emerald">Berlangsung</x-ui.badge>
                                 @elseif ($jadwal->status === 'dibatalkan')
                                     <x-ui.badge type="danger">Dibatalkan</x-ui.badge>
                                 @else
@@ -451,7 +451,7 @@
                         cell.classList.add("text-zinc-700");
                         if (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() && cell.textContent == new Date().getDate()) {
                             cell.classList.remove("text-zinc-700");
-                            cell.classList.add("bg-indigo-600", "text-white", "font-bold", "rounded-lg");
+                            cell.classList.add("bg-emerald-600", "text-white", "font-bold", "rounded-lg");
                         }
                     }
 

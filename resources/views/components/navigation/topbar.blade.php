@@ -7,7 +7,7 @@
     <button 
         @click="$store.sidebar.isMobileOpen = true" 
         type="button" 
-        class="inline-flex items-center justify-center p-2 rounded-xl text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+        class="inline-flex items-center justify-center p-2 rounded-xl text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition-colors"
         aria-expanded="false"
     >
         <span class="sr-only">Open main menu</span>

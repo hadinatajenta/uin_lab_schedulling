@@ -1,7 +1,7 @@
 @props(['isMobile' => false])
 
 <button 
-    class="w-full flex items-center rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-500 transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    class="w-full flex items-center rounded-xl bg-zinc-100 hover:bg-zinc-200 text-zinc-500 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"
     @if(!$isMobile)
         :class="!$store.sidebar.expanded ? 'h-11 justify-center' : 'h-9 px-2.5 justify-between'"
     @else

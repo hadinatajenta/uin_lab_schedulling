@@ -24,7 +24,7 @@ class DashboardController extends Controller
                 'description' => "{$item->name} ({$item->email}) terdaftar dengan jabatan " . ucfirst($item->jabatan ?? 'Mahasiswa') . ".",
                 'time' => $item->created_at,
                 'icon' => 'users',
-                'color' => 'text-indigo-600 bg-indigo-50'
+                'color' => 'text-emerald-600 bg-emerald-50'
             ];
         });
 

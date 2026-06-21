@@ -28,7 +28,7 @@
  class="text-red-800">*</span> </label>
  <input type="text" id="nama_alat" name="nama_alat" placeholder="Masukkan nama alat..."
  value="{{ $edit->nama_alat }}"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
  value="{{ old('nama_alat') }}">
  @error('nama_alat')
  <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -67,7 +67,7 @@
  <div class="bg-white p-4 rounded-lg mb-4">
  <label for="deskripsi" class="block text-sm font-medium text-gray-700">Deskripsi</label>
  <input id="deskripsi " name="deskripsi" placeholder="Masukkan deskripsi alat..."
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
  value="{{ $edit->deskripsi }}">
 
  @error('deskripsi')
@@ -79,7 +79,7 @@
  <div class="bg-white p-4 rounded-lg mb-4">
  <label for="spesifikasi" class="block text-sm font-medium text-gray-700">Spesifikasi</label>
  <textarea id="spesifikasi" name="spesifikasi" placeholder="Masukkan spesifikasi dari alat / bahan"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('spesifikasi', $edit->spesifikasi) }}</textarea>
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">{{ old('spesifikasi', $edit->spesifikasi) }}</textarea>
  @error('spesifikasi')
  <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
  @enderror
@@ -162,7 +162,7 @@
  <label for="jumlah_satuan" class="block text-sm font-medium text-gray-700">Jumlah Satuan</label>
  <input type="number" id="jumlah_satuan" name="jumlah_satuan"
  placeholder="Masukkan jumlah satuan dalam hitungan unit, misal = 1 unit"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
  value="{{ $edit->jumlah_satuan }}">
  @error('jumlah_satuan')
  <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -173,7 +173,7 @@
  <label for="jumlah_ml" class="block text-sm font-medium text-gray-700">Jumlah (ml)</label>
  <input type="number" id="jumlah_ml" name="jumlah_ml"
  placeholder="Masukkan jumlah cairan dalam ukuran {{ 'ml / mili liter' }}"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
  value="{{ $edit->jumlah_ml }}">
  @error('jumlah_ml')
  <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -185,7 +185,7 @@
  <label for="cara_penggunaan" class="block mb-1 text-sm font-medium text-gray-700">Cara
  Penggunaan</label>
  <textarea id="editor" name="cara_penggunaan"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm">
  {{ $edit->cara_penggunaan }}
  </textarea>
  @error('cara_penggunaan')
@@ -198,7 +198,7 @@
  <label for="link_youtube" class="block text-sm font-medium text-gray-700">Link YouTube</label>
  <input type="url" id="link_youtube" name="link_youtube"
  placeholder=" Link diawali dengan http://"
- class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+ class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
  value="{{ old('link_youtube', $edit->link_youtube) }}">
  @error('link_youtube')
  <p class="mt-2 text-sm text-red-600">{{ $message }}</p>
@@ -256,7 +256,7 @@
 
  <div class="flex items-center justify-end">
  <button type="submit"
- class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+ class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
  Submit
  </button>
  </div>

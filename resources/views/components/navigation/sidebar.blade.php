@@ -65,7 +65,7 @@
                         <li x-data="{ open: {{ $hasActiveChild ? 'true' : 'false' }} }" class="pt-1">
                             <!-- Parent Toggle -->
                             <button @click="open = !open"
-                                class="w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold tracking-wider text-zinc-500 uppercase hover:text-zinc-900 transition-colors rounded-lg hover:bg-zinc-50 outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 group"
+                                class="w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold tracking-wider text-zinc-500 uppercase hover:text-zinc-900 transition-colors rounded-lg hover:bg-zinc-50 outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 group"
                                 x-transition.opacity>
                                 <div class="flex items-center group-hover:translate-x-0.5 transition-transform">
                                     @if(isset($section['icon']))

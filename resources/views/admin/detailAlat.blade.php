@@ -31,7 +31,7 @@
 
     <div class="px-2 pb-12 max-w-7xl mx-auto">
         <div class="mb-8">
-            <p class="text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">Detail Alat & Bahan</p>
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-600">Detail Alat & Bahan</p>
             <h1 class="mt-2 text-2xl font-bold tracking-tight text-zinc-900">{{ $alat->nama_alat }}</h1>
             <p class="text-sm text-zinc-500 mt-1">
                 Tampilan dibuat seperti halaman artikel agar konten panjang lebih mudah dipindai.
@@ -46,7 +46,7 @@
                         @foreach ($tocItems as $item)
                             <a
                                 href="#{{ $item['id'] }}"
-                                class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-indigo-700 transition-colors"
+                                class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-emerald-700 transition-colors"
                             >
                                 <span>{{ $item['label'] }}</span>
                                 <span class="text-zinc-300">›</span>
@@ -143,7 +143,7 @@
                                     href="{{ $alat->link_youtube }}"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="inline-flex items-center rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 transition-colors"
+                                    class="inline-flex items-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors"
                                 >
                                     Buka YouTube
                                 </a>
@@ -164,7 +164,7 @@
                             <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Informasi inti</p>
                             <h2 class="mt-1 text-xl font-bold text-zinc-900">Detail singkat</h2>
                         </div>
-                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                             Sekilas
                         </span>
                     </div>
@@ -233,7 +233,7 @@
                                 {{ $alat->jenis_alat == 'Bahan' ? 'Informasi penggunaan' : 'Cara penggunaan' }}
                             </h2>
                         </div>
-                        <span class="rounded-full bg-indigo-50 px-3 py-1 text-xs font-semibold text-indigo-700">
+                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
                             Panjang
                         </span>
                     </div>
@@ -257,7 +257,7 @@
                                 href="{{ $alat->link_youtube }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="mt-2 block break-all text-sm font-semibold text-indigo-600 hover:text-indigo-700"
+                                class="mt-2 block break-all text-sm font-semibold text-emerald-600 hover:text-emerald-700"
                             >
                                 {{ $alat->link_youtube }}
                             </a>
