@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -27,13 +28,32 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
-            'password' => ['required', 'string'],
+            'email' => ['required', 'string', 'min:3', 'regex:/.*@.*/'],
+            'password' => ['required', 'string', 'min:6'],
+        ];
+    }
+
+    /**
+     * Get custom validation messages.
+     */
+    public function messages(): array
+    {
+        return [
+            'email.required' => 'Email wajib diisi.',
+            'email.min' => 'Email minimal 3 karakter.',
+            'email.regex' => 'Format email tidak valid. Email harus mengandung karakter @.',
+            'password.required' => 'Password wajib diisi.',
+            'password.min' => 'Password minimal 6 karakter.',
         ];
     }
 
     /**
      * Attempt to authenticate the request's credentials.
+     *
+     * Provides specific error messages:
+     * - User not found: "Pengguna tidak ditemukan"
+     * - Wrong password: "Email / password salah"
+     * - 3+ failed attempts: flashes 'show_admin_help' to trigger modal
      *
      * @throws \Illuminate\Validation\ValidationException
      */
@@ -41,15 +61,46 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        $email = $this->input('email');
+        $user = User::where('email', $email)->first();
+
+        // Check if user exists in DB
+        if (!$user) {
             RateLimiter::hit($this->throttleKey());
+            $this->trackFailedAttempt();
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => 'Pengguna tidak ditemukan.',
             ]);
         }
 
+        // User exists, attempt auth (wrong password case)
+        if (!Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+            RateLimiter::hit($this->throttleKey());
+            $this->trackFailedAttempt();
+
+            throw ValidationException::withMessages([
+                'email' => 'Email / password salah.',
+            ]);
+        }
+
+        // Success — clear counters
         RateLimiter::clear($this->throttleKey());
+        session()->forget('login_failed_attempts');
+    }
+
+    /**
+     * Track consecutive failed login attempts in session.
+     * After 3+ failures, flash a flag to show admin contact modal.
+     */
+    protected function trackFailedAttempt(): void
+    {
+        $attempts = session()->get('login_failed_attempts', 0) + 1;
+        session()->put('login_failed_attempts', $attempts);
+
+        if ($attempts > 0 && $attempts % 3 === 0) {
+            session()->flash('show_admin_help', true);
+        }
     }
 
     /**
@@ -68,10 +119,7 @@ class LoginRequest extends FormRequest
         $seconds = RateLimiter::availableIn($this->throttleKey());
 
         throw ValidationException::withMessages([
-            'email' => trans('auth.throttle', [
-                'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+            'email' => 'Terlalu banyak percobaan login. Silakan coba lagi dalam ' . ceil($seconds / 60) . ' menit.',
         ]);
     }
 

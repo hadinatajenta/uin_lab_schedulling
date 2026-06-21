@@ -62,7 +62,7 @@
             <p class="text-xs text-zinc-500 truncate">{{ Auth::user()->email ?? 'user@example.com' }}</p>
         </div>
         
-        <a href="{{ route('dashboard') }}" class="flex items-center px-3 py-1.5 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-colors">
+        <a href="{{ url('/admin/profile-settings') }}" class="flex items-center px-3 py-1.5 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-colors">
             <x-atoms.icon name="settings" class="w-4 h-4 mr-2.5 text-zinc-400" />
             Pengaturan Akun
         </a>

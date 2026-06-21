@@ -1,368 +1,509 @@
 @extends('layouts.app')
 
-@section('title', 'Tentang LAB')
+@section('title', 'Penjadwalan Lab')
 
 @section('content')
-    <div class="flex flex-col md:flex-row items-center justify-start lg:justify-between mb-4  ">
-        <div>
-            <h4 class="text-2xl font-bold wedustext-white">Jadwal</h4>
-            <p class="text-sm font-normal text-gray-500 lg:text-sm wedustext-gray-400">
-                Kamu bisa mengelola jadwal pemakaian Ruangan LAB disini.
-            </p>
-        </div>
-        <div class="flex self-start p-2">
+    <div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col">
+        {{-- Header Section --}}
+        <x-ui.page-header title="Penjadwalan" description="Kelola jadwal pemakaian ruangan laboratorium.">
             @if (Auth::user()->jabatan !== 'Mahasiswa')
                 <a href="{{ route('addJadwalView') }}"
-                    class="text-white bg-[#152F8B]  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 wedusbg-blue-600 wedushover:bg-blue-700 focus:outline-none wedusfocus:ring-blue-800">Tambah
-                    Jadwal</a>
+                    class="w-full md:w-auto inline-flex items-center justify-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-sm md:text-xs px-4 h-11 md:h-10 transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <x-atoms.icon name="plus-circle" class="w-5 h-5 md:w-4 md:h-4 mr-2" />
+                    Tambah Jadwal
+                </a>
             @endif
-        </div>
-    </div>
-    <x-alert />
-    <div class="grid grid-cols-12 gap-4 mt-4">
-        {{-- Left Side --}}
-        <div class="col-span-12 md:col-span-4 ">
-            {{-- calendar --}}
-            <div class="calendar bg-white shadow-md rounded-lg overflow-hidden"
-                style="width: 100%;
-                        max-width: 600px;
-                        margin: 0 auto;">
-                <div class="calendar-header"
-                    style="display: flex;
-                            justify-content: space-between;
-                            align-items: center;
-                            padding: 1rem;">
-                    <h2 id="monthYear" class="text-lg font-bold"></h2>
-                    <div>
-                        <button id="prev" class="text-lg font-bold">&lt;</button>
-                        <button id="next" class="text-lg font-bold">&gt;</button>
+        </x-ui.page-header>
+
+        {{-- Calendar & Today/Tomorrow Section --}}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8">
+            {{-- Calendar Widget --}}
+            <div class="lg:col-span-4">
+                <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
+                    <div class="flex items-center justify-between p-4 border-b border-zinc-100">
+                        <h2 id="monthYear" class="text-sm font-bold text-zinc-900 tracking-tight"></h2>
+                        <div class="flex items-center gap-1">
+                            <button id="prev"
+                                class="w-9 h-9 rounded-lg flex items-center justify-center text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button id="next"
+                                class="w-9 h-9 rounded-lg flex items-center justify-center text-zinc-500 hover:bg-zinc-100 hover:text-zinc-700 transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <table class="w-full">
+                            <thead>
+                                <tr>
+                                    @foreach(['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'] as $day)
+                                        <th class="py-2 text-[10px] font-bold text-zinc-400 uppercase tracking-wider text-center">{{ $day }}</th>
+                                    @endforeach
+                                </tr>
+                            </thead>
+                            <tbody id="calendarBody"></tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4 p-2 bg-[#8685EF] rounded-full mx-2">
-                    <div class="text-center p-2 font-bold text-gray">Status</div>
-                    <div class="rounded-full  text-center font-bold bg-[#FEFEDF] text-gray-800 p-2">
-                        Dijadwalkan
-                    </div>
-                </div>
-                <table class="min-w-full bg-white">
-                    <thead>
-                        <tr class=" text-gray-800">
-                            <th class="w-1/7 py-2">Sun</th>
-                            <th class="w-1/7 py-2">Mon</th>
-                            <th class="w-1/7 py-2">Tue</th>
-                            <th class="w-1/7 py-2">Wed</th>
-                            <th class="w-1/7 py-2">Thu</th>
-                            <th class="w-1/7 py-2">Fri</th>
-                            <th class="w-1/7 py-2">Sat</th>
-                        </tr>
-                    </thead>
-                    <tbody id="calendarBody">
-                    </tbody>
-                </table>
             </div>
 
-        </div>
+            {{-- Today & Tomorrow Timeline --}}
+            <div class="lg:col-span-8">
+                <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
+                    {{-- Tabs --}}
+                    <div class="border-b border-zinc-100" x-data="{ activeTab: 'today' }">
+                        <div class="flex items-center gap-1 p-1.5">
+                            <button @click="activeTab = 'today'"
+                                :class="activeTab === 'today' ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-600/10' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                                class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-lg transition-all text-center">
+                                Hari Ini
+                            </button>
+                            <button @click="activeTab = 'tomorrow'"
+                                :class="activeTab === 'tomorrow' ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-600/10' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                                class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-lg transition-all text-center">
+                                Besok
+                            </button>
+                            <button @click="activeTab = 'week'"
+                                :class="activeTab === 'week' ? 'bg-indigo-50 text-indigo-700 ring-1 ring-indigo-600/10' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                                class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-lg transition-all text-center whitespace-nowrap">
+                                7 Hari Kedepan
+                            </button>
+                        </div>
 
-        {{-- Right side --}}
-        <div class="col-span-12 md:col-span-8 bg-white  rounded shadow-md">
-            <div class="flex bg-[#8685EF]  rounded-t-md text-gray p-2 items-center mb-4">
-                <div class="me-3">
-                    <h1 class=" font-bold ms-2">Jadwal untuk </h1>
-                </div>
-                <div class=" bg-orange-100 rounded-full wedusborder-gray-700">
-                    <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab"
-                        data-tabs-toggle="#default-tab-content" role="tablist">
-                        <li class="me-2" role="presentation">
-                            <button class="inline-block p-4  rounded-t-lg" id="profile-tab" data-tabs-target="#profile"
-                                type="button" role="tab" aria-controls="profile" aria-selected="false">Hari
-                                ini</button>
-                        </li>
-                        <li class="me-2" role="presentation">
-                            <button
-                                class="inline-block p-4  rounded-t-lg hover:text-gray-600 hover:border-gray-300 wedushover:text-gray-300"
-                                id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab"
-                                aria-controls="dashboard" aria-selected="false">Besok</button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            {{-- jadwal --}}
-            <div class="container rounded-lg mx-auto p-6">
-                <div id="default-tab-content">
-                    {{-- Hari ini --}}
-                    <div class="hidden p-4 rounded-lg " id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <ol class="relative border-s border-gray-200 wedusborder-gray-700">
-                            @if (count($jadwal) > 1)
-                                @foreach ($jadwal as $agenda)
-                                    <li class="mb-10 ms-6">
-                                        <span
-                                            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white wedusring-gray-900 wedusbg-blue-900">
-                                            <svg class="w-2.5 h-2.5 text-blue-800 wedustext-blue-300" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                            </svg>
-                                        </span>
-                                        <h3
-                                            class="flex items-center mb-1 text-lg font-semibold text-gray-900 wedustext-white">
-                                            {{ $agenda->mata_kuliah }} - Kelas {{ $agenda->kelas }} Semester
-                                            {{ $agenda->semester }}
-                                        </h3>
-                                        <time
-                                            class="block mb-2 text-sm font-normal leading-none text-gray-400 wedustext-gray-500">Dijadwalkan
-                                            untuk
-                                            {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->locale('id_ID')->isoFormat('MMMM Do, YYYY') }}
-                                        </time>
-                                        <p class="mb-4 text-base font-normal text-gray-500 wedustext-gray-400">Jadwal
-                                            pemakaian
-                                            lab
-                                            untuk Matkul {{ $agenda->mata_kuliah }} Submateri
-                                            {{ $agenda->submateri ?? '-' }}
-                                            dengan dosen pembimbing
-                                            {{ $agenda->dosen }}. Pukul
-                                            {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} -
-                                            {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
-
-                                        </p>
-                                    </li>
-                                @endforeach
+                        {{-- Today Tab Content --}}
+                        <div x-show="activeTab === 'today'" class="p-5 md:p-6">
+                            @if (count($jadwal) > 0)
+                                <ol class="relative border-s-2 border-indigo-100 ms-3">
+                                    @foreach ($jadwal as $agenda)
+                                        <li class="mb-8 ms-6 last:mb-0">
+                                            <span class="absolute flex items-center justify-center w-7 h-7 bg-indigo-100 rounded-full -start-3.5 ring-4 ring-white">
+                                                <svg class="w-3 h-3 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                                </svg>
+                                            </span>
+                                            <h3 class="text-[14px] font-bold text-zinc-900 tracking-tight mb-1">
+                                                {{ $agenda->mata_kuliah }} — Kelas {{ $agenda->kelas }} Smt {{ $agenda->semester }}
+                                            </h3>
+                                            <time class="block mb-2 text-[12px] font-semibold text-zinc-400">
+                                                {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} – {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
+                                            </time>
+                                            <p class="text-[13px] font-medium text-zinc-500 leading-relaxed">
+                                                Submateri {{ $agenda->submateri ?? '-' }} · Dosen {{ $agenda->dosen?->name ?? 'Unknown' }}
+                                            </p>
+                                        </li>
+                                    @endforeach
+                                </ol>
                             @else
-                                <li class="mb-10 ms-6">
-                                    Tidak ada Jadwal
-                                </li>
+                                <div class="flex flex-col items-center justify-center py-8 text-center">
+                                    <div class="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-zinc-400 mb-3 ring-1 ring-zinc-100">
+                                        <x-atoms.icon name="calendar" class="w-5 h-5" />
+                                    </div>
+                                    <p class="text-[13px] font-semibold text-zinc-500">Tidak ada jadwal hari ini</p>
+                                </div>
                             @endif
-                        </ol>
-                    </div>
-                    {{-- besok --}}
-                    <div class="hidden p-4 rounded-lg  wedusbg-gray-800" id="dashboard" role="tabpanel"
-                        aria-labelledby="dashboard-tab">
-                        <ol class="relative border-s border-gray-200 wedusborder-gray-700">
-                            @if (count($jadwal) > 1)
-                                @foreach ($jadwal_besok as $agenda)
-                                    <li class="mb-10 ms-6">
-                                        <span
-                                            class="absolute flex items-center justify-center w-6 h-6 bg-blue-100 rounded-full -start-3 ring-8 ring-white wedusring-gray-900 wedusbg-blue-900">
-                                            <svg class="w-2.5 h-2.5 text-blue-800 wedustext-blue-300" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                                <path
-                                                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                            </svg>
-                                        </span>
-                                        <h3
-                                            class="flex items-center mb-1 text-lg font-semibold text-gray-900 wedustext-white">
-                                            {{ $agenda->mata_kuliah }} - Kelas {{ $agenda->kelas }} Semester
-                                            {{ $agenda->semester }}
-                                        </h3>
-                                        <time
-                                            class="block mb-2 text-sm font-normal leading-none text-gray-400 wedustext-gray-500">Dijadwalkan
-                                            untuk
-                                            {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->locale('id_ID')->isoFormat('MMMM Do, YYYY') }}
-                                        </time>
-                                        <p class="mb-4 text-base font-normal text-gray-500 wedustext-gray-400">Jadwal
-                                            pemakaian
-                                            lab
-                                            untuk Praktikum Biologi dengan dosen pembimbing Dr.Sucrypto. Pukul
-                                            {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} -
-                                            {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
-                                        </p>
-                                    </li>
-                                @endforeach
+                        </div>
+
+                        {{-- Tomorrow Tab Content --}}
+                        <div x-show="activeTab === 'tomorrow'" x-cloak class="p-5 md:p-6">
+                            @if (count($jadwal_besok) > 0)
+                                <ol class="relative border-s-2 border-indigo-100 ms-3">
+                                    @foreach ($jadwal_besok as $agenda)
+                                        <li class="mb-8 ms-6 last:mb-0">
+                                            <span class="absolute flex items-center justify-center w-7 h-7 bg-indigo-100 rounded-full -start-3.5 ring-4 ring-white">
+                                                <svg class="w-3 h-3 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                                </svg>
+                                            </span>
+                                            <h3 class="text-[14px] font-bold text-zinc-900 tracking-tight mb-1">
+                                                {{ $agenda->mata_kuliah }} — Kelas {{ $agenda->kelas }} Smt {{ $agenda->semester }}
+                                            </h3>
+                                            <time class="block mb-2 text-[12px] font-semibold text-zinc-400">
+                                                {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} – {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
+                                            </time>
+                                            <p class="text-[13px] font-medium text-zinc-500 leading-relaxed">
+                                                Submateri {{ $agenda->submateri ?? '-' }} · Dosen {{ $agenda->dosen?->name ?? 'Unknown' }}
+                                            </p>
+                                        </li>
+                                    @endforeach
+                                </ol>
                             @else
-                                <li class="mb-10 ms-6">
-                                    Tidak ada Jadwal
-                                </li>
+                                <div class="flex flex-col items-center justify-center py-8 text-center">
+                                    <div class="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-zinc-400 mb-3 ring-1 ring-zinc-100">
+                                        <x-atoms.icon name="calendar" class="w-5 h-5" />
+                                    </div>
+                                    <p class="text-[13px] font-semibold text-zinc-500">Tidak ada jadwal besok</p>
+                                </div>
                             @endif
-                        </ol>
+                        </div>
+
+                        {{-- Week Tab Content --}}
+                        <div x-show="activeTab === 'week'" x-cloak class="p-5 md:p-6">
+                            @if (count($jadwal_minggu_ini) > 0)
+                                <ol class="relative border-s-2 border-indigo-100 ms-3">
+                                    @foreach ($jadwal_minggu_ini as $agenda)
+                                        <li class="mb-8 ms-6 last:mb-0">
+                                            <span class="absolute flex items-center justify-center w-7 h-7 bg-indigo-100 rounded-full -start-3.5 ring-4 ring-white">
+                                                <svg class="w-3 h-3 text-indigo-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                                </svg>
+                                            </span>
+                                            <h3 class="text-[14px] font-bold text-zinc-900 tracking-tight mb-1">
+                                                {{ $agenda->mata_kuliah }} — Kelas {{ $agenda->kelas }} Smt {{ $agenda->semester }}
+                                            </h3>
+                                            <time class="block mb-2 text-[12px] font-semibold text-zinc-400">
+                                                {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->format('d M Y') }} • {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} – {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
+                                            </time>
+                                            <p class="text-[13px] font-medium text-zinc-500 leading-relaxed">
+                                                Submateri {{ $agenda->submateri ?? '-' }} · Dosen {{ $agenda->dosen?->name ?? 'Unknown' }}
+                                            </p>
+                                        </li>
+                                    @endforeach
+                                </ol>
+                            @else
+                                <div class="flex flex-col items-center justify-center py-8 text-center">
+                                    <div class="w-10 h-10 rounded-xl bg-zinc-50 flex items-center justify-center text-zinc-400 mb-3 ring-1 ring-zinc-100">
+                                        <x-atoms.icon name="calendar" class="w-5 h-5" />
+                                    </div>
+                                    <p class="text-[13px] font-semibold text-zinc-500">Tidak ada jadwal dalam 7 hari kedepan</p>
+                                </div>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    {{-- 3 grid --}}
-    {{-- <div class="grid grid-cols-3 gap-4 my-4">
-        <div class="flex items-center justify-center h-24 rounded bg-gray-800 wedusbg-gray-800">
+        {{-- All Schedules Section --}}
+        <div class="mb-4">
+            <h2 class="text-lg font-bold text-zinc-900 tracking-tight">Daftar Semua Jadwal</h2>
+            <p class="text-xs font-medium text-zinc-500 mt-0.5">Seluruh jadwal pemakaian laboratorium yang tercatat.</p>
         </div>
-        <div class="flex items-center justify-center h-24 rounded bg-gray-800 wedusbg-gray-800">
-            <p class="text-2xl text-gray-400 wedustext-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-        <div class="flex items-center justify-center h-24 rounded bg-gray-800 wedusbg-gray-800">
-            <p class="text-2xl text-gray-400 wedustext-gray-500">
-                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 18 18">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M9 1v16M1 9h16" />
-                </svg>
-            </p>
-        </div>
-    </div> --}}
 
-    <div class="mt-4">
-        <h4 class="text-2xl font-bold wedustext-white">Daftar semua jadwal</h4>
-        <p class="text-sm font-normal text-gray-500 lg:text-sm wedustext-gray-400">
-            Kamu bisa mengelola jadwal pemakaian Ruangan LAB disini.
-        </p>
-    </div>
-    <div class="grid grid-cols-2 gap-4 my-4 ">
-        <form class="w-full mx-auto">
-            <label for="default-search"
-                class="mb-2 text-sm font-medium text-gray-900 sr-only wedustext-white">Search</label>
-            <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 wedustext-gray-400" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
+        {{-- Search & Filter --}}
+        <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-6">
+            <div class="relative flex-1">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                    <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" />
                 </div>
-                <input type="search" id="search" name="keyword"
-                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
-                    placeholder="Cari Matakuliah" />
-                <button type="submit"
-                    class="text-white absolute end-2.5 bottom-2.5 bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 wedusbg-blue-600 wedushover:bg-blue-700 wedusfocus:ring-blue-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                </button>
+                <input type="search" id="search"
+                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors"
+                    placeholder="Cari mata kuliah..." />
             </div>
-        </form>
-
-        <form class="w-full mx-auto">
-            <label for="default-search"
-                class="mb-2 text-sm font-medium text-gray-900 sr-only wedustext-white">Search</label>
-            <div class="relative">
-                <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                    <svg class="w-4 h-4 text-gray-500 wedustext-gray-400" aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                    </svg>
+            <div class="relative flex-1 md:max-w-xs">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                    <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" />
                 </div>
-                <input type="search" id="search-kelas" name="keyword"
-                    class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 wedusbg-gray-700 wedusborder-gray-600 wedusplaceholder-gray-400 wedustext-white wedusfocus:ring-blue-500 wedusfocus:border-blue-500"
+                <input type="search" id="search-kelas"
+                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors"
                     placeholder="Cari kelas..." />
-                <button type="submit"
-                    class="text-white absolute end-2.5 bottom-2.5 bg-gray-800 hover:bg-gray-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 wedusbg-blue-600 wedushover:bg-blue-700 wedusfocus:ring-blue-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
-                    </svg>
-                </button>
             </div>
-        </form>
-    </div>
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-4">
-        <table class="w-full text-sm text-left rtl:text-right text-gray-500 wedustext-gray-400">
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 wedusbg-gray-700 wedustext-gray-400">
-                <tr>
-                    <th scope="col" class="px-6 py-3">
-                        Mata Kuliah
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Submateri
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Dosen
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Kelas
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Semester
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Tanggal
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Waktu mulai
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Waktu selesai
-                    </th>
-                    <th scope="col" class="px-6 py-3">
-                        Status
-                    </th>
-                    @if (Auth::user()->jabatan !== 'Mahasiswa')
-                        <th scope="col" class="px-6 py-3">
-                            Action
-                        </th>
-                    @endif
-                </tr>
-            </thead>
-            <tbody id="alat-table">
+        </div>
+
+        {{-- Schedule Data --}}
+        @if($schedule->isEmpty())
+            <x-ui.empty-state title="Belum ada jadwal"
+                description="Tambahkan jadwal pertama atau sesuaikan filter pencarian untuk memulai." icon="calendar">
+                @if (Auth::user()->jabatan !== 'Mahasiswa')
+                    <x-slot name="action">
+                        <a href="{{ route('addJadwalView') }}"
+                            class="inline-flex items-center justify-center text-white bg-indigo-600 hover:bg-indigo-700 font-semibold rounded-xl text-xs px-4 py-2 transition-colors shadow-sm">
+                            Tambah Jadwal
+                        </a>
+                    </x-slot>
+                @endif
+            </x-ui.empty-state>
+        @else
+            {{-- Desktop Table --}}
+            <div class="hidden lg:flex bg-white border border-zinc-200/80 rounded-2xl shadow-sm flex-grow flex-col justify-between overflow-hidden">
+                <div class="rounded-t-2xl flex-grow overflow-x-auto">
+                    <table class="w-full text-left border-collapse whitespace-nowrap">
+                        <thead>
+                            <tr class="bg-zinc-50/80 border-b border-zinc-200/80">
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Mata Kuliah</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Submateri</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Dosen</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Kelas</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Tanggal</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Waktu</th>
+                                <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Status</th>
+                                @if (Auth::user()->jabatan !== 'Mahasiswa')
+                                    <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-right">Aksi</th>
+                                @endif
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-100/80">
+                            @foreach ($schedule as $jadwal)
+                                @php
+                                    $currentDateTime = \Carbon\Carbon::now();
+                                    $jadwalDateTime = \Carbon\Carbon::parse($jadwal->tanggal_jadwal . ' ' . $jadwal->waktu_selesai);
+                                    $isSelesai = $jadwalDateTime < $currentDateTime;
+                                @endphp
+                                <tr class="schedule-item group hover:bg-zinc-50/80 transition-all"
+                                    data-matkul="{{ strtolower($jadwal->mata_kuliah ?? '') }}"
+                                    data-kelas="{{ strtolower($jadwal->kelas ?? '') }}">
+                                    <td class="px-6 py-4">
+                                        <p class="text-[14px] font-bold text-zinc-900 tracking-tight">
+                                            {{ Str::ucfirst($jadwal->mata_kuliah ?? '-') }}
+                                        </p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-[13px] font-medium text-zinc-600">{{ $jadwal->submateri ?? '-' }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-[13px] font-medium text-zinc-600">{{ $jadwal->dosen?->name ?? '-' }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-[13px] font-medium text-zinc-600">{{ $jadwal->kelas ?? '-' }} / Smt {{ $jadwal->semester ?? '-' }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-[13px] font-medium text-zinc-600">{{ $jadwal->tanggal_jadwal ?? '-' }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="text-[13px] font-medium text-zinc-600">{{ $jadwal->waktu_mulai ?? '-' }} – {{ $jadwal->waktu_selesai ?? '-' }}</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        @if ($jadwal->status === 'selesai')
+                                            <x-ui.badge type="success">Selesai</x-ui.badge>
+                                        @elseif ($jadwal->status === 'berlangsung')
+                                            <x-ui.badge type="indigo">Berlangsung</x-ui.badge>
+                                        @elseif ($jadwal->status === 'dibatalkan')
+                                            <x-ui.badge type="danger">Dibatalkan</x-ui.badge>
+                                        @else
+                                            <x-ui.badge type="warning">Dijadwalkan</x-ui.badge>
+                                        @endif
+                                    </td>
+                                    @if (Auth::user()->jabatan !== 'Mahasiswa')
+                                        <td class="px-6 py-4 text-right">
+                                            <div class="flex items-center justify-end">
+                                                <div x-data="{ open: false }" class="relative inline-block text-left">
+                                                    <button @click="open = !open" @click.outside="open = false"
+                                                        class="p-2 w-[44px] h-[44px] rounded-lg text-zinc-400 opacity-0 group-hover:opacity-100 focus:opacity-100 hover:text-zinc-600 hover:bg-zinc-200/50 transition-all flex items-center justify-center">
+                                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                                        </svg>
+                                                    </button>
+
+                                                    <div x-show="open" x-cloak
+                                                        class="absolute right-0 mt-1.5 w-44 rounded-xl bg-white border border-zinc-200 shadow-lg py-1.5 z-50 text-left">
+                                                        <a href="{{ route('updateJadwal', $jadwal->id) }}"
+                                                            class="w-full text-left px-3 py-2 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center min-h-[44px]">
+                                                            <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-400" />
+                                                            Edit Jadwal
+                                                        </a>
+
+                                                        @if(in_array($jadwal->status, ['dijadwalkan', 'berlangsung']) && (Auth::id() == $jadwal->dosen_id || Auth::user()->jabatan == 'Admin Lab'))
+                                                            <form action="{{ route('completeEarly', $jadwal->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button type="submit"
+                                                                    class="w-full text-left px-3 py-2 text-xs font-semibold text-emerald-600 hover:bg-emerald-50 transition-colors flex items-center min-h-[44px]">
+                                                                    <x-atoms.icon name="check" class="w-3.5 h-3.5 mr-2 text-emerald-400" />
+                                                                    Selesaikan
+                                                                </button>
+                                                            </form>
+                                                            <form action="{{ route('cancelJadwal', $jadwal->id) }}" method="POST">
+                                                                @csrf
+                                                                @method('PUT')
+                                                                <button type="submit"
+                                                                    class="w-full text-left px-3 py-2 text-xs font-semibold text-amber-600 hover:bg-amber-50 transition-colors flex items-center min-h-[44px]">
+                                                                    <x-atoms.icon name="x" class="w-3.5 h-3.5 mr-2 text-amber-400" />
+                                                                    Batalkan
+                                                                </button>
+                                                            </form>
+                                                        @endif
+
+                                                        <div class="h-px bg-zinc-100 my-1"></div>
+                                                        <button type="button" data-modal-target="delete-modal-{{ $jadwal->id }}"
+                                                            data-modal-toggle="delete-modal-{{ $jadwal->id }}"
+                                                            class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
+                                                            <x-atoms.icon name="trash" class="w-3.5 h-3.5 mr-2 text-rose-400" />
+                                                            Hapus
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    @endif
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                {{-- Desktop Pagination --}}
+                <x-ui.pagination :paginator="$schedule" />
+            </div>
+
+            {{-- Mobile & Tablet Cards --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:hidden gap-4 flex-grow">
                 @foreach ($schedule as $jadwal)
                     @php
                         $currentDateTime = \Carbon\Carbon::now();
-                        $jadwalDateTime = \Carbon\Carbon::createFromFormat(
-                            'Y-m-d H:i:s',
-                            $jadwal->tanggal_jadwal . ' ' . $jadwal->waktu_selesai,
-                        );
+                        $jadwalDateTime = \Carbon\Carbon::parse($jadwal->tanggal_jadwal . ' ' . $jadwal->waktu_selesai);
+                        $isSelesai = $jadwalDateTime < $currentDateTime;
                     @endphp
-                    <tr
-                        class="bg-white border-b wedusbg-gray-800 wedusborder-gray-700 hover:bg-gray-50 wedushover:bg-gray-600">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap wedustext-white">
-                            {{ Str::ucfirst($jadwal->mata_kuliah ?? '-') }}
-                        </th>
-                        <td class="px-6 py-4">
-                            {{ $jadwal->submateri ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $jadwal->dosen ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $jadwal->kelas ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $jadwal->semester ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $jadwal->tanggal_jadwal ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $jadwal->waktu_mulai ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            {{ $jadwal->waktu_selesai ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4">
-                            @if ($jadwalDateTime < $currentDateTime)
-                                <span class="bg-green-500 text-white px-2 py-1 rounded-full font-bold ">Selesai</span>
-                            @else
-                                <span class="bg-yellow-500 text-white px-2 py-1 rounded-full font-bold">Dijadwalkan</span>
-                            @endif
-                        </td>
-                        <td class="flex items-center px-6 py-4">
-                            @if (Auth::user()->jabatan !== 'Mahasiswa')
-                                <a href="{{ route('updateJadwal', $jadwal->id) }}"
-                                    class="font-medium text-blue-600 wedustext-blue-500 hover:underline">Edit</a>
-                                <x-pop-up id="{{ $jadwal->id }}" action="{{ route('hapusJadwal', $jadwal->id) }}"
-                                    buttonName="Hapus" />
-                            @endif
-                        </td>
-                    </tr>
+                    <div class="schedule-item bg-white border border-zinc-200/80 rounded-2xl p-5 shadow-sm hover:shadow-md transition-shadow relative"
+                         data-matkul="{{ strtolower($jadwal->mata_kuliah ?? '') }}"
+                         data-kelas="{{ strtolower($jadwal->kelas ?? '') }}">
+                        {{-- Action Menu --}}
+                        @if (Auth::user()->jabatan !== 'Mahasiswa')
+                            <div class="absolute top-4 right-4">
+                                <div x-data="{ open: false }" class="relative inline-block text-left">
+                                    <button @click="open = !open" @click.outside="open = false"
+                                        class="p-2 rounded-xl text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center justify-center w-[44px] h-[44px]">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                        </svg>
+                                    </button>
+
+                                    <div x-show="open" x-cloak
+                                        class="absolute right-0 mt-1 w-44 rounded-xl bg-white border border-zinc-200 shadow-lg py-1.5 z-50 text-left">
+                                        <a href="{{ route('updateJadwal', $jadwal->id) }}"
+                                            class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center min-h-[44px]">
+                                            <x-atoms.icon name="settings" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-zinc-400" />
+                                            Edit Jadwal
+                                        </a>
+
+                                        @if(in_array($jadwal->status, ['dijadwalkan', 'berlangsung']) && (Auth::id() == $jadwal->dosen_id || Auth::user()->jabatan == 'Admin Lab'))
+                                            <form action="{{ route('completeEarly', $jadwal->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit"
+                                                    class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-emerald-600 hover:bg-emerald-50 transition-colors flex items-center min-h-[44px]">
+                                                    <x-atoms.icon name="check" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-emerald-400" />
+                                                    Selesaikan
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('cancelJadwal', $jadwal->id) }}" method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <button type="submit"
+                                                    class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-amber-600 hover:bg-amber-50 transition-colors flex items-center min-h-[44px]">
+                                                    <x-atoms.icon name="x" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-amber-400" />
+                                                    Batalkan
+                                                </button>
+                                            </form>
+                                        @endif
+
+                                        <div class="h-px bg-zinc-100 my-1"></div>
+                                        <button type="button" data-modal-target="delete-modal-{{ $jadwal->id }}"
+                                            data-modal-toggle="delete-modal-{{ $jadwal->id }}"
+                                            class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
+                                            <x-atoms.icon name="trash" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-rose-400" />
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
+
+                        {{-- Card Content --}}
+                        <div class="pr-12 mb-4">
+                            <h5 class="text-[15px] font-bold text-zinc-900 tracking-tight mb-1">
+                                {{ Str::ucfirst($jadwal->mata_kuliah ?? '-') }}
+                            </h5>
+                            <p class="text-[13px] font-medium text-zinc-500">
+                                Kelas {{ $jadwal->kelas ?? '-' }} · Semester {{ $jadwal->semester ?? '-' }}
+                            </p>
+                        </div>
+
+                        <div class="space-y-3 pt-3 border-t border-zinc-100/80">
+                            <div class="flex items-center justify-between gap-4">
+                                <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Submateri</span>
+                                <span class="text-[13px] font-semibold text-zinc-700 text-right truncate">{{ $jadwal->submateri ?? '-' }}</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-4">
+                                <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Dosen</span>
+                                <span class="text-[13px] font-semibold text-zinc-700 text-right">{{ $jadwal->dosen?->name ?? '-' }}</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-4">
+                                <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Tanggal</span>
+                                <span class="text-[13px] font-semibold text-zinc-700 text-right">{{ $jadwal->tanggal_jadwal ?? '-' }}</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-4">
+                                <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Waktu</span>
+                                <span class="text-[13px] font-semibold text-zinc-700 text-right">{{ $jadwal->waktu_mulai ?? '-' }} – {{ $jadwal->waktu_selesai ?? '-' }}</span>
+                            </div>
+                            <div class="flex items-center justify-between gap-4">
+                                <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Status</span>
+                                @if ($jadwal->status === 'selesai')
+                                    <x-ui.badge type="success">Selesai</x-ui.badge>
+                                @elseif ($jadwal->status === 'berlangsung')
+                                    <x-ui.badge type="indigo">Berlangsung</x-ui.badge>
+                                @elseif ($jadwal->status === 'dibatalkan')
+                                    <x-ui.badge type="danger">Dibatalkan</x-ui.badge>
+                                @else
+                                    <x-ui.badge type="warning">Dijadwalkan</x-ui.badge>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
                 @endforeach
-            </tbody>
-        </table>
-        {{ $schedule->links() }}
+            </div>
 
+            {{-- Mobile Pagination --}}
+            <div class="lg:hidden mt-4">
+                <x-ui.pagination :paginator="$schedule" />
+            </div>
+
+            {{-- Delete Modals (extracted to prevent ID duplication) --}}
+            @foreach ($schedule as $jadwal)
+                @if (Auth::user()->jabatan !== 'Mahasiswa')
+                    <form action="{{ route('hapusJadwal', $jadwal->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <div id="delete-modal-{{ $jadwal->id }}" tabindex="-1"
+                            class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                            <div class="relative p-4 w-full max-w-md max-h-full">
+                                <div class="relative bg-white rounded-2xl shadow-lg border border-zinc-200">
+                                    <button type="button"
+                                        class="absolute top-4 end-4 text-zinc-400 bg-transparent hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center transition-colors"
+                                        data-modal-hide="delete-modal-{{ $jadwal->id }}">
+                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                        </svg>
+                                        <span class="sr-only">Close modal</span>
+                                    </button>
+                                    <div class="p-6 md:p-8 text-center">
+                                        <div class="w-14 h-14 rounded-2xl bg-rose-50 flex items-center justify-center mx-auto mb-5 ring-1 ring-rose-100">
+                                            <svg class="w-7 h-7 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                                            </svg>
+                                        </div>
+                                        <h3 class="text-lg font-bold text-zinc-900 mb-2">Hapus Jadwal?</h3>
+                                        <p class="text-sm text-zinc-500 mb-6">
+                                            Jadwal <strong>{{ $jadwal->mata_kuliah }}</strong> akan dihapus permanen. Tindakan ini tidak dapat dibatalkan.
+                                        </p>
+                                        <div class="flex flex-col-reverse sm:flex-row gap-3 justify-center">
+                                            <button data-modal-hide="delete-modal-{{ $jadwal->id }}" type="button"
+                                                class="px-5 py-2.5 text-sm font-semibold text-zinc-700 bg-white rounded-xl border border-zinc-200 hover:bg-zinc-50 transition-colors min-h-[44px]">
+                                                Batal
+                                            </button>
+                                            <button data-modal-hide="delete-modal-{{ $jadwal->id }}" type="submit"
+                                                class="px-5 py-2.5 text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition-colors min-h-[44px] focus:outline-none focus:ring-2 focus:ring-rose-500">
+                                                Ya, Hapus
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                @endif
+            @endforeach
+        @endif
     </div>
-
 @endsection
 
 @section('script')
     <script>
-        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
-            "October", "November", "December"
-        ];
+        // Calendar
+        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
         let currentDate = new Date();
 
         function generateCalendar(date) {
@@ -386,22 +527,22 @@
 
                 for (let j = 0; j < 7; j++) {
                     let cell = document.createElement("td");
-                    cell.classList.add("px-4", "py-2", "text-center");
+                    cell.classList.add("py-2", "text-center", "text-sm", "font-medium", "cursor-default", "rounded-lg");
 
                     if (i === 0 && j < firstDayOfMonth) {
                         cell.textContent = lastDateOfPreviousMonth - firstDayOfMonth + j + 1;
-                        cell.classList.add("text-gray-400");
+                        cell.classList.add("text-zinc-300");
                     } else if (dateCount > lastDateOfMonth) {
                         cell.textContent = nextMonthDateCount++;
-                        cell.classList.add("text-gray-400");
+                        cell.classList.add("text-zinc-300");
                     } else {
                         cell.textContent = dateCount++;
-                        if (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() &&
+                        cell.classList.add("text-zinc-700");
+                        if (date.getFullYear() === new Date().getFullYear() &&
+                            date.getMonth() === new Date().getMonth() &&
                             cell.textContent == new Date().getDate()) {
-                            cell.classList.add("bg-[#8685EF]");
-                            cell.classList.add("rounded-full");
-                            cell.classList.add("text-gray");
-                            cell.classList.add("font-bold");
+                            cell.classList.remove("text-zinc-700");
+                            cell.classList.add("bg-indigo-600", "text-white", "font-bold", "rounded-lg");
                         }
                     }
 
@@ -426,26 +567,27 @@
     </script>
 
     <script>
+        // Schedule filtering (works for both table rows and cards)
         document.getElementById('search').addEventListener('keyup', function() {
-            filterTable();
+            filterSchedule();
         });
 
         document.getElementById('search-kelas').addEventListener('keyup', function() {
-            filterTable();
+            filterSchedule();
         });
 
-        function filterTable() {
+        function filterSchedule() {
             var search = document.getElementById('search').value.toLowerCase();
             var searchKelas = document.getElementById('search-kelas').value.toLowerCase();
-            var rows = document.querySelectorAll('#alat-table tr');
+            var items = document.querySelectorAll('.schedule-item');
 
-            rows.forEach(function(row) {
-                var matakuliah = row.children[0].textContent.toLowerCase();
-                var kelas = row.children[2].textContent.toLowerCase();
+            items.forEach(function(item) {
+                var matakuliah = item.getAttribute('data-matkul') || '';
+                var kelas = item.getAttribute('data-kelas') || '';
                 if (matakuliah.includes(search) && kelas.includes(searchKelas)) {
-                    row.classList.remove('hidden');
+                    item.classList.remove('hidden');
                 } else {
-                    row.classList.add('hidden');
+                    item.classList.add('hidden');
                 }
             });
         }

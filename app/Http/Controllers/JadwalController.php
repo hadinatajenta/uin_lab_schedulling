@@ -20,13 +20,19 @@ class JadwalController extends Controller
         $tomorrow = now()->addDay()->toDateString();
         $jadwal_besok = Jadwal::where('tanggal_jadwal', $tomorrow)->orderBy('waktu_mulai', 'asc')->get();
 
+        $sevenDaysAhead = now()->addDays(7)->toDateString();
+        $jadwal_minggu_ini = Jadwal::whereBetween('tanggal_jadwal', [$today, $sevenDaysAhead])
+            ->orderBy('tanggal_jadwal', 'asc')
+            ->orderBy('waktu_mulai', 'asc')
+            ->get();
+
         $keyword = $request->input('keyword');
         if (isset($keyword)) {
             $schedule = Jadwal::where('mata_kuliah', 'LIKE', "%{$keyword}%")->orWhere('kelas', 'LIKE', "%{$keyword}%")->paginate(15);
         } else {
             $schedule = Jadwal::orderBy('created_at', 'desc')->paginate(15);
         }
-        return view('lab', compact('jadwal', 'jadwal_besok', 'schedule'));
+        return view('lab', compact('jadwal', 'jadwal_besok', 'jadwal_minggu_ini', 'schedule'));
     }
 
     // Halaman tambah jadwal
@@ -39,39 +45,14 @@ class JadwalController extends Controller
     }
 
     // Handle tambah jadwal
-    public function addJadwal(Request $request)
+    public function addJadwal(\App\Http\Requests\JadwalRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'mata_kuliah' => ['required'],
-            'tanggal_jadwal' => ['required', 'date', 'after_or_equal:today'],
-            'waktu_mulai' => ['required', 'date_format:H:i'],
-            'waktu_selesai' => ['required', 'date_format:H:i', 'after:waktu_mulai'],
-            'dosen' => ['required'],
-            'submateri' => ['nullable'],
-            'kelas' => ['required'],
-            'semester' => ['required'],
-        ]);
+        $validated = $request->validated();
+        $validated['status'] = 'dijadwalkan';
 
-        if ($validator->fails()) {
-            return redirect()->back()->withErrors($validator)->withInput();
-        }
-
-        $jadwal = new Jadwal();
-        $jadwal->ruangan_id = $request->input('ruangan_id');
-        $jadwal->tanggal_jadwal = $request->input('tanggal_jadwal');
-        $jadwal->mata_kuliah = $request->input('mata_kuliah');
-        $jadwal->submateri = $request->input('submateri');
-        $jadwal->waktu_mulai = $request->input('waktu_mulai');
-        $jadwal->waktu_selesai = $request->input('waktu_selesai');
-        $status = trim("dijadwalkan");
-        $jadwal->status = $status;
-        $jadwal->dosen = $request->input('dosen');
-        $jadwal->kelas = $request->input('kelas');
-        $jadwal->semester = $request->input('semester');
-        $jadwal->save();
+        Jadwal::create($validated);
 
         return redirect()->route('lab')->with('success', 'Berhasil menambah Jadwal!');
-
     }
 
     public function updateJadwal($id)
@@ -82,42 +63,22 @@ class JadwalController extends Controller
         })->get();
         return view('admin.editJadwal', compact('jadwal', 'user'));
     }
-    // Halaman update jadwal
-    public function editjadwal(Request $request, $id)
+
+    public function editjadwal(\App\Http\Requests\JadwalRequest $request, $id)
     {
         $jadwal = Jadwal::find($id);
-        if ($jadwal) {
-            $validator = Validator::make($request->all(), [
-                'mata_kuliah' => ['required'],
-                'tanggal_jadwal' => ['required', 'date', 'after_or_equal:today'],
-                'waktu_mulai' => ['required', 'date_format:H:i'],
-                'waktu_selesai' => ['required', 'date_format:H:i', 'after:waktu_mulai'],
-                'dosen' => ['required'],
-                'kelas' => ['required'],
-                'semester' => ['required'],
-            ]);
-
-            if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
-
-            $jadwal->ruangan_id = 1;
-            $jadwal->tanggal_jadwal = $request->input('tanggal_jadwal');
-            $jadwal->mata_kuliah = $request->input('mata_kuliah');
-            $jadwal->waktu_mulai = $request->input('waktu_mulai');
-            $jadwal->waktu_selesai = $request->input('waktu_selesai');
-            $status = trim("dijadwalkan");
-            $jadwal->status = $status;
-            $jadwal->dosen = $request->input('dosen');
-            $jadwal->kelas = $request->input('kelas');
-            $jadwal->semester = $request->input('semester');
-            $jadwal->save();
-
-            return redirect()->route('lab')->with('success', 'Berhasil perbarui Jadwal!');
-        } else {
-            return redirect()->route('lab')->with('error', 'Gagal perbarui Jadwal!');
+        
+        if (!$jadwal) {
+            return redirect()->route('lab')->with('error', 'Jadwal tidak ditemukan!');
         }
 
+        $validated = $request->validated();
+        $validated['status'] = 'dijadwalkan';
+        $validated['ruangan_id'] = $validated['ruangan_id'] ?? 1;
+
+        $jadwal->update($validated);
+
+        return redirect()->route('lab')->with('success', 'Berhasil perbarui Jadwal!');
     }
     // Handle function update jadwal
 
@@ -131,5 +92,63 @@ class JadwalController extends Controller
         } else {
             return redirect()->back()->with('error', 'Berhasil menghapus jadwal');
         }
+    }
+
+    public function cancelJadwal($id)
+    {
+        $jadwal = Jadwal::findOrFail($id);
+        
+        if (\Illuminate\Support\Facades\Auth::id() != $jadwal->dosen_id && \Illuminate\Support\Facades\Auth::user()->jabatan != 'Admin Lab') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if (!in_array($jadwal->status, ['dijadwalkan', 'berlangsung'])) {
+            return redirect()->back()->with('error', 'Jadwal tidak dapat dibatalkan.');
+        }
+
+        Jadwal::withoutEvents(function () use ($jadwal) {
+            $jadwal->update(['status' => 'dibatalkan']);
+        });
+
+        \App\Models\ActivityLog::create([
+            'user_id' => \Illuminate\Support\Facades\Auth::id(),
+            'action' => 'updated',
+            'subject_type' => get_class($jadwal),
+            'subject_id' => $jadwal->id,
+            'description' => \Illuminate\Support\Facades\Auth::user()->name . " membatalkan jadwal matkul " . $jadwal->mata_kuliah,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
+        return redirect()->back()->with('success', 'Jadwal berhasil dibatalkan.');
+    }
+
+    public function completeEarly($id)
+    {
+        $jadwal = Jadwal::findOrFail($id);
+        
+        if (\Illuminate\Support\Facades\Auth::id() != $jadwal->dosen_id && \Illuminate\Support\Facades\Auth::user()->jabatan != 'Admin Lab') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        if (!in_array($jadwal->status, ['dijadwalkan', 'berlangsung'])) {
+            return redirect()->back()->with('error', 'Jadwal tidak dapat diselesaikan.');
+        }
+
+        Jadwal::withoutEvents(function () use ($jadwal) {
+            $jadwal->update(['status' => 'selesai']);
+        });
+
+        \App\Models\ActivityLog::create([
+            'user_id' => \Illuminate\Support\Facades\Auth::id(),
+            'action' => 'updated',
+            'subject_type' => get_class($jadwal),
+            'subject_id' => $jadwal->id,
+            'description' => \Illuminate\Support\Facades\Auth::user()->name . " menyelesaikan jadwal matkul " . $jadwal->mata_kuliah . " lebih awal",
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
+
+        return redirect()->back()->with('success', 'Jadwal berhasil diselesaikan.');
     }
 }

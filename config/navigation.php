@@ -19,7 +19,7 @@ return [
         'items' => [
             [
                 'title' => 'Data Pengguna',
-                'icon' => 'users',
+                'icon' => 'person',
                 'route' => 'users.index',
                 'active_matches' => ['users.*', 'users.index'],
             ],
@@ -59,6 +59,12 @@ return [
     [
         'section' => 'PENGATURAN',
         'items' => [
+            [
+                'title' => 'Aktivitas Pengguna',
+                'icon' => 'clock',
+                'route' => 'activity.logs',
+                'active_matches' => ['activity.logs'],
+            ],
             [
                 'title' => 'Jasa Lab',
                 'icon' => 'briefcase',

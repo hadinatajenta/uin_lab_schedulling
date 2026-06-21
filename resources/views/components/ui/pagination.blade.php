@@ -15,21 +15,21 @@
         </div>
         <div class="flex flex-1 justify-between sm:justify-end gap-2">
             @if ($paginator->onFirstPage())
-                <span class="relative inline-flex items-center rounded-xl bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed border border-zinc-100">
+                <span class="relative inline-flex justify-center items-center rounded-xl bg-zinc-50 px-4 py-2 text-sm md:text-xs font-semibold text-zinc-400 cursor-not-allowed border border-zinc-100 min-h-[44px]">
                     Sebelumnya
                 </span>
             @else
-                <a href="{{ $paginator->previousPageUrl() }}" class="relative inline-flex items-center rounded-xl bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 border border-zinc-200 transition-colors">
+                <a href="{{ $paginator->previousPageUrl() }}" class="relative inline-flex justify-center items-center rounded-xl bg-white px-4 py-2 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 border border-zinc-200 transition-colors min-h-[44px]">
                     Sebelumnya
                 </a>
             @endif
 
             @if ($paginator->hasMorePages())
-                <a href="{{ $paginator->nextPageUrl() }}" class="relative inline-flex items-center rounded-xl bg-white px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 border border-zinc-200 transition-colors">
+                <a href="{{ $paginator->nextPageUrl() }}" class="relative inline-flex justify-center items-center rounded-xl bg-white px-4 py-2 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 border border-zinc-200 transition-colors min-h-[44px]">
                     Selanjutnya
                 </a>
             @else
-                <span class="relative inline-flex items-center rounded-xl bg-zinc-50 px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed border border-zinc-100">
+                <span class="relative inline-flex justify-center items-center rounded-xl bg-zinc-50 px-4 py-2 text-sm md:text-xs font-semibold text-zinc-400 cursor-not-allowed border border-zinc-100 min-h-[44px]">
                     Selanjutnya
                 </span>
             @endif

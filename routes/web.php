@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 // Admin - dosen
-Route::prefix('/admin')->group(function () {
+Route::prefix('/admin')->middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
@@ -28,10 +28,19 @@ Route::prefix('/admin')->group(function () {
     // Management lab
     Route::get('/list-jadwal', [JadwalController::class, 'jadwalView'])->name('lab');
     Route::get('/jadwal-baru', [JadwalController::class, 'addJadwalView'])->name('addJadwalView');
-    Route::get('/update-jadwal/{id}', [JadwalController::class, 'updateJadwal'])->name('updateJadwal');
     Route::post('/jadwal-baru', [JadwalController::class, 'addJadwal'])->name('addJadwal');
+
+    // Edit jadwal route
+    Route::get('/update-jadwal/{id}', [JadwalController::class, 'updateJadwal'])->name('updateJadwal');
     Route::put('/edit-jadwal/{id}', [JadwalController::class, 'editjadwal'])->name('editJadwal');
+
+    // Hapus jadwal route
     Route::delete('/hapus-jadwal/{id}', [JadwalController::class, 'hapusJadwal'])->name('hapusJadwal');
+
+    // Status Management Routes
+    Route::put('/cancel-jadwal/{id}', [JadwalController::class, 'cancelJadwal'])->name('cancelJadwal');
+    Route::put('/complete-early/{id}', [JadwalController::class, 'completeEarly'])->name('completeEarly');
+
     // Management alat
     Route::get('/manajemen-alat', [AlatController::class, 'alatView'])->name('alat');
     Route::get('/tambah-alat', [AlatController::class, 'tambahAlatView'])->name('add.alat');
@@ -61,9 +70,18 @@ Route::prefix('/admin')->group(function () {
     Route::get('/edit-tentang-lab', [AboutLabController::class, 'editInfoView'])->name('editInfoLab');
     Route::put('/update-aboutlab', [AboutLabController::class, 'editInfo'])->name('editInfo');
 
+    // Activity Logs
+    Route::get('/activity-logs', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('activity.logs');
+
+    // Profile Settings
+    Route::get('/profile-settings', [\App\Http\Controllers\ProfileSettingsController::class, 'index'])->name('profile.settings');
+    Route::put('/profile-settings', [\App\Http\Controllers\ProfileSettingsController::class, 'update'])->name('profile.settings.update');
+
 });
 
-Route::get('/chart-data', [PeminjamanConttroller::class, 'getChartData']);
-Route::get('/pie-chart-data', [PeminjamanConttroller::class, 'getPieChartData']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/chart-data', [PeminjamanConttroller::class, 'getChartData']);
+    Route::get('/pie-chart-data', [PeminjamanConttroller::class, 'getPieChartData']);
+});
 
 require __DIR__ . '/auth.php';

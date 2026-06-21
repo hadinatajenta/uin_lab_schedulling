@@ -32,7 +32,7 @@
         <x-navigation.mobile-sidebar />
         <x-navigation.sidebar />
 
-        <div class="flex-1 flex flex-col" :class="$store.sidebar.expanded ? 'lg:ml-64' : 'lg:ml-20 md:ml-20'">
+        <div class="flex-1 flex flex-col lg:ml-64">
             <div class="flex-1 p-4 lg:p-6 mx-auto w-full max-w-7xl">
                 @yield('content')
             </div>

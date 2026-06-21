@@ -8,7 +8,7 @@
         @endif
     </div>
     @if(isset($slot) && $slot->isNotEmpty())
-        <div class="flex items-center gap-3 shrink-0">
+        <div class="flex items-center gap-3 shrink-0 w-full md:w-auto">
             {{ $slot }}
         </div>
     @endif

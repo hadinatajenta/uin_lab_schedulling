@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Traits\LogsActivity;
+
 class Jadwal extends Model
 {
-    use HasFactory;
+    use HasFactory, LogsActivity;
 
     protected $table = 'jadwal';
     protected $fillable = [
@@ -18,8 +20,13 @@ class Jadwal extends Model
         'waktu_mulai',
         'waktu_selesai',
         'status',
-        'dosen',
+        'dosen_id',
         'kelas',
         'semester',
     ];
+
+    public function dosen()
+    {
+        return $this->belongsTo(User::class, 'dosen_id');
+    }
 }

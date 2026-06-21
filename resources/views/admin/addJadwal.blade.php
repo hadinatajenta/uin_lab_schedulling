@@ -1,165 +1,197 @@
 @extends('layouts.app')
 
-@section('title', 'Tambah Jadwal baru')
+@section('title', 'Tambah Jadwal Baru')
 
 @section('content')
- @if ($errors->any())
- <div class="flex p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 "
- role="alert">
- <svg class="flex-shrink-0 inline w-4 h-4 me-3 mt-[2px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
- fill="currentColor" viewBox="0 0 20 20">
- <path
- d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
- </svg>
- <span class="sr-only">Peringatan</span>
- <div>
- <span class="font-medium">Tolong perhatikan aturan berikut:</span>
- <ul class="mt-1.5 list-disc list-inside">
- @foreach ($errors->all() as $error)
- <li>{{ $error }}</li>
- @endforeach
+    <div class="px-2 pb-8">
+        {{-- Header with Back Button --}}
+        <div class="mb-6">
+            <a href="{{ route('lab') }}"
+                class="inline-flex items-center gap-2 text-sm font-semibold text-zinc-500 hover:text-zinc-700 transition-colors mb-4">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Kembali ke Jadwal
+            </a>
+            <h1 class="text-2xl font-bold tracking-tight text-zinc-900">Tambah Jadwal Baru</h1>
+            <p class="text-sm font-medium text-zinc-500 mt-1">Isi formulir di bawah untuk menambahkan jadwal pemakaian laboratorium.</p>
+        </div>
 
- </ul>
- </div>
- </div>
- @endif
+        {{-- Validation Errors handle by global Toast --}}
 
- <section class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md ">
- <h2 class="text-lg font-semibold text-gray-700 capitalize ">Jadwal Baru</h2>
+        {{-- Form Card --}}
+        <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
+            <form action="{{ route('addJadwal') }}" method="POST">
+                @csrf
 
- <form action="{{ route('addJadwal') }}" method="POST">
- @csrf
- <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
- <div class="">
- <label for="mata_kuliah" class="block text-sm font-medium leading-6 text-gray-900">Mata kuliah</label>
- <div class="mt-2">
- <input type="text" name="mata_kuliah" id="mata_kuliah" autocomplete="family-name"
- placeholder="Masukkan nama kelas"
- class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
- </div>
- </div>
+                {{-- Section: Informasi Mata Kuliah --}}
+                <div class="px-5 md:px-8 py-6 border-b border-zinc-100">
+                    <h3 class="text-sm font-bold text-zinc-900 mb-1">Informasi Mata Kuliah</h3>
+                    <p class="text-xs font-medium text-zinc-400 mb-5">Detail mata kuliah yang akan dijadwalkan.</p>
 
- <div>
- <label for="ruangan" class="block text-sm font-medium leading-6 text-gray-900">Ruangan </label>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        {{-- Mata Kuliah --}}
+                        <div>
+                            <label for="mata_kuliah" class="block text-xs font-bold text-zinc-700 mb-1.5">
+                                Mata Kuliah <span class="text-rose-500">*</span>
+                            </label>
+                            <input type="text" name="mata_kuliah" id="mata_kuliah" value="{{ old('mata_kuliah') }}"
+                                placeholder="cth. Biologi Dasar"
+                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors placeholder:text-zinc-400"
+                                required>
+                        </div>
 
- <div class="grid grid-cols-2 gap-4">
+                        {{-- Submateri --}}
+                        <div>
+                            <label for="submateri" class="block text-xs font-bold text-zinc-700 mb-1.5">
+                                Submateri
+                            </label>
+                            <input type="text" name="submateri" id="submateri" value="{{ old('submateri') }}"
+                                placeholder="cth. Struktur Sel"
+                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors placeholder:text-zinc-400">
+                        </div>
 
- <div class="flex items-center ps-4 border border-gray-200 rounded ">
- <input id="bordered-radio-1" type="radio" value="2" name="ruangan_id"
- class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 ">
- <label for="bordered-radio-1"
- class="w-full py-4 ms-2 text-sm font-medium text-gray-900 ">Ruangan
- 1</label>
- </div>
- <div class="flex items-center ps-4 border border-gray-200 rounded ">
- <input checked id="bordered-radio-2" type="radio" value="2" name="ruangan_id"
- class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 ">
- <label for="bordered-radio-2"
- class="w-full py-4 ms-2 text-sm font-medium text-gray-900 ">Ruangan
- 2</label>
- </div>
+                        {{-- Dosen Pengampu --}}
+                        <div>
+                            <label for="dosen" class="block text-xs font-bold text-zinc-700 mb-1.5">
+                                Dosen Pengampu <span class="text-rose-500">*</span>
+                            </label>
+                            <select id="dosen_id" name="dosen_id"
+                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors appearance-none"
+                                required>
+                                <option value="" disabled selected>Pilih dosen pengampu</option>
+                                @foreach ($user as $dosen)
+                                    <option value="{{ $dosen->id }}"
+                                        {{ old('dosen_id') == $dosen->id ? 'selected' : '' }}>
+                                        {{ $dosen->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
- </div>
- </div>
+                        {{-- Kelas --}}
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label for="kelas" class="block text-xs font-bold text-zinc-700 mb-1.5">
+                                    Kelas <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" name="kelas" id="kelas" value="{{ old('kelas') }}"
+                                    placeholder="cth. A"
+                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors placeholder:text-zinc-400"
+                                    required>
+                            </div>
+                            <div>
+                                <label for="semester" class="block text-xs font-bold text-zinc-700 mb-1.5">
+                                    Semester <span class="text-rose-500">*</span>
+                                </label>
+                                <input type="text" name="semester" id="semester" value="{{ old('semester') }}"
+                                    placeholder="cth. 3"
+                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors placeholder:text-zinc-400"
+                                    required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
- <div>
- <label for="tanggal_jadwal" class="block text-sm font-medium leading-6 text-gray-900">Tanggal</label>
- <div class="relative mt-2">
- <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
- <svg class="w-4 h-4 text-gray-500 " aria-hidden="true"
- xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
- <path
- d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
- </svg>
- </div>
- <input datepicker datepicker-autohide type="text" name="tanggal_jadwal"
- placeholder="Pilih tanggal" datepicker-format="yyyy/mm/dd"
- class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 "
- placeholder="Select date">
- </div>
- </div>
+                {{-- Section: Ruangan --}}
+                <div class="px-5 md:px-8 py-6 border-b border-zinc-100">
+                    <h3 class="text-sm font-bold text-zinc-900 mb-1">Ruangan</h3>
+                    <p class="text-xs font-medium text-zinc-400 mb-5">Pilih ruangan laboratorium yang akan digunakan.</p>
 
- <div>
- <label for="countries" class="block mb-2 text-sm font-medium text-gray-900 ">Dosen
- pengampu</label>
- <select id="countries" name="dosen"
- class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 ">
- <option selected disabled>Pilih nama dosen</option>
- @foreach ($user as $dosen)
- <option value="{{ $dosen->name }}">{{ $dosen->name }}</option>
- @endforeach
- </select>
- </div>
+                    <div class="grid grid-cols-2 gap-4 max-w-sm">
+                        <label for="ruangan-1"
+                            class="flex items-center gap-3 p-4 border border-zinc-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50/30 transition-all has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 has-[:checked]:ring-1 has-[:checked]:ring-indigo-500">
+                            <input id="ruangan-1" type="radio" value="1" name="ruangan_id"
+                                {{ old('ruangan_id', '1') == '1' ? 'checked' : '' }}
+                                class="w-4 h-4 text-indigo-600 border-zinc-300 focus:ring-indigo-500">
+                            <span class="text-sm md:text-xs font-semibold text-zinc-700">Ruangan 1</span>
+                        </label>
+                        <label for="ruangan-2"
+                            class="flex items-center gap-3 p-4 border border-zinc-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50/30 transition-all has-[:checked]:border-indigo-500 has-[:checked]:bg-indigo-50 has-[:checked]:ring-1 has-[:checked]:ring-indigo-500">
+                            <input id="ruangan-2" type="radio" value="2" name="ruangan_id"
+                                {{ old('ruangan_id') == '2' ? 'checked' : '' }}
+                                class="w-4 h-4 text-indigo-600 border-zinc-300 focus:ring-indigo-500">
+                            <span class="text-sm md:text-xs font-semibold text-zinc-700">Ruangan 2</span>
+                        </label>
+                    </div>
+                </div>
 
- <div>
- <label for="waktu_mulai" class="block mb-2 text-sm font-medium text-gray-900 ">Waktu
- Mulai:</label>
- <div class="relative">
- <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
- <svg class="w-4 h-4 text-gray-500 " aria-hidden="true"
- xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
- <path fill-rule="evenodd"
- d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
- clip-rule="evenodd" />
- </svg>
- </div>
- <input type="time" id="waktu_mulai" name="waktu_mulai"
- class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
- min="06:00" max="23:59" value="00:00" required />
- </div>
- </div>
+                {{-- Section: Waktu Pelaksanaan --}}
+                <div class="px-5 md:px-8 py-6 border-b border-zinc-100">
+                    <h3 class="text-sm font-bold text-zinc-900 mb-1">Waktu Pelaksanaan</h3>
+                    <p class="text-xs font-medium text-zinc-400 mb-5">Atur tanggal dan jam pelaksanaan praktikum.</p>
 
- <div>
- <label for="waktu_selesai" class="block mb-2 text-sm font-medium text-gray-900 ">Waktu
- Selesai:</label>
- <div class="relative">
- <div class="absolute inset-y-0 end-0 top-0 flex items-center pe-3.5 pointer-events-none">
- <svg class="w-4 h-4 text-gray-500 " aria-hidden="true"
- xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
- <path fill-rule="evenodd"
- d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z"
- clip-rule="evenodd" />
- </svg>
- </div>
- <input type="time" id="waktu_selesai" name="waktu_selesai"
- class="bg-gray-50 border leading-none border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
- min="09:00" max="23:00" value="00:00" required />
- </div>
- </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                        {{-- Tanggal --}}
+                        <div>
+                            <label for="tanggal_jadwal" class="block text-xs font-bold text-zinc-700 mb-1.5">
+                                Tanggal <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
+                                    <svg class="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+                                    </svg>
+                                </div>
+                                <input datepicker datepicker-autohide datepicker-min-date="today" type="text" name="tanggal_jadwal" id="tanggal_jadwal"
+                                    value="{{ old('tanggal_jadwal') }}" placeholder="Pilih tanggal" datepicker-format="yyyy-mm-dd"
+                                    min="{{ now()->format('Y-m-d') }}"
+                                    class="block w-full h-12 md:h-10 pl-10 pr-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors placeholder:text-zinc-400"
+                                    required>
+                            </div>
+                        </div>
 
- <div class="">
- <label for="kelas" class="block text-sm font-medium leading-6 text-gray-900">Kelas</label>
- <div class="mt-2">
- <input type="text" name="kelas" id="kelas" autocomplete="family-name"
- placeholder="Masukkan nama kelas"
- class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
- </div>
- </div>
+                        {{-- Waktu Mulai --}}
+                        <div>
+                            <label for="waktu_mulai" class="block text-xs font-bold text-zinc-700 mb-1.5">
+                                Waktu Mulai <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
+                                    <svg class="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="time" id="waktu_mulai" name="waktu_mulai" value="{{ old('waktu_mulai', '08:00') }}"
+                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors"
+                                    min="06:00" max="23:59" required>
+                            </div>
+                        </div>
 
- <div class="">
- <label for="submateri" class="block text-sm font-medium leading-6 text-gray-900">Submateri</label>
- <div class="mt-2">
- <input type="text" name="submateri" id="submateri" autocomplete="family-name"
- placeholder="Masukkan nama submateri"
- class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
- </div>
- </div>
+                        {{-- Waktu Selesai --}}
+                        <div>
+                            <label for="waktu_selesai" class="block text-xs font-bold text-zinc-700 mb-1.5">
+                                Waktu Selesai <span class="text-rose-500">*</span>
+                            </label>
+                            <div class="relative">
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-3.5 pointer-events-none">
+                                    <svg class="w-4 h-4 text-zinc-400" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm11-4a1 1 0 1 0-2 0v4a1 1 0 0 0 .293.707l3 3a1 1 0 0 0 1.414-1.414L13 11.586V8Z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="time" id="waktu_selesai" name="waktu_selesai" value="{{ old('waktu_selesai', '10:00') }}"
+                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 shadow-sm transition-colors"
+                                    min="06:00" max="23:59" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
- <div class="">
- <label for="semester" class="block text-sm font-medium leading-6 text-gray-900">Semester</label>
- <div class="mt-2">
- <input type="text" name="semester" id="semester" autocomplete="family-name"
- placeholder="Masukkan nama semester"
- class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
- </div>
- </div>
- </div>
-
- <div class="flex justify-end mt-6">
- <button type="submit"
- class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">Save</button>
- </div>
- </form>
- </section>
-
+                {{-- Form Actions --}}
+                <div class="px-5 md:px-8 py-5 bg-zinc-50/50 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3">
+                    <a href="{{ route('lab') }}"
+                        class="inline-flex items-center justify-center h-11 md:h-10 px-5 text-sm md:text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-colors shadow-sm">
+                        Batal
+                    </a>
+                    <button type="submit"
+                        class="inline-flex items-center justify-center h-11 md:h-10 px-6 text-sm md:text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                        Simpan Jadwal
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 @endsection

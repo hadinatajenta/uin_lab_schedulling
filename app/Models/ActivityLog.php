@@ -17,6 +17,13 @@ class ActivityLog extends Model
         'description',
         'ip_address',
         'user_agent',
+        'old_values',
+        'new_values',
+    ];
+
+    protected $casts = [
+        'old_values' => 'array',
+        'new_values' => 'array',
     ];
 
     public function user()
