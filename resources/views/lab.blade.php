@@ -3,7 +3,7 @@
 @section('title', 'Penjadwalan Lab')
 
 @section('content')
-<div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col space-y-6">
+<div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col space-y-6" x-data="{ selectedName: '', deleteUrl: '' }">
     <x-ui.page-header title="Penjadwalan" description="Kelola jadwal pemakaian ruangan laboratorium.">
         @if (Auth::user()->jabatan !== 'Mahasiswa')
             <a href="{{ route('addJadwalView') }}"
@@ -78,22 +78,7 @@
                         @if (count($jadwal) > 0)
                             <ol class="{{ $timelineClasses }}">
                                 @foreach ($jadwal as $agenda)
-                                    <li class="mb-8 ms-6 last:mb-0">
-                                        <span class="{{ $nodeClasses }}">
-                                            <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                            </svg>
-                                        </span>
-                                        <h3 class="text-sm font-bold text-zinc-900 tracking-tight mb-1">
-                                            {{ $agenda->mata_kuliah }} — Kelas {{ $agenda->kelas }} Smt {{ $agenda->semester }}
-                                        </h3>
-                                        <time class="block mb-2 text-xs font-semibold text-zinc-400">
-                                            {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} – {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
-                                        </time>
-                                        <p class="text-sm font-medium text-zinc-500 leading-relaxed">
-                                            Submateri {{ $agenda->submateri ?? '-' }} · Dosen {{ $agenda->dosen?->name ?? 'Unknown' }}
-                                        </p>
-                                    </li>
+                                        @include('lab.partials.schedule-item', ['agenda' => $agenda, 'showDate' => false])
                                 @endforeach
                             </ol>
                         @else
@@ -110,22 +95,7 @@
                         @if (count($jadwal_besok) > 0)
                             <ol class="{{ $timelineClasses }}">
                                 @foreach ($jadwal_besok as $agenda)
-                                    <li class="mb-8 ms-6 last:mb-0">
-                                        <span class="{{ $nodeClasses }}">
-                                            <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                            </svg>
-                                        </span>
-                                        <h3 class="text-sm font-bold text-zinc-900 tracking-tight mb-1">
-                                            {{ $agenda->mata_kuliah }} — Kelas {{ $agenda->kelas }} Smt {{ $agenda->semester }}
-                                        </h3>
-                                        <time class="block mb-2 text-xs font-semibold text-zinc-400">
-                                            {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} – {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
-                                        </time>
-                                        <p class="text-sm font-medium text-zinc-500 leading-relaxed">
-                                            Submateri {{ $agenda->submateri ?? '-' }} · Dosen {{ $agenda->dosen?->name ?? 'Unknown' }}
-                                        </p>
-                                    </li>
+                                        @include('lab.partials.schedule-item', ['agenda' => $agenda, 'showDate' => false])
                                 @endforeach
                             </ol>
                         @else
@@ -142,22 +112,7 @@
                         @if (count($jadwal_minggu_ini) > 0)
                             <ol class="{{ $timelineClasses }}">
                                 @foreach ($jadwal_minggu_ini as $agenda)
-                                    <li class="mb-8 ms-6 last:mb-0">
-                                        <span class="{{ $nodeClasses }}">
-                                            <svg class="w-3 h-3 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
-                                            </svg>
-                                        </span>
-                                        <h3 class="text-sm font-bold text-zinc-900 tracking-tight mb-1">
-                                            {{ $agenda->mata_kuliah }} — Kelas {{ $agenda->kelas }} Smt {{ $agenda->semester }}
-                                        </h3>
-                                        <time class="block mb-2 text-xs font-semibold text-zinc-400">
-                                            {{ \Carbon\Carbon::parse($agenda->tanggal_jadwal)->format('d M Y') }} • {{ \Carbon\Carbon::parse($agenda->waktu_mulai)->format('H:i') }} – {{ \Carbon\Carbon::parse($agenda->waktu_selesai)->format('H:i') }}
-                                        </time>
-                                        <p class="text-sm font-medium text-zinc-500 leading-relaxed">
-                                            Submateri {{ $agenda->submateri ?? '-' }} · Dosen {{ $agenda->dosen?->name ?? 'Unknown' }}
-                                        </p>
-                                    </li>
+                                        @include('lab.partials.schedule-item', ['agenda' => $agenda, 'showDate' => true])
                                 @endforeach
                             </ol>
                         @else
@@ -279,7 +234,7 @@
                                             </form>
                                         @endif
                                         <div class="h-px bg-zinc-100 my-1"></div>
-                                        <button type="button" data-modal-target="delete-modal-{{ $jadwal->id }}" data-modal-toggle="delete-modal-{{ $jadwal->id }}" class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
+                                        <button type="button" data-modal-target="global-delete-modal" data-modal-toggle="global-delete-modal" @click="selectedName = '{{ addslashes($jadwal->mata_kuliah) }}'; deleteUrl = '{{ route('hapusJadwal', $jadwal->id) }}'" class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
                                             <x-atoms.icon name="trash" class="w-3.5 h-3.5 mr-2 text-rose-400" />
                                             Hapus
                                         </button>
@@ -321,7 +276,7 @@
                                         </form>
                                     @endif
                                     <div class="h-px bg-zinc-100 my-1"></div>
-                                    <button type="button" data-modal-target="delete-modal-{{ $jadwal->id }}" data-modal-toggle="delete-modal-{{ $jadwal->id }}" class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
+                                    <button type="button" data-modal-target="global-delete-modal" data-modal-toggle="global-delete-modal" @click="selectedName = '{{ addslashes($jadwal->mata_kuliah) }}'; deleteUrl = '{{ route('hapusJadwal', $jadwal->id) }}'" class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
                                         <x-atoms.icon name="trash" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-rose-400" />
                                         Hapus
                                     </button>
@@ -370,43 +325,41 @@
 
             <x-ui.pagination :paginator="$schedule" label="Total Jadwal" class="lg:hidden mt-6" />
 
-            @foreach ($schedule as $jadwal)
-                @if (Auth::user()->jabatan !== 'Mahasiswa')
-                    <form action="{{ route('hapusJadwal', $jadwal->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <div id="delete-modal-{{ $jadwal->id }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                            <div class="relative p-4 w-full max-w-md max-h-full">
-                                <div class="relative bg-white rounded-3xl shadow-lg border border-zinc-200">
-                                    <button type="button" class="absolute top-4 end-4 text-zinc-400 bg-transparent hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center transition-colors" data-modal-hide="delete-modal-{{ $jadwal->id }}">
-                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+            @if (Auth::user()->jabatan !== 'Mahasiswa')
+                <form :action="deleteUrl" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <div id="global-delete-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                        <div class="relative p-4 w-full max-w-md max-h-full">
+                            <div class="relative bg-white rounded-3xl shadow-lg border border-zinc-200">
+                                <button type="button" class="absolute top-4 end-4 text-zinc-400 bg-transparent hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center transition-colors" data-modal-hide="global-delete-modal">
+                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                    </svg>
+                                    <span class="sr-only">Close modal</span>
+                                </button>
+                                <div class="p-6 md:p-8 text-center">
+                                    <div class="w-14 h-14 rounded-2xl bg-rose-50 flex items-center justify-center mx-auto mb-5 ring-1 ring-rose-100">
+                                        <svg class="w-7 h-7 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                                         </svg>
-                                        <span class="sr-only">Close modal</span>
-                                    </button>
-                                    <div class="p-6 md:p-8 text-center">
-                                        <div class="w-14 h-14 rounded-2xl bg-rose-50 flex items-center justify-center mx-auto mb-5 ring-1 ring-rose-100">
-                                            <svg class="w-7 h-7 text-rose-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
-                                            </svg>
-                                        </div>
-                                        <h3 class="text-lg font-bold text-zinc-900 mb-2">Hapus Jadwal?</h3>
-                                        <p class="text-sm text-zinc-500 mb-6">Jadwal <strong>{{ $jadwal->mata_kuliah }}</strong> akan dihapus permanen. Tindakan ini tidak dapat dibatalkan.</p>
-                                        <div class="flex flex-col-reverse sm:flex-row gap-3 justify-center">
-                                            <button data-modal-hide="delete-modal-{{ $jadwal->id }}" type="button" class="px-5 py-2.5 text-sm font-semibold text-zinc-700 bg-white rounded-xl border border-zinc-200 hover:bg-zinc-50 transition-colors min-h-[44px]">
-                                                Batal
-                                            </button>
-                                            <button data-modal-hide="delete-modal-{{ $jadwal->id }}" type="submit" class="px-5 py-2.5 text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition-colors min-h-[44px] focus:outline-none focus:ring-2 focus:ring-rose-500">
-                                                Ya, Hapus
-                                            </button>
-                                        </div>
+                                    </div>
+                                    <h3 class="text-lg font-bold text-zinc-900 mb-2">Hapus Jadwal?</h3>
+                                    <p class="text-sm text-zinc-500 mb-6">Jadwal <strong x-text="selectedName"></strong> akan dihapus permanen. Tindakan ini tidak dapat dibatalkan.</p>
+                                    <div class="flex flex-col-reverse sm:flex-row gap-3 justify-center">
+                                        <button data-modal-hide="global-delete-modal" type="button" class="px-5 py-2.5 text-sm font-semibold text-zinc-700 bg-white rounded-xl border border-zinc-200 hover:bg-zinc-50 transition-colors min-h-[44px]">
+                                            Batal
+                                        </button>
+                                        <button data-modal-hide="global-delete-modal" type="submit" class="px-5 py-2.5 text-sm font-semibold text-white bg-rose-600 hover:bg-rose-700 rounded-xl transition-colors min-h-[44px] focus:outline-none focus:ring-2 focus:ring-rose-500">
+                                            Ya, Hapus
+                                        </button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </form>
-                @endif
-            @endforeach
+                    </div>
+                </form>
+            @endif
         @endif
     </div>
 </div>

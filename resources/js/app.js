@@ -5,7 +5,11 @@ import Alpine from "alpinejs";
 
 window.Alpine = Alpine;
 
+import importUsers from "./import-users";
+
 document.addEventListener('alpine:init', () => {
+    Alpine.data('importUsers', importUsers);
+
     Alpine.store('sidebar', {
         expanded: localStorage.getItem('sidebarExpanded') !== 'false',
         openMenus: JSON.parse(localStorage.getItem('openMenus')) || {},
