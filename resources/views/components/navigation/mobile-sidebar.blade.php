@@ -28,7 +28,7 @@
     x-transition:leave-end="-translate-x-full"
     @click.outside="$store.sidebar.isMobileOpen = false"
     @keydown.escape.window="$store.sidebar.isMobileOpen = false"
-    class="fixed inset-y-0 left-0 z-50 w-72 bg-white shadow-xl lg:hidden flex flex-col"
+    class="fixed inset-y-0 left-0 z-50 w-72 ui-surface shadow-xl lg:hidden flex flex-col"
     aria-label="Mobile Sidebar"
     style="display: none;"
 >
@@ -43,7 +43,7 @@
         </div>
         <button 
             @click="$store.sidebar.isMobileOpen = false"
-            class="p-2 rounded-xl text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            class="p-2 rounded-xl text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))]"
         >
             <span class="material-symbols-rounded text-[24px]">close</span>
         </button>
@@ -82,7 +82,7 @@
     </div>
 
     <!-- User Menu -->
-    <div class="mt-auto shrink-0 border-t border-zinc-100 p-3 bg-zinc-50/50">
+    <div class="mt-auto shrink-0 border-t border-[rgb(var(--color-border))] p-3 bg-[rgb(var(--color-surface-muted)_/_0.5)]">
         <x-navigation.user-menu :isMobile="true" />
     </div>
 </aside>

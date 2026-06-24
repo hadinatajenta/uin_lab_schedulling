@@ -13,7 +13,7 @@
     <x-ui.page-header title="Alat & Bahan" description="Kelola inventaris alat dan bahan di laboratorium secara terpadu.">
         @if (Auth::user()->jabatan !== 'Mahasiswa')
             <a href="{{ route('add.alat') }}"
-                class="w-full md:w-auto inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 h-11 md:h-10 text-white font-semibold text-sm md:text-xs shadow-sm shadow-emerald-600/10 hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                class="w-full md:w-auto inline-flex items-center justify-center rounded-xl ui-primary hover:opacity-90 px-4 h-11 md:h-10 font-semibold text-sm md:text-xs shadow-sm shadow-[rgb(var(--color-primary))_/_0.1] transition-opacity focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2">
                 <span class="material-symbols-rounded text-[20px] md:text-[18px] mr-2">add</span>
                 Tambah Data
             </a>
@@ -27,7 +27,7 @@
     @endphp
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a href="{{ route('alat') }}" class="group bg-white border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all flex items-center gap-4">
+        <a href="{{ route('alat') }}" class="group ui-surface border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md hover:border-zinc-300 transition-all flex items-center gap-4">
             <div class="w-12 h-12 rounded-2xl bg-zinc-50 flex items-center justify-center text-zinc-600 group-hover:scale-105 transition-transform">
                 <span class="material-symbols-rounded text-[24px]">inventory_2</span>
             </div>
@@ -37,8 +37,8 @@
             </div>
         </a>
 
-        <a href="{{ route('alat', ['jenis_alat' => 'Alat']) }}" class="group bg-white border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:scale-105 transition-transform">
+        <a href="{{ route('alat', ['jenis_alat' => 'Alat']) }}" class="group ui-surface border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md hover:border-[rgb(var(--color-primary-soft))] transition-all flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl ui-primary-soft flex items-center justify-center text-[rgb(var(--color-primary))] group-hover:scale-105 transition-transform">
                 <span class="material-symbols-rounded text-[24px]">hardware</span>
             </div>
             <div>
@@ -47,8 +47,8 @@
             </div>
         </a>
 
-        <a href="{{ route('alat', ['jenis_alat' => 'Bahan']) }}" class="group bg-white border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md hover:border-emerald-200 transition-all flex items-center gap-4">
-            <div class="w-12 h-12 rounded-2xl bg-emerald-50 flex items-center justify-center text-emerald-600 group-hover:scale-105 transition-transform">
+        <a href="{{ route('alat', ['jenis_alat' => 'Bahan']) }}" class="group ui-surface border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md hover:border-[rgb(var(--color-primary-soft))] transition-all flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl ui-primary-soft flex items-center justify-center text-[rgb(var(--color-primary))] group-hover:scale-105 transition-transform">
                 <span class="material-symbols-rounded text-[24px]">science</span>
             </div>
             <div>
@@ -58,17 +58,17 @@
         </a>
     </div>
 
-    <div class="bg-white border border-zinc-200/80 rounded-3xl p-4 shadow-sm">
+    <div class="ui-surface border border-zinc-200/80 rounded-3xl p-4 shadow-sm">
         <div class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
             <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3 w-full xl:w-auto">
                 <div class="flex p-1 bg-zinc-100/80 rounded-2xl w-full md:w-auto shrink-0">
-                    <a href="{{ route('alat') }}" class="{{ !$currentFilter ? 'bg-white text-zinc-900 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700' }} flex-1 md:w-28 py-2 text-sm font-semibold text-center rounded-xl transition-all">
+                    <a href="{{ route('alat') }}" class="{{ !$currentFilter ? 'ui-surface text-zinc-900 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700' }} flex-1 md:w-28 py-2 text-sm font-semibold text-center rounded-xl transition-all">
                         Semua
                     </a>
-                    <a href="{{ route('alat', ['jenis_alat' => 'Alat']) }}" class="{{ $currentFilter == 'Alat' ? 'bg-white text-emerald-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700' }} flex-1 md:w-28 py-2 text-sm font-semibold text-center rounded-xl transition-all">
+                    <a href="{{ route('alat', ['jenis_alat' => 'Alat']) }}" class="{{ $currentFilter == 'Alat' ? 'ui-surface text-[rgb(var(--color-primary))] shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700' }} flex-1 md:w-28 py-2 text-sm font-semibold text-center rounded-xl transition-all">
                         Alat
                     </a>
-                    <a href="{{ route('alat', ['jenis_alat' => 'Bahan']) }}" class="{{ $currentFilter == 'Bahan' ? 'bg-white text-emerald-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700' }} flex-1 md:w-28 py-2 text-sm font-semibold text-center rounded-xl transition-all">
+                    <a href="{{ route('alat', ['jenis_alat' => 'Bahan']) }}" class="{{ $currentFilter == 'Bahan' ? 'ui-surface text-[rgb(var(--color-primary))] shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700' }} flex-1 md:w-28 py-2 text-sm font-semibold text-center rounded-xl transition-all">
                         Bahan
                     </a>
                 </div>
@@ -81,7 +81,7 @@
                         <input type="hidden" name="cari" value="{{ $currentSearch }}">
                     @endif
                     <label for="per_page" class="text-xs font-bold text-zinc-500 mr-2 uppercase tracking-wider hidden md:block">Tampilkan</label>
-                    <select name="per_page" id="per_page" onchange="this.form.submit()" class="bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-semibold rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 py-2.5 px-3 pr-8 w-full md:w-auto">
+                    <select name="per_page" id="per_page" onchange="this.form.submit()" class="bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-semibold rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] py-2.5 px-3 pr-8 w-full md:w-auto">
                         <option value="10" {{ (int) $currentPerPage === 10 ? 'selected' : '' }}>10 baris</option>
                         <option value="20" {{ (int) $currentPerPage === 20 ? 'selected' : '' }}>20 baris</option>
                         <option value="50" {{ (int) $currentPerPage === 50 ? 'selected' : '' }}>50 baris</option>
@@ -102,14 +102,14 @@
                         <span class="material-symbols-rounded text-zinc-400 text-[20px]">search</span>
                     </div>
                     <input type="text" name="cari" value="{{ $currentSearch }}" placeholder="Cari nama alat atau bahan..."
-                        class="w-full pl-10 pr-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 focus:bg-white transition-colors">
+                        class="w-full pl-10 pr-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:bg-white transition-colors">
                 </form>
 
                 <div class="hidden md:flex p-1 bg-zinc-100/80 rounded-2xl shrink-0">
-                    <button type="button" @click="setViewMode('list')" :class="{ 'bg-white text-emerald-600 shadow-sm ring-1 ring-zinc-200': viewMode === 'list', 'text-zinc-400 hover:text-zinc-600': viewMode !== 'list' }" class="p-1.5 rounded-xl transition-all flex items-center justify-center">
+                    <button type="button" @click="setViewMode('list')" :class="{ 'ui-surface text-[rgb(var(--color-primary))] shadow-sm ring-1 ring-zinc-200': viewMode === 'list', 'text-zinc-400 hover:text-zinc-600': viewMode !== 'list' }" class="p-1.5 rounded-xl transition-all flex items-center justify-center">
                         <span class="material-symbols-rounded text-[20px]">view_list</span>
                     </button>
-                    <button type="button" @click="setViewMode('grid')" :class="{ 'bg-white text-emerald-600 shadow-sm ring-1 ring-zinc-200': viewMode === 'grid', 'text-zinc-400 hover:text-zinc-600': viewMode !== 'grid' }" class="p-1.5 rounded-xl transition-all flex items-center justify-center">
+                    <button type="button" @click="setViewMode('grid')" :class="{ 'ui-surface text-[rgb(var(--color-primary))] shadow-sm ring-1 ring-zinc-200': viewMode === 'grid', 'text-zinc-400 hover:text-zinc-600': viewMode !== 'grid' }" class="p-1.5 rounded-xl transition-all flex items-center justify-center">
                         <span class="material-symbols-rounded text-[20px]">grid_view</span>
                     </button>
                 </div>
@@ -152,9 +152,9 @@
                     </td>
                     <td class="px-6 py-4">
                         @if($item->jenis_alat == 'Alat')
-                            <x-ui.badge type="emerald">Alat</x-ui.badge>
+                            <x-ui.badge type="primary">Alat</x-ui.badge>
                         @else
-                            <x-ui.badge type="emerald">Bahan</x-ui.badge>
+                            <x-ui.badge type="primary">Bahan</x-ui.badge>
                         @endif
                     </td>
                     <td class="px-6 py-4">
@@ -208,7 +208,7 @@
     <div x-show="viewMode === 'grid'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" style="display: none;" x-cloak>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-6">
             @forelse($alat as $item)
-                <div class="group bg-white border border-zinc-200/80 hover:border-emerald-300 rounded-3xl shadow-sm hover:shadow transition-all flex flex-col overflow-hidden">
+                <div class="group ui-surface border border-zinc-200/80 hover:border-[rgb(var(--color-primary-soft))] rounded-3xl shadow-sm hover:shadow transition-all flex flex-col overflow-hidden">
                     <div class="relative h-48 bg-zinc-100 overflow-hidden">
                         @if($item->gambar)
                             <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_alat }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
@@ -221,9 +221,9 @@
 
                         <div class="absolute top-3 left-3">
                             @if($item->jenis_alat == 'Alat')
-                                <x-ui.badge type="emerald">Alat</x-ui.badge>
+                                <x-ui.badge type="primary">Alat</x-ui.badge>
                             @else
-                                <x-ui.badge type="emerald">Bahan</x-ui.badge>
+                                <x-ui.badge type="primary">Bahan</x-ui.badge>
                             @endif
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                         </p>
 
                         <div class="flex items-center justify-between mt-auto pt-4 border-t border-zinc-100">
-                            <a href="{{ route('detailAlat', $item->id) }}" class="text-xs font-bold text-emerald-600 hover:text-emerald-700 flex items-center gap-1">
+                            <a href="{{ route('detailAlat', $item->id) }}" class="text-xs font-bold text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary-soft))] flex items-center gap-1">
                                 Lihat Detail <span class="material-symbols-rounded text-[16px]">arrow_forward</span>
                             </a>
 
@@ -266,7 +266,7 @@
                     </div>
                 </div>
             @empty
-                <div class="col-span-full py-12 text-center bg-white border border-zinc-200/80 rounded-3xl">
+                <div class="col-span-full py-12 text-center ui-surface border border-zinc-200/80 rounded-3xl">
                     <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-zinc-50 mb-4">
                         <span class="material-symbols-rounded text-[32px] text-zinc-400">inventory_2</span>
                     </div>

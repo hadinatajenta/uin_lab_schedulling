@@ -7,7 +7,7 @@
     <x-ui.page-header title="Penjadwalan" description="Kelola jadwal pemakaian ruangan laboratorium.">
         @if (Auth::user()->jabatan !== 'Mahasiswa')
             <a href="{{ route('addJadwalView') }}"
-                class="w-full md:w-auto inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 h-11 md:h-10 text-white font-semibold text-sm md:text-xs shadow-sm shadow-emerald-600/10 hover:bg-emerald-700 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                class="w-full md:w-auto inline-flex items-center justify-center rounded-xl ui-primary px-4 h-11 md:h-10 font-semibold text-sm md:text-xs shadow-sm shadow-[rgb(var(--color-primary))_/_0.1] hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2">
                 <span class="material-symbols-rounded text-[20px] md:text-[18px] mr-2">add</span>
                 Tambah Jadwal
             </a>
@@ -16,7 +16,7 @@
 
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
         <div class="lg:col-span-4">
-            <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
+            <div class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
                 <div class="flex items-center justify-between p-4 border-b border-zinc-100">
                     <h2 id="monthYear" class="text-sm font-bold text-zinc-900 tracking-tight"></h2>
                     <div class="flex items-center gap-1">
@@ -48,21 +48,21 @@
         </div>
 
         <div class="lg:col-span-8">
-            <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
+            <div class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
                 <div class="border-b border-zinc-100" x-data="{ activeTab: 'today' }">
                     <div class="flex items-center gap-1 p-1.5 overflow-x-auto whitespace-nowrap">
                         <button @click="activeTab = 'today'"
-                            :class="activeTab === 'today' ? 'bg-white text-emerald-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                            :class="activeTab === 'today' ? 'ui-surface text-[rgb(var(--color-primary))] shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
                             class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-xl transition-all text-center">
                             Hari Ini
                         </button>
                         <button @click="activeTab = 'tomorrow'"
-                            :class="activeTab === 'tomorrow' ? 'bg-white text-emerald-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                            :class="activeTab === 'tomorrow' ? 'ui-surface text-[rgb(var(--color-primary))] shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
                             class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-xl transition-all text-center">
                             Besok
                         </button>
                         <button @click="activeTab = 'week'"
-                            :class="activeTab === 'week' ? 'bg-white text-emerald-700 shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
+                            :class="activeTab === 'week' ? 'ui-surface text-[rgb(var(--color-primary))] shadow-sm ring-1 ring-zinc-200' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-50'"
                             class="flex-1 md:flex-none px-4 py-2.5 md:py-2 text-sm md:text-xs font-semibold rounded-xl transition-all text-center whitespace-nowrap">
                             7 Hari Kedepan
                         </button>
@@ -71,7 +71,7 @@
                     @php
                         $tabClasses = 'p-5 md:p-6';
                         $timelineClasses = 'relative border-s-2 border-zinc-200 ms-3';
-                        $nodeClasses = 'absolute flex items-center justify-center w-7 h-7 bg-emerald-100 rounded-full -start-3.5 ring-4 ring-white';
+                        $nodeClasses = 'absolute flex items-center justify-center w-7 h-7 ui-primary-soft rounded-full -start-3.5 ring-4 ring-white';
                     @endphp
 
                     <div x-show="activeTab === 'today'" class="{{ $tabClasses }}">
@@ -141,7 +141,7 @@
                     <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" />
                 </div>
                 <input type="search" id="search"
-                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors"
+                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors"
                     placeholder="Cari mata kuliah..." />
             </div>
             <div class="relative flex-1 md:max-w-xs">
@@ -149,7 +149,7 @@
                     <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" />
                 </div>
                 <input type="search" id="search-kelas"
-                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors"
+                    class="block w-full h-12 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors"
                     placeholder="Cari kelas..." />
             </div>
         </div>
@@ -160,7 +160,7 @@
                 @if (Auth::user()->jabatan !== 'Mahasiswa')
                     <x-slot name="action">
                         <a href="{{ route('addJadwalView') }}"
-                            class="inline-flex items-center justify-center rounded-xl bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors">
+                            class="inline-flex items-center justify-center rounded-xl ui-primary hover:opacity-90 px-4 py-2 text-xs font-semibold shadow-sm transition-opacity">
                             Tambah Jadwal
                         </a>
                     </x-slot>
@@ -200,7 +200,7 @@
                             @if ($jadwal->status === 'selesai')
                                 <x-ui.badge type="success">Selesai</x-ui.badge>
                             @elseif ($jadwal->status === 'berlangsung')
-                                <x-ui.badge type="emerald">Berlangsung</x-ui.badge>
+                                <x-ui.badge type="primary">Berlangsung</x-ui.badge>
                             @elseif ($jadwal->status === 'dibatalkan')
                                 <x-ui.badge type="danger">Dibatalkan</x-ui.badge>
                             @else
@@ -219,8 +219,8 @@
                                             <form action="{{ route('completeEarly', $jadwal->id) }}" method="POST">
                                                 @csrf
                                                 @method('PUT')
-                                                <button type="submit" class="w-full text-left px-3 py-2 text-xs font-semibold text-emerald-600 hover:bg-emerald-50 transition-colors flex items-center min-h-[44px]">
-                                                    <x-atoms.icon name="check" class="w-3.5 h-3.5 mr-2 text-emerald-400" />
+                                                <button type="submit" class="w-full text-left px-3 py-2 text-xs font-semibold text-[rgb(var(--color-primary))] hover:bg-zinc-50 transition-colors flex items-center min-h-[44px]">
+                                                    <x-atoms.icon name="check" class="w-3.5 h-3.5 mr-2 text-[rgb(var(--color-primary))]" />
                                                     Selesaikan
                                                 </button>
                                             </form>
@@ -249,7 +249,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:hidden gap-4 flex-grow">
                 @foreach ($schedule as $jadwal)
-                    <div class="schedule-item bg-white border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md transition-shadow relative" data-matkul="{{ strtolower($jadwal->mata_kuliah ?? '') }}" data-kelas="{{ strtolower($jadwal->kelas ?? '') }}">
+                    <div class="schedule-item ui-surface border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md transition-shadow relative" data-matkul="{{ strtolower($jadwal->mata_kuliah ?? '') }}" data-kelas="{{ strtolower($jadwal->kelas ?? '') }}">
                         @if (Auth::user()->jabatan !== 'Mahasiswa')
                             <div class="absolute top-4 right-4">
                                 <x-table.action-menu>
@@ -261,8 +261,8 @@
                                         <form action="{{ route('completeEarly', $jadwal->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
-                                            <button type="submit" class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-emerald-600 hover:bg-emerald-50 transition-colors flex items-center min-h-[44px]">
-                                                <x-atoms.icon name="check" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-emerald-400" />
+                                            <button type="submit" class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-[rgb(var(--color-primary))] hover:bg-zinc-50 transition-colors flex items-center min-h-[44px]">
+                                                <x-atoms.icon name="check" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-[rgb(var(--color-primary))]" />
                                                 Selesaikan
                                             </button>
                                         </form>
@@ -311,7 +311,7 @@
                                 @if ($jadwal->status === 'selesai')
                                     <x-ui.badge type="success">Selesai</x-ui.badge>
                                 @elseif ($jadwal->status === 'berlangsung')
-                                    <x-ui.badge type="emerald">Berlangsung</x-ui.badge>
+                                    <x-ui.badge type="primary">Berlangsung</x-ui.badge>
                                 @elseif ($jadwal->status === 'dibatalkan')
                                     <x-ui.badge type="danger">Dibatalkan</x-ui.badge>
                                 @else
@@ -331,7 +331,7 @@
                     @method('DELETE')
                     <div id="global-delete-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                         <div class="relative p-4 w-full max-w-md max-h-full">
-                            <div class="relative bg-white rounded-3xl shadow-lg border border-zinc-200">
+                            <div class="relative ui-surface rounded-3xl shadow-lg border border-zinc-200">
                                 <button type="button" class="absolute top-4 end-4 text-zinc-400 bg-transparent hover:bg-zinc-100 hover:text-zinc-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center transition-colors" data-modal-hide="global-delete-modal">
                                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -404,7 +404,7 @@
                         cell.classList.add("text-zinc-700");
                         if (date.getFullYear() === new Date().getFullYear() && date.getMonth() === new Date().getMonth() && cell.textContent == new Date().getDate()) {
                             cell.classList.remove("text-zinc-700");
-                            cell.classList.add("bg-emerald-600", "text-white", "font-bold", "rounded-lg");
+                            cell.classList.add("ui-primary", "font-bold", "rounded-lg");
                         }
                     }
 

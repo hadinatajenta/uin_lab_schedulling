@@ -4,7 +4,7 @@
     <button 
         @click="userMenuOpen = !userMenuOpen"
         @click.outside="userMenuOpen = false"
-        class="w-full flex items-center rounded-xl transition-colors hover:bg-zinc-200/50 outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
+        class="w-full flex items-center rounded-xl transition-colors hover:bg-zinc-200/50 outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))]"
         @if(!$isMobile)
             :class="!$store.sidebar.expanded ? 'p-2 justify-center' : 'p-1.5 justify-between'"
         @else
@@ -12,7 +12,7 @@
         @endif
     >
         <div class="flex items-center space-x-3 overflow-hidden">
-            <div class="w-9 h-9 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 shrink-0 font-bold text-sm uppercase ring-2 ring-white">
+            <div class="w-9 h-9 rounded-full bg-[rgb(var(--color-primary-soft))] flex items-center justify-center text-[rgb(var(--color-primary))] shrink-0 font-bold text-sm uppercase ring-2 ring-white">
                 {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
             </div>
             
@@ -48,7 +48,7 @@
         x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="opacity-100 scale-100 transform translate-y-0"
         x-transition:leave-end="opacity-0 scale-95 transform -translate-y-2"
-        class="absolute bottom-full mb-2 bg-white border border-zinc-200 shadow-lg rounded-xl py-1 z-50 focus:outline-none"
+        class="absolute bottom-full mb-2 ui-surface border border-[rgb(var(--color-border))] shadow-lg rounded-xl py-1 z-50 focus:outline-none"
         @if(!$isMobile)
             :class="!$store.sidebar.expanded ? 'left-full ml-3 w-48' : 'left-0 right-0 w-full'"
         @else

@@ -2,7 +2,7 @@
 
 @php
     $classes = match($type) {
-        'success', 'emerald' => 'ui-primary-soft ring-emerald-200',
+        'success', 'primary' => 'ui-primary-soft ring-[rgb(var(--color-primary-soft))]',
         'warning' => 'ui-warning-soft ring-amber-200',
         'danger' => 'ui-danger-soft ring-rose-200',
         default => 'bg-zinc-50 text-zinc-700 ring-zinc-200',

@@ -41,8 +41,8 @@
         <div class="flex-shrink-0">
             <!-- Icons based on type -->
             <template x-if="type === 'success'">
-                <div class="w-8 h-8 rounded-full bg-emerald-50 flex items-center justify-center ring-4 ring-emerald-50/50">
-                    <svg class="w-4 h-4 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="w-8 h-8 rounded-full ui-primary-soft flex items-center justify-center ring-4 ring-[rgb(var(--color-primary-soft)_/_0.5)]">
+                    <svg class="w-4 h-4 text-[rgb(var(--color-primary))]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                     </svg>
                 </div>

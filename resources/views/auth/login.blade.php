@@ -1,11 +1,11 @@
 <x-guest-layout>
-    <div class="glass-card rounded-3xl shadow-2xl shadow-emerald-500/10 overflow-hidden" x-data="loginForm()">
+    <div class="glass-card rounded-3xl shadow-2xl shadow-[rgb(var(--color-primary))_/_0.1] overflow-hidden" x-data="loginForm()">
 
         {{-- Header --}}
         <div class="px-8 pt-10 pb-6 text-center">
             {{-- Logo / Icon --}}
             <div
-                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-500 flex items-center justify-center mx-auto mb-5 shadow-lg shadow-emerald-500/30">
+                class="w-16 h-16 rounded-2xl bg-gradient-to-br from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] flex items-center justify-center mx-auto mb-5 shadow-lg shadow-[rgb(var(--color-primary))_/_0.3]">
                 <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                         d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
@@ -16,16 +16,16 @@
         </div>
 
         @if (session('status'))
-            <div class="mx-8 mb-4 p-3.5 bg-emerald-50 border border-emerald-100 rounded-xl">
+            <div class="mx-8 mb-4 p-3.5 ui-primary-soft border border-[rgb(var(--color-primary)_/_0.2)] rounded-xl">
                 <div class="flex items-center gap-2.5">
-                    <div class="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center shrink-0">
-                        <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20">
+                    <div class="w-7 h-7 rounded-lg bg-[rgb(var(--color-primary)_/_0.15)] flex items-center justify-center shrink-0">
+                        <svg class="w-3.5 h-3.5 text-[rgb(var(--color-primary))]" fill="currentColor" viewBox="0 0 20 20">
                             <path fill-rule="evenodd"
                                 d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
                                 clip-rule="evenodd" />
                         </svg>
                     </div>
-                    <p class="text-xs font-semibold text-emerald-700">{{ session('status') }}</p>
+                    <p class="text-xs font-semibold text-[rgb(var(--color-primary))]">{{ session('status') }}</p>
                 </div>
             </div>
         @endif
@@ -66,7 +66,7 @@
                     </div>
                     <input id="email" name="email" type="text" value="{{ old('email') }}" x-model="email"
                         placeholder="nama@email.com" class="block w-full h-12 pl-11 pr-4 text-sm font-medium text-zinc-800 bg-zinc-50 border rounded-xl transition-all duration-200 placeholder:text-zinc-400
-                            {{ $errors->has('email') ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20' : 'border-zinc-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20' }}
+                            {{ $errors->has('email') ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20' : 'border-zinc-200 focus:border-[rgb(var(--color-primary))] focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)]' }}
                             focus:outline-none focus:bg-white" autocomplete="username" autofocus>
                 </div>
                 {{-- Client-side email validation hint --}}
@@ -86,7 +86,7 @@
                     </div>
                     <input id="password" name="password" x-model="password" :type="showPassword ? 'text' : 'password'"
                         placeholder="Masukkan password" class="block w-full h-12 pl-11 pr-12 text-sm font-medium text-zinc-800 bg-zinc-50 border rounded-xl transition-all duration-200 placeholder:text-zinc-400
-                            {{ $errors->has('password') ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20' : 'border-zinc-200 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20' }}
+                            {{ $errors->has('password') ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20' : 'border-zinc-200 focus:border-[rgb(var(--color-primary))] focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)]' }}
                             focus:outline-none focus:bg-white" autocomplete="current-password">
 
                     {{-- Toggle password visibility --}}
@@ -120,13 +120,13 @@
             <div class="flex items-center justify-between mb-6">
                 <label for="remember_me" class="inline-flex items-center cursor-pointer group">
                     <input id="remember_me" type="checkbox" name="remember"
-                        class="w-4 h-4 rounded border-zinc-300 text-emerald-600 focus:ring-emerald-500 transition-colors">
+                        class="w-4 h-4 rounded border-zinc-300 text-[rgb(var(--color-primary))] focus:ring-emerald-500 transition-colors">
                     <span
                         class="ms-2 text-xs font-semibold text-zinc-500 group-hover:text-zinc-700 transition-colors">Ingat
                         saya</span>
                 </label>
 
-                <a class="text-xs font-semibold text-emerald-600 hover:text-emerald-700 transition-colors"
+                <a class="text-xs font-semibold text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary))] transition-colors"
                     href="https://wa.me/6289827283625" target="_blank" rel="noopener noreferrer">
                     Lupa password?
                 </a>
@@ -134,7 +134,7 @@
 
             {{-- Submit Button --}}
             <button type="submit" :disabled="isSubmitting"
-                class="w-full h-12 flex items-center justify-center gap-2 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/40 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                class="w-full h-12 flex items-center justify-center gap-2 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] hover:from-[rgb(var(--color-primary))] hover:to-[rgb(var(--color-primary))] text-white text-sm font-bold rounded-xl shadow-lg shadow-[rgb(var(--color-primary))_/_0.3] hover:shadow-[rgb(var(--color-primary))_/_0.4] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed">
                 <svg x-show="isSubmitting" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor"
@@ -179,7 +179,7 @@
 
                 <div class="flex flex-col gap-3">
                     <a href="https://wa.me/6289827283625" target="_blank" rel="noopener noreferrer"
-                        class="w-full h-12 flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-500/20 transition-all">
+                        class="w-full h-12 flex items-center justify-center gap-2 ui-primary hover:opacity-90 text-white text-sm font-bold rounded-xl shadow-lg shadow-[rgb(var(--color-primary))_/_0.2] transition-all">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                             <path
                                 d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />

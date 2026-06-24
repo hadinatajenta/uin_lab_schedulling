@@ -26,12 +26,12 @@
 
     $isGroupActive = $hasActiveChild;
     
-    $buttonClasses = 'w-full group flex items-center justify-between rounded-xl transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-emerald-500';
+    $buttonClasses = 'w-full group flex items-center justify-between rounded-xl transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))]';
     $spacingClasses = $isMobile ? 'px-3 h-11' : '';
 
     if ($isGroupActive) {
-        $stateClasses = 'text-emerald-700 font-semibold';
-        $iconClasses = 'text-emerald-600';
+        $stateClasses = 'text-[rgb(var(--color-primary))] font-semibold';
+        $iconClasses = 'text-[rgb(var(--color-primary))]';
     } else {
         $stateClasses = 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 font-medium';
         $iconClasses = 'text-zinc-400 group-hover:text-zinc-600';

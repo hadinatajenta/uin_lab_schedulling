@@ -20,7 +20,7 @@
         {{-- Validation Errors handle by global Toast --}}
 
         {{-- Form Card --}}
-        <div class="bg-white border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
+        <div class="ui-surface border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
             <form action="{{ route('addJadwal') }}" method="POST">
                 @csrf
 
@@ -37,7 +37,7 @@
                             </label>
                             <input type="text" name="mata_kuliah" id="mata_kuliah" value="{{ old('mata_kuliah') }}"
                                 placeholder="cth. Biologi Dasar"
-                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors placeholder:text-zinc-400"
+                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors placeholder:text-zinc-400"
                                 required>
                         </div>
 
@@ -48,7 +48,7 @@
                             </label>
                             <input type="text" name="submateri" id="submateri" value="{{ old('submateri') }}"
                                 placeholder="cth. Struktur Sel"
-                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors placeholder:text-zinc-400">
+                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors placeholder:text-zinc-400">
                         </div>
 
                         {{-- Dosen Pengampu --}}
@@ -57,7 +57,7 @@
                                 Dosen Pengampu <span class="text-rose-500">*</span>
                             </label>
                             <select id="dosen_id" name="dosen_id"
-                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors appearance-none"
+                                class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors appearance-none"
                                 required>
                                 <option value="" disabled selected>Pilih dosen pengampu</option>
                                 @foreach ($user as $dosen)
@@ -77,7 +77,7 @@
                                 </label>
                                 <input type="text" name="kelas" id="kelas" value="{{ old('kelas') }}"
                                     placeholder="cth. A"
-                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors placeholder:text-zinc-400"
+                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors placeholder:text-zinc-400"
                                     required>
                             </div>
                             <div>
@@ -86,7 +86,7 @@
                                 </label>
                                 <input type="text" name="semester" id="semester" value="{{ old('semester') }}"
                                     placeholder="cth. 3"
-                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors placeholder:text-zinc-400"
+                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors placeholder:text-zinc-400"
                                     required>
                             </div>
                         </div>
@@ -100,17 +100,17 @@
 
                     <div class="grid grid-cols-2 gap-4 max-w-sm">
                         <label for="ruangan-1"
-                            class="flex items-center gap-3 p-4 border border-zinc-200 rounded-xl cursor-pointer hover:border-emerald-300 hover:bg-emerald-50/30 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            class="flex items-center gap-3 p-4 border border-zinc-200 rounded-xl cursor-pointer hover:border-[rgb(var(--color-primary-soft))] hover:bg-[rgb(var(--color-primary-soft)_/_0.3)] transition-all has-[:checked]:border-[rgb(var(--color-primary))] has-[:checked]:ui-primary-soft has-[:checked]:ring-1 has-[:checked]:ring-[rgb(var(--color-primary))]">
                             <input id="ruangan-1" type="radio" value="1" name="ruangan_id"
                                 {{ old('ruangan_id', '1') == '1' ? 'checked' : '' }}
-                                class="w-4 h-4 text-emerald-600 border-zinc-300 focus:ring-emerald-500">
+                                class="w-4 h-4 text-[rgb(var(--color-primary))] border-zinc-300 focus:ring-[rgb(var(--color-primary))]">
                             <span class="text-sm md:text-xs font-semibold text-zinc-700">Ruangan 1</span>
                         </label>
                         <label for="ruangan-2"
-                            class="flex items-center gap-3 p-4 border border-zinc-200 rounded-xl cursor-pointer hover:border-emerald-300 hover:bg-emerald-50/30 transition-all has-[:checked]:border-emerald-500 has-[:checked]:bg-emerald-50 has-[:checked]:ring-1 has-[:checked]:ring-emerald-500">
+                            class="flex items-center gap-3 p-4 border border-zinc-200 rounded-xl cursor-pointer hover:border-[rgb(var(--color-primary-soft))] hover:bg-[rgb(var(--color-primary-soft)_/_0.3)] transition-all has-[:checked]:border-[rgb(var(--color-primary))] has-[:checked]:ui-primary-soft has-[:checked]:ring-1 has-[:checked]:ring-[rgb(var(--color-primary))]">
                             <input id="ruangan-2" type="radio" value="2" name="ruangan_id"
                                 {{ old('ruangan_id') == '2' ? 'checked' : '' }}
-                                class="w-4 h-4 text-emerald-600 border-zinc-300 focus:ring-emerald-500">
+                                class="w-4 h-4 text-[rgb(var(--color-primary))] border-zinc-300 focus:ring-[rgb(var(--color-primary))]">
                             <span class="text-sm md:text-xs font-semibold text-zinc-700">Ruangan 2</span>
                         </label>
                     </div>
@@ -136,7 +136,7 @@
                                 <input datepicker datepicker-autohide datepicker-min-date="today" type="text" name="tanggal_jadwal" id="tanggal_jadwal"
                                     value="{{ old('tanggal_jadwal') }}" placeholder="Pilih tanggal" datepicker-format="yyyy-mm-dd"
                                     min="{{ now()->format('Y-m-d') }}"
-                                    class="block w-full h-12 md:h-10 pl-10 pr-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors placeholder:text-zinc-400"
+                                    class="block w-full h-12 md:h-10 pl-10 pr-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors placeholder:text-zinc-400"
                                     required>
                             </div>
                         </div>
@@ -153,7 +153,7 @@
                                     </svg>
                                 </div>
                                 <input type="time" id="waktu_mulai" name="waktu_mulai" value="{{ old('waktu_mulai', '08:00') }}"
-                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors"
+                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors"
                                     min="06:00" max="23:59" required>
                             </div>
                         </div>
@@ -170,7 +170,7 @@
                                     </svg>
                                 </div>
                                 <input type="time" id="waktu_selesai" name="waktu_selesai" value="{{ old('waktu_selesai', '10:00') }}"
-                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 shadow-sm transition-colors"
+                                    class="block w-full h-12 md:h-10 px-3.5 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl ui-surface focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors"
                                     min="06:00" max="23:59" required>
                             </div>
                         </div>
@@ -180,11 +180,11 @@
                 {{-- Form Actions --}}
                 <div class="px-5 md:px-8 py-5 bg-zinc-50/50 flex flex-col-reverse sm:flex-row items-stretch sm:items-center justify-end gap-3">
                     <a href="{{ route('lab') }}"
-                        class="inline-flex items-center justify-center h-11 md:h-10 px-5 text-sm md:text-xs font-semibold text-zinc-700 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-colors shadow-sm">
+                        class="inline-flex items-center justify-center h-11 md:h-10 px-5 text-sm md:text-xs font-semibold text-zinc-700 ui-surface border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-colors shadow-sm">
                         Batal
                     </a>
                     <button type="submit"
-                        class="inline-flex items-center justify-center h-11 md:h-10 px-6 text-sm md:text-xs font-semibold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-colors shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500">
+                        class="inline-flex items-center justify-center h-11 md:h-10 px-6 text-sm md:text-xs font-semibold ui-primary hover:opacity-90 rounded-xl transition-opacity shadow-sm focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))]">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                         </svg>

@@ -17,15 +17,15 @@
     
     <!-- Background Decoration -->
     <div class="absolute inset-0 z-0 pointer-events-none flex items-center justify-center overflow-hidden">
-        <div class="absolute w-[500px] h-[500px] bg-emerald-600/5 rounded-full blur-3xl -top-32 -left-32"></div>
+        <div class="absolute w-[500px] h-[500px] bg-[rgb(var(--color-primary)_/_0.05)] rounded-full blur-3xl -top-32 -left-32"></div>
         <div class="absolute w-[400px] h-[400px] bg-blue-600/5 rounded-full blur-3xl bottom-0 right-0"></div>
     </div>
 
     <!-- Main Content -->
     <div class="relative z-10 w-full max-w-lg p-6 mx-auto text-center">
         <!-- Icon / Illustration -->
-        <div class="relative w-28 h-28 mx-auto mb-8 bg-emerald-50 rounded-full flex items-center justify-center ring-8 ring-white shadow-sm">
-            <span class="material-symbols-rounded text-[56px] text-emerald-600 animate-pulse">
+        <div class="relative w-28 h-28 mx-auto mb-8 ui-primary-soft rounded-full flex items-center justify-center ring-8 ring-white shadow-sm">
+            <span class="material-symbols-rounded text-[56px] text-[rgb(var(--color-primary))] animate-pulse">
                 explore_off
             </span>
             <div class="absolute -bottom-1 -right-1 bg-white w-10 h-10 rounded-full flex items-center justify-center shadow-md border border-zinc-100">
@@ -47,7 +47,7 @@
         </p>
 
         <!-- CTA Button -->
-        <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center px-6 py-3 bg-emerald-600 text-white font-semibold rounded-xl shadow-md shadow-emerald-600/20 hover:bg-emerald-700 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group ring-1 ring-inset ring-white/10">
+        <a href="{{ route('dashboard') }}" class="inline-flex items-center justify-center px-6 py-3 ui-primary font-semibold rounded-xl shadow-md shadow-[rgb(var(--color-primary))_/_0.2] hover:opacity-90 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 group ring-1 ring-inset ring-white/10">
             <span class="material-symbols-rounded mr-2 text-[20px] group-hover:-translate-x-1 transition-transform">
                 arrow_back
             </span>

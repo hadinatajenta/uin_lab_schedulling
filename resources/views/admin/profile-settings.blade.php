@@ -9,13 +9,13 @@
 
     {{-- Alert Messages --}}
     @if(session('success'))
-        <div class="mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-100 flex items-start gap-3">
-            <div class="mt-0.5 w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center shrink-0">
-                <svg class="w-3.5 h-3.5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+        <div class="mb-6 p-4 rounded-xl ui-primary-soft border border-[rgb(var(--color-primary)_/_0.2)] flex items-start gap-3">
+            <div class="mt-0.5 w-6 h-6 rounded-full bg-[rgb(var(--color-primary)_/_0.15)] flex items-center justify-center shrink-0">
+                <svg class="w-3.5 h-3.5 text-[rgb(var(--color-primary))]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
             </div>
             <div>
-                <h4 class="text-sm font-bold text-emerald-800">Berhasil!</h4>
-                <p class="text-xs text-emerald-600 font-medium mt-0.5">{{ session('success') }}</p>
+                <h4 class="text-sm font-bold text-[rgb(var(--color-primary))] opacity-90">Berhasil!</h4>
+                <p class="text-xs text-[rgb(var(--color-primary))] font-medium mt-0.5">{{ session('success') }}</p>
             </div>
         </div>
     @endif
@@ -34,9 +34,9 @@
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         {{-- Kolom Kiri: Info Readonly --}}
         <div class="md:col-span-1 space-y-6">
-            <div class="bg-white border border-zinc-200 shadow-sm rounded-2xl p-5 lg:p-6">
+            <div class="ui-surface border border-zinc-200 shadow-sm rounded-2xl p-5 lg:p-6">
                 <h3 class="text-base font-bold text-zinc-800 mb-4 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
+                    <svg class="w-5 h-5 text-[rgb(var(--color-primary))]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2"></path></svg>
                     Informasi Terkunci
                 </h3>
                 
@@ -65,8 +65,8 @@
                         </div>
                     </div>
                     
-                    <p class="text-[11px] text-zinc-500 font-medium leading-relaxed mt-2 bg-emerald-50/50 p-3 rounded-lg border border-emerald-100">
-                        <span class="font-bold text-emerald-700">Catatan:</span> Informasi di atas dikunci oleh sistem. Silakan hubungi Administrator jika terdapat kesalahan data diri.
+                    <p class="text-[11px] text-zinc-500 font-medium leading-relaxed mt-2 ui-primary-soft p-3 rounded-lg border border-[rgb(var(--color-primary)_/_0.2)]">
+                        <span class="font-bold text-[rgb(var(--color-primary))]">Catatan:</span> Informasi di atas dikunci oleh sistem. Silakan hubungi Administrator jika terdapat kesalahan data diri.
                     </p>
                 </div>
             </div>
@@ -74,9 +74,9 @@
 
         {{-- Kolom Kanan: Form Update --}}
         <div class="md:col-span-2 space-y-6">
-            <div class="bg-white border border-zinc-200 shadow-sm rounded-2xl p-5 lg:p-6">
+            <div class="ui-surface border border-zinc-200 shadow-sm rounded-2xl p-5 lg:p-6">
                 <h3 class="text-base font-bold text-zinc-800 mb-1 flex items-center gap-2">
-                    <svg class="w-5 h-5 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    <svg class="w-5 h-5 text-[rgb(var(--color-primary))]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
                     Ubah Data Akun
                 </h3>
                 <p class="text-xs text-zinc-500 font-medium mb-6">Ubah email dan password untuk keperluan login Anda.</p>
@@ -90,7 +90,7 @@
                         <div>
                             <label for="email" class="block text-xs font-bold text-zinc-700 mb-1.5">Alamat Email</label>
                             <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required
-                                class="w-full h-10 px-3 text-sm font-medium bg-white border border-zinc-300 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors
+                                class="w-full h-10 px-3 text-sm font-medium ui-surface border border-zinc-300 rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors
                                 @error('email') border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 @enderror">
                             @error('email')
                                 <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
@@ -101,7 +101,7 @@
                         <div>
                             <label for="password" class="block text-xs font-bold text-zinc-700 mb-1.5">Password Baru</label>
                             <input type="password" id="password" name="password" placeholder="Kosongkan jika tidak ingin mengubah password"
-                                class="w-full h-10 px-3 text-sm font-medium bg-white border border-zinc-300 rounded-xl focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-colors
+                                class="w-full h-10 px-3 text-sm font-medium ui-surface border border-zinc-300 rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors
                                 @error('password') border-rose-300 focus:border-rose-500 focus:ring-rose-500/20 @enderror">
                             @error('password')
                                 <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
@@ -109,7 +109,7 @@
                         </div>
                         
                         <div class="pt-4 flex items-center justify-end border-t border-zinc-100">
-                            <button type="submit" class="h-10 px-5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2">
+                            <button type="submit" class="h-10 px-5 ui-primary hover:opacity-90 font-bold rounded-xl shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2">
                                 Simpan Perubahan
                             </button>
                         </div>

@@ -27,8 +27,8 @@
 
 </head>
 
-<body class="font-sans antialiased text-zinc-900 bg-zinc-50 transition-colors" x-data>
-    <div class="min-h-screen flex flex-col bg-zinc-50">
+<body class="font-sans antialiased text-zinc-900 bg-[rgb(var(--color-bg))] transition-colors" x-data>
+    <div class="min-h-screen flex flex-col bg-[rgb(var(--color-bg))]">
         <x-navigation.topbar />
         <x-navigation.mobile-sidebar />
         <x-navigation.sidebar />
@@ -37,7 +37,7 @@
             <main class="flex-1 w-full mx-auto max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
                 @yield('content')
             </main>
-            <div class="mt-auto px-4 lg:px-6 py-4 border-t border-zinc-200/80 bg-white/90 backdrop-blur-sm">
+            <div class="mt-auto px-4 lg:px-6 py-4 border-t border-[rgb(var(--color-border))] ui-surface backdrop-blur-sm">
                 <x-footer />
             </div>
         </div>

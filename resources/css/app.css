@@ -10,11 +10,11 @@
         --color-border: 228 228 231;
         --color-text: 24 24 27;
         --color-text-muted: 113 113 122;
-        --color-primary: 16 185 129;
+        --color-primary: 44 94 173;
         --color-primary-foreground: 255 255 255;
-        --color-primary-soft: 236 253 245;
-        --color-secondary: 16 185 129;
-        --color-secondary-soft: 236 253 245;
+        --color-primary-soft: 196 226 245;
+        --color-secondary: 21 145 220;
+        --color-secondary-soft: 196 226 245;
         --color-danger: 244 63 94;
         --color-danger-soft: 255 241 242;
         --color-warning: 245 158 11;

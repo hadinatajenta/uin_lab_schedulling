@@ -31,7 +31,7 @@
 
     <div class="px-2 pb-12 max-w-7xl mx-auto">
         <div class="mb-8">
-            <p class="text-xs font-bold uppercase tracking-[0.2em] text-emerald-600">Detail Alat & Bahan</p>
+            <p class="text-xs font-bold uppercase tracking-[0.2em] text-[rgb(var(--color-primary))]">Detail Alat & Bahan</p>
             <h1 class="mt-2 text-2xl font-bold tracking-tight text-zinc-900">{{ $alat->nama_alat }}</h1>
             <p class="text-sm text-zinc-500 mt-1">
                 Tampilan dibuat seperti halaman artikel agar konten panjang lebih mudah dipindai.
@@ -40,13 +40,13 @@
 
         <div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
             <aside class="xl:col-span-3 xl:sticky xl:top-6 self-start space-y-4">
-                <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-5">
+                <div class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm p-5">
                     <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Daftar isi</p>
                     <nav class="mt-4 space-y-1">
                         @foreach ($tocItems as $item)
                             <a
                                 href="#{{ $item['id'] }}"
-                                class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-emerald-700 transition-colors"
+                                class="flex items-center justify-between rounded-2xl px-3 py-2 text-sm font-medium text-zinc-600 hover:bg-zinc-50 hover:text-[rgb(var(--color-primary))] transition-colors"
                             >
                                 <span>{{ $item['label'] }}</span>
                                 <span class="text-zinc-300">›</span>
@@ -55,7 +55,7 @@
                     </nav>
                 </div>
 
-                <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-5">
+                <div class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm p-5">
                     <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Quick facts</p>
                     <div class="mt-4 space-y-3">
                         <div>
@@ -83,7 +83,7 @@
             </aside>
 
             <main class="xl:col-span-9 space-y-6">
-                <article id="ringkasan" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
+                <article id="ringkasan" class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
                     <div class="relative bg-zinc-50">
                         <div class="aspect-[16/8] w-full">
                             @if ($hasImage)
@@ -143,14 +143,14 @@
                                     href="{{ $alat->link_youtube }}"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    class="inline-flex items-center rounded-xl bg-emerald-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-emerald-700 transition-colors"
+                                    class="inline-flex items-center rounded-xl ui-primary hover:opacity-90 px-4 py-2 text-sm font-semibold shadow-sm transition-opacity"
                                 >
                                     Buka YouTube
                                 </a>
                             @endif
                             <a
                                 href="{{ route('alat') }}"
-                                class="inline-flex items-center rounded-xl border border-zinc-200 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 transition-colors"
+                                class="inline-flex items-center rounded-xl border border-zinc-200 ui-surface px-4 py-2 text-sm font-semibold text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 transition-colors"
                             >
                                 Kembali
                             </a>
@@ -158,13 +158,13 @@
                     </div>
                 </article>
 
-                <section id="informasi-inti" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                <section id="informasi-inti" class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
                     <div class="flex items-center justify-between gap-3">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Informasi inti</p>
                             <h2 class="mt-1 text-xl font-bold text-zinc-900">Detail singkat</h2>
                         </div>
-                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        <span class="rounded-full ui-primary-soft px-3 py-1 text-xs font-semibold text-[rgb(var(--color-primary))]">
                             Sekilas
                         </span>
                     </div>
@@ -189,13 +189,13 @@
                     </dl>
                 </section>
 
-                <section id="deskripsi" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                <section id="deskripsi" class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
                     <div class="flex items-center justify-between gap-3">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Deskripsi</p>
                             <h2 class="mt-1 text-xl font-bold text-zinc-900">Ringkasan barang</h2>
                         </div>
-                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        <span class="rounded-full ui-primary-soft px-3 py-1 text-xs font-semibold text-[rgb(var(--color-primary))]">
                             Singkat
                         </span>
                     </div>
@@ -207,7 +207,7 @@
                     </div>
                 </section>
 
-                <section id="spesifikasi" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                <section id="spesifikasi" class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
                     <div class="flex items-center justify-between gap-3">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Spesifikasi</p>
@@ -225,7 +225,7 @@
                     </div>
                 </section>
 
-                <section id="panduan" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                <section id="panduan" class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
                     <div class="flex items-center justify-between gap-3">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Panduan</p>
@@ -233,7 +233,7 @@
                                 {{ $alat->jenis_alat == 'Bahan' ? 'Informasi penggunaan' : 'Cara penggunaan' }}
                             </h2>
                         </div>
-                        <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        <span class="rounded-full ui-primary-soft px-3 py-1 text-xs font-semibold text-[rgb(var(--color-primary))]">
                             Panjang
                         </span>
                     </div>
@@ -251,13 +251,13 @@
                     </div>
 
                     @if ($alat->link_youtube)
-                        <div class="mt-5 rounded-2xl border border-zinc-200 bg-white p-4">
+                        <div class="mt-5 rounded-2xl border border-zinc-200 ui-surface p-4">
                             <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Link YouTube</p>
                             <a
                                 href="{{ $alat->link_youtube }}"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                class="mt-2 block break-all text-sm font-semibold text-emerald-600 hover:text-emerald-700"
+                                class="mt-2 block break-all text-sm font-semibold text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary-soft))]"
                             >
                                 {{ $alat->link_youtube }}
                             </a>
@@ -265,7 +265,7 @@
                     @endif
                 </section>
 
-                <section id="media" class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
+                <section id="media" class="ui-surface border border-zinc-200/80 rounded-3xl shadow-sm p-6 md:p-8">
                     <div class="flex items-center justify-between gap-3">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Media</p>

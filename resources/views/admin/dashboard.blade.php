@@ -18,7 +18,7 @@
             label="Total Pengguna" 
             :value="$totalPengguna" 
             icon="users" 
-            type="emerald" 
+            type="primary" 
         />
         <x-dashboard.stat-card 
             label="Alat Tersedia" 
@@ -30,7 +30,7 @@
             label="Bahan Tersedia" 
             :value="$bahanTersedia" 
             icon="beaker" 
-            type="emerald" 
+            type="primary" 
         />
         <x-dashboard.stat-card 
             label="Peminjaman Aktif" 
@@ -47,7 +47,7 @@
                 <p class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Jadwal</p>
                 <p class="text-2xl font-bold text-zinc-900 mt-1">{{ $jadwalHariIni }}</p>
             </div>
-            <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <div class="w-10 h-10 rounded-full ui-primary-soft flex items-center justify-center text-[rgb(var(--color-primary))]">
                 <x-atoms.icon name="calendar" class="w-5 h-5" />
             </div>
         </div>
@@ -57,7 +57,7 @@
                 <p class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Peminjaman</p>
                 <p class="text-2xl font-bold text-zinc-900 mt-1">{{ $peminjamanHariIni }}</p>
             </div>
-            <div class="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center text-emerald-600">
+            <div class="w-10 h-10 rounded-full ui-primary-soft flex items-center justify-center text-[rgb(var(--color-primary))]">
                 <x-atoms.icon name="cube" class="w-5 h-5" />
             </div>
         </div>
@@ -92,7 +92,7 @@
         <div>
             <div class="flex items-center justify-between mb-4">
                 <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider">Jadwal Mendatang</h2>
-                <a href="{{ route('lab') }}" class="text-xs font-semibold text-emerald-600 hover:text-emerald-700">Lihat Semua</a>
+                <a href="{{ route('lab') }}" class="text-xs font-semibold text-[rgb(var(--color-primary))] hover:opacity-90">Lihat Semua</a>
             </div>
             
             <div class="bg-white border border-zinc-200/80 rounded-3xl shadow-sm overflow-hidden">
@@ -108,9 +108,9 @@
                     <ul class="divide-y divide-zinc-100">
                         @foreach($upcomingSchedules as $jadwal)
                         <li class="p-4 hover:bg-zinc-50 transition-colors flex items-start space-x-4">
-                            <div class="w-10 h-10 rounded-xl bg-emerald-50 flex flex-col items-center justify-center shrink-0 border border-emerald-100/50">
-                                <span class="text-[10px] font-bold text-emerald-600 leading-none mb-0.5 uppercase">{{ \Carbon\Carbon::parse($jadwal->tanggal_jadwal)->translatedFormat('M') }}</span>
-                                <span class="text-sm font-bold text-emerald-700 leading-none">{{ \Carbon\Carbon::parse($jadwal->tanggal_jadwal)->format('d') }}</span>
+                            <div class="w-10 h-10 rounded-xl ui-primary-soft flex flex-col items-center justify-center shrink-0 border border-[rgb(var(--color-primary)_/_0.2)]">
+                                <span class="text-[10px] font-bold text-[rgb(var(--color-primary))] leading-none mb-0.5 uppercase">{{ \Carbon\Carbon::parse($jadwal->tanggal_jadwal)->translatedFormat('M') }}</span>
+                                <span class="text-sm font-bold text-[rgb(var(--color-primary))] leading-none">{{ \Carbon\Carbon::parse($jadwal->tanggal_jadwal)->format('d') }}</span>
                             </div>
                             <div class="flex-1 min-w-0">
                                 <p class="text-sm font-bold text-zinc-900 truncate">{{ $jadwal->mata_kuliah }}</p>
@@ -136,33 +136,33 @@
     <div>
         <h2 class="text-[13px] font-bold text-zinc-900 uppercase tracking-wider mb-4">Aksi Cepat</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <a href="{{ route('users.index') }}" class="group bg-white border border-zinc-200/80 hover:border-emerald-300 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow transition-all">
-                <div class="w-10 h-10 rounded-full bg-zinc-50 group-hover:bg-emerald-50 flex items-center justify-center mb-3 transition-colors">
-                    <x-atoms.icon name="users" class="w-5 h-5 text-zinc-500 group-hover:text-emerald-600 transition-colors" />
+            <a href="{{ route('users.index') }}" class="group bg-white border border-zinc-200/80 hover:border-[rgb(var(--color-primary-soft))] rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow transition-all">
+                <div class="w-10 h-10 rounded-full bg-zinc-50 group-hover:ui-primary-soft flex items-center justify-center mb-3 transition-colors">
+                    <x-atoms.icon name="users" class="w-5 h-5 text-zinc-500 group-hover:text-[rgb(var(--color-primary))] transition-colors" />
                 </div>
                 <h3 class="text-sm font-semibold text-zinc-900 mb-1">Tambah Pengguna</h3>
                 <p class="text-xs text-zinc-500">Daftarkan pengguna baru</p>
             </a>
             
-            <a href="{{ route('add.alat') }}" class="group bg-white border border-zinc-200/80 hover:border-emerald-300 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow transition-all">
-                <div class="w-10 h-10 rounded-full bg-zinc-50 group-hover:bg-emerald-50 flex items-center justify-center mb-3 transition-colors">
-                    <x-atoms.icon name="cube" class="w-5 h-5 text-zinc-500 group-hover:text-emerald-600 transition-colors" />
+            <a href="{{ route('add.alat') }}" class="group bg-white border border-zinc-200/80 hover:border-[rgb(var(--color-primary-soft))] rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow transition-all">
+                <div class="w-10 h-10 rounded-full bg-zinc-50 group-hover:ui-primary-soft flex items-center justify-center mb-3 transition-colors">
+                    <x-atoms.icon name="cube" class="w-5 h-5 text-zinc-500 group-hover:text-[rgb(var(--color-primary))] transition-colors" />
                 </div>
                 <h3 class="text-sm font-semibold text-zinc-900 mb-1">Tambah Alat</h3>
                 <p class="text-xs text-zinc-500">Catat inventaris baru</p>
             </a>
             
-            <a href="{{ route('add.alat') }}" class="group bg-white border border-zinc-200/80 hover:border-emerald-300 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow transition-all">
-                <div class="w-10 h-10 rounded-full bg-zinc-50 group-hover:bg-emerald-50 flex items-center justify-center mb-3 transition-colors">
-                    <x-atoms.icon name="beaker" class="w-5 h-5 text-zinc-500 group-hover:text-emerald-600 transition-colors" />
+            <a href="{{ route('add.alat') }}" class="group bg-white border border-zinc-200/80 hover:border-[rgb(var(--color-primary-soft))] rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow transition-all">
+                <div class="w-10 h-10 rounded-full bg-zinc-50 group-hover:ui-primary-soft flex items-center justify-center mb-3 transition-colors">
+                    <x-atoms.icon name="beaker" class="w-5 h-5 text-zinc-500 group-hover:text-[rgb(var(--color-primary))] transition-colors" />
                 </div>
                 <h3 class="text-sm font-semibold text-zinc-900 mb-1">Tambah Bahan</h3>
                 <p class="text-xs text-zinc-500">Data bahan praktikum</p>
             </a>
             
-            <a href="{{ route('addJadwalView') }}" class="group bg-white border border-zinc-200/80 hover:border-emerald-300 rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow transition-all">
-                <div class="w-10 h-10 rounded-full bg-zinc-50 group-hover:bg-emerald-50 flex items-center justify-center mb-3 transition-colors">
-                    <x-atoms.icon name="calendar" class="w-5 h-5 text-zinc-500 group-hover:text-emerald-600 transition-colors" />
+            <a href="{{ route('addJadwalView') }}" class="group bg-white border border-zinc-200/80 hover:border-[rgb(var(--color-primary-soft))] rounded-xl p-4 flex flex-col items-center justify-center text-center shadow-sm hover:shadow transition-all">
+                <div class="w-10 h-10 rounded-full bg-zinc-50 group-hover:ui-primary-soft flex items-center justify-center mb-3 transition-colors">
+                    <x-atoms.icon name="calendar" class="w-5 h-5 text-zinc-500 group-hover:text-[rgb(var(--color-primary))] transition-colors" />
                 </div>
                 <h3 class="text-sm font-semibold text-zinc-900 mb-1">Buat Jadwal</h3>
                 <p class="text-xs text-zinc-500">Atur penggunaan lab</p>

@@ -23,7 +23,7 @@
     }
 
     // Base classes
-    $baseClasses = 'group flex items-center transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 relative';
+    $baseClasses = 'group flex items-center transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))] relative';
     
     // Sizing and rounding
     $sizingClasses = $nested ? 'h-9 rounded-lg' : 'h-11 rounded-xl';
@@ -37,9 +37,9 @@
     // State classes
     if ($isActive) {
         $stateClasses = $nested 
-            ? 'bg-emerald-50/80 text-zinc-900 font-semibold shadow-sm ring-1 ring-black/5' 
-            : 'bg-emerald-50 text-zinc-900 font-semibold shadow-sm ring-1 ring-black/5';
-        $iconClasses = 'text-emerald-600';
+            ? 'bg-[rgb(var(--color-primary-soft))] text-zinc-900 font-semibold shadow-sm ring-1 ring-black/5' 
+            : 'bg-[rgb(var(--color-primary-soft))] text-zinc-900 font-semibold shadow-sm ring-1 ring-black/5';
+        $iconClasses = 'text-[rgb(var(--color-primary))]';
     } else {
         $stateClasses = 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 font-medium';
         $iconClasses = 'text-zinc-400 group-hover:text-zinc-600';
@@ -50,7 +50,7 @@
     @if($isActive && !$nested)
         <!-- Accent Bar for Parent -->
         <div 
-            class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-emerald-600 rounded-r-full z-10 pointer-events-none"
+            class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[rgb(var(--color-primary))] rounded-r-full z-10 pointer-events-none"
             @if(!$isMobile)
                 x-show="$store.sidebar.expanded"
             @endif

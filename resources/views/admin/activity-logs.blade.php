@@ -12,7 +12,7 @@
         <form method="GET" action="{{ route('activity.logs') }}" class="flex flex-col md:flex-row gap-4">
             <div class="flex-1">
                 <label for="user_id" class="block text-xs font-bold text-zinc-700 mb-1.5">Pilih Aktor (User)</label>
-                <select name="user_id" id="user_id" class="w-full text-sm rounded-xl border-zinc-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200">
+                <select name="user_id" id="user_id" class="w-full text-sm rounded-xl border-zinc-300 focus:border-[rgb(var(--color-primary))] focus:ring focus:ring-[rgb(var(--color-primary)_/_0.2)]">
                     <option value="">-- Semua Pengguna --</option>
                     @foreach($users as $u)
                         <option value="{{ $u->id }}" {{ request('user_id') == $u->id ? 'selected' : '' }}>
@@ -25,17 +25,17 @@
             <div class="w-full md:w-48">
                 <label for="date_start" class="block text-xs font-bold text-zinc-700 mb-1.5">Dari Tanggal</label>
                 <input type="date" name="date_start" id="date_start" value="{{ request('date_start') }}" 
-                    class="w-full text-sm rounded-xl border-zinc-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200">
+                    class="w-full text-sm rounded-xl border-zinc-300 focus:border-[rgb(var(--color-primary))] focus:ring focus:ring-[rgb(var(--color-primary)_/_0.2)]">
             </div>
 
             <div class="w-full md:w-48">
                 <label for="date_end" class="block text-xs font-bold text-zinc-700 mb-1.5">Sampai Tanggal</label>
                 <input type="date" name="date_end" id="date_end" value="{{ request('date_end') }}" 
-                    class="w-full text-sm rounded-xl border-zinc-300 focus:border-emerald-500 focus:ring focus:ring-emerald-200">
+                    class="w-full text-sm rounded-xl border-zinc-300 focus:border-[rgb(var(--color-primary))] focus:ring focus:ring-[rgb(var(--color-primary)_/_0.2)]">
             </div>
             
             <div class="flex items-end gap-2">
-                <button type="submit" class="h-[42px] px-5 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500">
+                <button type="submit" class="h-[42px] px-5 ui-primary hover:opacity-90 font-bold text-white text-sm rounded-xl shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-[rgb(var(--color-primary))]">
                     Filter
                 </button>
                 <a href="{{ route('activity.logs') }}" class="h-[42px] px-5 flex items-center justify-center bg-zinc-100 hover:bg-zinc-200 text-zinc-700 text-sm font-bold rounded-xl transition-colors">
@@ -64,7 +64,7 @@
                         $icon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>';
                         
                         if (str_contains(strtolower($log->action), 'create') || str_contains(strtolower($log->action), 'login')) {
-                            $actionColor = 'bg-emerald-100 text-emerald-600 ring-white';
+                            $actionColor = 'ui-primary-soft text-[rgb(var(--color-primary))] ring-white';
                             $icon = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>';
                         } elseif (str_contains(strtolower($log->action), 'update') || str_contains(strtolower($log->action), 'edit')) {
                             $actionColor = 'bg-blue-100 text-blue-600 ring-white';
@@ -100,7 +100,7 @@
                             <p class="text-[11px] text-zinc-400 mb-3 flex items-center gap-2">
                                 IP: {{ $log->ip_address ?? '-' }}
                                 @if($log->old_values || $log->new_values)
-                                    <button @click="expanded = !expanded" class="text-emerald-600 hover:text-emerald-800 font-bold ml-2 underline decoration-emerald-200 underline-offset-2">
+                                    <button @click="expanded = !expanded" class="text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary))] font-bold ml-2 underline decoration-[rgb(var(--color-primary)_/_0.2)] underline-offset-2">
                                         <span x-text="expanded ? 'Sembunyikan Detail' : 'Lihat Detail'"></span>
                                     </button>
                                 @endif
@@ -132,7 +132,7 @@
                                                         <td class="px-4 py-2.5 text-rose-600 bg-rose-50/30 border-l border-zinc-200 break-all">
                                                             {{ is_array($log->old_values) && isset($log->old_values[$key]) ? (is_array($log->old_values[$key]) ? json_encode($log->old_values[$key]) : $log->old_values[$key]) : '-' }}
                                                         </td>
-                                                        <td class="px-4 py-2.5 text-emerald-600 bg-emerald-50/30 border-l border-zinc-200 break-all">
+                                                        <td class="px-4 py-2.5 text-[rgb(var(--color-primary))] ui-primary-soft border-l border-zinc-200 break-all">
                                                             {{ is_array($log->new_values) && isset($log->new_values[$key]) ? (is_array($log->new_values[$key]) ? json_encode($log->new_values[$key]) : $log->new_values[$key]) : '-' }}
                                                         </td>
                                                     </tr>
