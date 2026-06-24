@@ -120,7 +120,7 @@
             <div class="flex items-center justify-between mb-6">
                 <label for="remember_me" class="inline-flex items-center cursor-pointer group">
                     <input id="remember_me" type="checkbox" name="remember"
-                        class="w-4 h-4 rounded border-zinc-300 text-[rgb(var(--color-primary))] focus:ring-emerald-500 transition-colors">
+                        class="w-4 h-4 rounded border-zinc-300 text-[rgb(var(--color-primary))] focus:ring-[rgb(var(--color-primary))] transition-colors">
                     <span
                         class="ms-2 text-xs font-semibold text-zinc-500 group-hover:text-zinc-700 transition-colors">Ingat
                         saya</span>
@@ -134,7 +134,7 @@
 
             {{-- Submit Button --}}
             <button type="submit" :disabled="isSubmitting"
-                class="w-full h-12 flex items-center justify-center gap-2 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] hover:from-[rgb(var(--color-primary))] hover:to-[rgb(var(--color-primary))] text-white text-sm font-bold rounded-xl shadow-lg shadow-[rgb(var(--color-primary))_/_0.3] hover:shadow-[rgb(var(--color-primary))_/_0.4] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed">
+                class="w-full h-12 flex items-center justify-center gap-2 bg-gradient-to-r from-[rgb(var(--color-primary))] to-[rgb(var(--color-primary))] hover:from-[rgb(var(--color-primary))] hover:to-[rgb(var(--color-primary))] text-white text-sm font-bold rounded-xl shadow-lg shadow-[rgb(var(--color-primary))_/_0.3] hover:shadow-[rgb(var(--color-primary))_/_0.4] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2 disabled:opacity-60 disabled:cursor-not-allowed">
                 <svg x-show="isSubmitting" class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                     <path class="opacity-75" fill="currentColor"

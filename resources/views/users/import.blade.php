@@ -8,7 +8,7 @@
 
 @section('content')
     <div class="px-4 pb-8 min-h-[calc(100vh-12rem)] flex flex-col space-y-6" x-data="importUsers()">
-        <x-ui.page-header title="Import Pengguna (Bulk)" description="Unggah file Excel untuk menambahkan banyak pengguna sekaligus.">
+        <x-ui.page-header title="Import Users (Bulk)" description="Upload Excel file to add multiple users at once.">
             <a href="{{ route('users.index') }}" class="inline-flex items-center text-sm font-semibold text-zinc-600 hover:text-[rgb(var(--color-primary))] transition-colors">
                 <x-atoms.icon name="arrow-left" class="w-4 h-4 mr-1.5" />
                 Kembali ke Daftar

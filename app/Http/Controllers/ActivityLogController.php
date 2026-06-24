@@ -27,6 +27,6 @@ class ActivityLogController extends Controller
         $logs = $query->paginate(20)->withQueryString();
         $users = User::orderBy('name')->get(['id', 'name', 'email']);
 
-        return view('admin.activity-logs', compact('logs', 'users'));
+        return view('activity-logs.index', compact('logs', 'users'));
     }
 }

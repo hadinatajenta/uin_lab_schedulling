@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col space-y-6">
-        <x-ui.page-header title="Data Pengguna" description="Kelola pengguna sistem laboratorium.">
+        <x-ui.page-header title="User Data" description="Manage laboratory system users.">
             @if (Auth::user()->jabatan !== 'Mahasiswa')
                 <div x-data="{ open: false }" class="relative inline-block text-left w-full md:w-auto">
                     <button @click="open = !open" @click.outside="open = false" type="button"

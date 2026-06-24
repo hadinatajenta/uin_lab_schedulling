@@ -10,7 +10,7 @@
             localStorage.setItem('alatViewMode', mode);
         }
     }" class="space-y-6">
-    <x-ui.page-header title="Alat & Bahan" description="Kelola inventaris alat dan bahan di laboratorium secara terpadu.">
+    <x-ui.page-header title="Equipments & Materials" description="Manage laboratory equipments and materials inventory in an integrated manner.">
         @if (Auth::user()->jabatan !== 'Mahasiswa')
             <a href="{{ route('add.alat') }}"
                 class="w-full md:w-auto inline-flex items-center justify-center rounded-xl ui-primary hover:opacity-90 px-4 h-11 md:h-10 font-semibold text-sm md:text-xs shadow-sm shadow-[rgb(var(--color-primary))_/_0.1] transition-opacity focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2">

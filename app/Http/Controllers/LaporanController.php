@@ -35,7 +35,7 @@ class LaporanController extends Controller
 
         // Format total waktu sebagai HH:MM:SS
         $totalFormatted = $totalWaktu->format('H:i:s');
-        return view('admin.laporan', compact('alat', 'user', 'jadwals', 'totalFormatted', 'alatRusakHabis'));
+        return view('reports.index', compact('alat', 'user', 'jadwals', 'totalFormatted', 'alatRusakHabis'));
 
     }
 

@@ -68,12 +68,12 @@ class UsersController extends Controller
         $users = $paginator;
         $roles = Role::all();
 
-        return view('admin.users', compact('users', 'roles'));
+        return view('users.index', compact('users', 'roles'));
     }
 
     public function importView()
     {
-        return view('admin.import-users');
+        return view('users.import');
     }
 
     private function validateSingleRow($type, $row)
@@ -179,7 +179,7 @@ class UsersController extends Controller
     public function jaslabView()
     {
         $jaslab = Jaslab::all();
-        return view('admin.jaslab', compact('jaslab'));
+        return view('lab-suits.index', compact('jaslab'));
     }
 
     public function addUser(Request $request)

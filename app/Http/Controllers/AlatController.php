@@ -35,13 +35,13 @@ class AlatController extends Controller
         // Dynamic Pagination (withQueryString preserves filters in URLs)
         $alat = $query->paginate($perPage)->withQueryString();
 
-        return view('alat', compact('alat', 'bahanPadatCount', 'bahanCairCount', 'all'));
+        return view('equipments.index', compact('alat', 'bahanPadatCount', 'bahanCairCount', 'all'));
     }
 
     // view tambah alat
     public function tambahAlatView()
     {
-        return view('tambahAlat');
+        return view('equipments.create');
     }
     // function tambah alat
     public function addAlat(Request $request)
@@ -138,13 +138,13 @@ class AlatController extends Controller
     public function alat($id)
     {
         $alat = Alat::find($id);
-        return view('admin.detailAlat', compact('alat'));
+        return view('equipments.show', compact('alat'));
     }
 
     public function editAlat($id)
     {
         $edit = Alat::find($id);
-        return view('admin.EditAlat', compact('edit'));
+        return view('equipments.edit', compact('edit'));
     }
 
     public function updateAlat(Request $request, $id)

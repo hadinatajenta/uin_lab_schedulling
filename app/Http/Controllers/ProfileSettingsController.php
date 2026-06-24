@@ -11,7 +11,7 @@ class ProfileSettingsController extends Controller
 {
     public function index()
     {
-        return view('admin.profile-settings', [
+        return view('profile.settings', [
             'user' => Auth::user(),
         ]);
     }

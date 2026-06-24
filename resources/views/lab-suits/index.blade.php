@@ -1,14 +1,14 @@
 @extends('layouts.app')
 
-@section('title', 'Pengaturan Jaslab')
+@section('title', 'Lab Suits Settings')
 
 @section('content')
 <div class="px-2">
     <div class="flex flex-col md:flex-row justify-between mb-6">
         <div>
-            <h4 class="text-2xl font-bold text-gray-900">Peraturan Jaslab</h4>
+            <h4 class="text-2xl font-bold text-gray-900">Lab Suits Rules</h4>
             <p class="text-sm text-gray-500 mt-1">
-                Menampilkan daftar jabatan beserta warna jaslab yang harus dikenakan sesuai jabatan.
+                Displays a list of positions along with the lab suit colors that must be worn according to the position.
             </p>
         </div>
     </div>

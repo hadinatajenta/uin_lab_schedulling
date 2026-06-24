@@ -12,12 +12,12 @@ class LimbahController extends Controller
     public function limbahView()
     {
         $limbah = Limbah::all();
-        return view('admin.limbah',compact('limbah'));
+        return view('wastes.index',compact('limbah'));
     }
     // tambah  limbah view
     public function tambahLimbahView()
     {
-        return view('admin.tambahLimbah');
+        return view('wastes.create');
     }
     // create limbah
      public function create(Request $request)
@@ -52,7 +52,7 @@ class LimbahController extends Controller
         $findLimbah = Limbah::find($id);
 
         if($findLimbah){
-            return view('admin.detailLimbah',compact('findLimbah'));
+            return view('wastes.show',compact('findLimbah'));
         }else{
             return redirect()->back()->with('error','Data limbah tidak ditemukan');
         }

@@ -5,7 +5,7 @@
 @section('content')
 <div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col">
     {{-- Header Section --}}
-    <x-ui.page-header title="Aktivitas Pengguna" description="Pantau log perubahan dan aktivitas seluruh pengguna sistem." />
+    <x-ui.page-header title="User Activity Logs" description="Monitor change logs and system activities of all users." />
 
     {{-- Filter Section --}}
     <div class="bg-white border border-zinc-200 shadow-sm rounded-2xl p-5 mb-8">

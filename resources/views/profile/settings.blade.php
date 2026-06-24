@@ -5,7 +5,7 @@
 @section('content')
 <div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col">
     {{-- Header Section --}}
-    <x-ui.page-header title="Pengaturan Akun" description="Kelola informasi pribadi dan keamanan akun Anda." />
+    <x-ui.page-header title="Account Settings" description="Manage your personal information and account security." />
 
     {{-- Alert Messages --}}
     @if(session('success'))

@@ -15,23 +15,23 @@ return [
     ],
 
     [
-        'section' => 'MANAJEMEN LAB',
+        'section' => 'LAB MANAGEMENT',
         'icon' => 'business_center',
         'items' => [
             [
-                'title' => 'Data Pengguna',
+                'title' => 'User Data',
                 'icon' => 'group',
                 'route' => 'users.index',
                 'active_matches' => ['users.*', 'users.index'],
             ],
             [
-                'title' => 'Penjadwalan',
+                'title' => 'Schedules',
                 'icon' => 'calendar_month',
                 'route' => 'lab',
                 'active_matches' => ['lab', 'addJadwalView'],
             ],
             [
-                'title' => 'Alat & Bahan',
+                'title' => 'Equipments & Materials',
                 'icon' => 'science',
                 'route' => 'alat',
                 'active_matches' => ['alat', 'detailAlat'],
@@ -40,42 +40,42 @@ return [
     ],
 
     [
-        'section' => 'LAPORAN',
+        'section' => 'REPORTS',
         'icon' => 'analytics',
         'items' => [
             [
-                'title' => 'Peminjaman',
+                'title' => 'Borrowings',
                 'icon' => 'list_alt',
                 'route' => 'laporanPeminjaman',
                 'active_matches' => ['laporanPeminjaman', 'laporanView'],
             ],
             [
-                'title' => 'Limbah',
+                'title' => 'Wastes',
                 'icon' => 'delete',
                 'route' => 'limbah',
                 'active_matches' => ['limbah', 'tambahLimbah'],
+            ],
+            [
+                'title' => 'User Activity Logs',
+                'icon' => 'history',
+                'route' => 'activity.logs',
+                'active_matches' => ['activity.logs'],
             ],
         ],
     ],
 
     [
-        'section' => 'PENGATURAN',
+        'section' => 'SETTINGS',
         'icon' => 'settings',
         'items' => [
             [
-                'title' => 'Aktivitas Pengguna',
-                'icon' => 'history',
-                'route' => 'activity.logs',
-                'active_matches' => ['activity.logs'],
-            ],
-            [
-                'title' => 'Jasa Lab',
+                'title' => 'Lab Suits',
                 'icon' => 'work',
                 'route' => 'jaslabView',
                 'active_matches' => ['jaslabView'],
             ],
             [
-                'title' => 'Tentang Lab',
+                'title' => 'About Lab',
                 'icon' => 'info',
                 'route' => 'tentangLab',
                 'active_matches' => ['tentangLab', 'editInfoLab'],

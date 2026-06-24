@@ -88,7 +88,7 @@ class DashboardController extends Controller
             ->take(4)
             ->get();
 
-        return view('admin.dashboard', compact(
+        return view('dashboard.index', compact(
             'totalPengguna',
             'alatTersedia',
             'bahanTersedia',

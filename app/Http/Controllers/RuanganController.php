@@ -13,6 +13,6 @@ class RuanganController extends Controller
     public function updateRuangan(Request $request)
     {
         $ruangan = Ruangan::first();
-        return view('lab', compact('ruangan'));
+        return view('schedules.index', compact('ruangan'));
     }
 }

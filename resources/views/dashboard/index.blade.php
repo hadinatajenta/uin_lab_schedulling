@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="px-2 pb-12 max-w-7xl mx-auto space-y-6">
-    <x-ui.page-header title="Dashboard Operasional" description="Ikhtisar status laboratorium hari ini, {{ Auth::user()->name ?? 'Administrator' }}">
+    <x-ui.page-header title="Operational Dashboard" description="Overview of laboratory status today, {{ Auth::user()->name ?? 'Administrator' }}">
         <div class="flex items-center gap-2">
             <span class="inline-flex items-center rounded-full border border-zinc-200 bg-white px-3 py-1 text-xs font-semibold text-zinc-700 shadow-sm">
                 {{ \Carbon\Carbon::now()->translatedFormat('l, d F Y') }}

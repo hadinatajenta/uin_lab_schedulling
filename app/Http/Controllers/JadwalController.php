@@ -34,7 +34,7 @@ class JadwalController extends Controller
         } else {
             $schedule = Jadwal::orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
         }
-        return view('lab', compact('jadwal', 'jadwal_besok', 'jadwal_minggu_ini', 'schedule'));
+        return view('schedules.index', compact('jadwal', 'jadwal_besok', 'jadwal_minggu_ini', 'schedule'));
     }
 
     // Halaman tambah jadwal
@@ -43,7 +43,7 @@ class JadwalController extends Controller
         $user = User::whereHas('roles', function ($q) {
             $q->where('slug', 'lecturer');
         })->get();
-        return view('admin.addJadwal', compact('user'));
+        return view('schedules.create', compact('user'));
     }
 
     // Handle tambah jadwal
@@ -63,7 +63,7 @@ class JadwalController extends Controller
         $user = User::whereHas('roles', function ($q) {
             $q->where('slug', 'lecturer');
         })->get();
-        return view('admin.editJadwal', compact('jadwal', 'user'));
+        return view('schedules.edit', compact('jadwal', 'user'));
     }
 
     public function editjadwal(\App\Http\Requests\JadwalRequest $request, $id)

@@ -35,12 +35,12 @@ class PeminjamanConttroller extends Controller
         $formattedPercentage = number_format(abs($percentageChange), 2);
         $totalBahan = Peminjaman::sum('jumlah_dipinjam');
 
-        return view('peminjaman', compact('currentMonthTotal', 'formattedPercentage', 'percentageClass', 'comparisonText', 'totalBahan'));
+        return view('borrowings.index', compact('currentMonthTotal', 'formattedPercentage', 'percentageClass', 'comparisonText', 'totalBahan'));
     }
     public function pinjamAlat($id)
     {
         $pinjam = DB::table('alat')->where('id', $id)->first();
-        return view('pinjam', compact('pinjam'));
+        return view('borrowings.show', compact('pinjam'));
     }
 
     public function ajukanPeminjaman(Request $request, $id)

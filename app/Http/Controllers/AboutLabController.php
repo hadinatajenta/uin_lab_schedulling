@@ -14,13 +14,13 @@ class AboutLabController extends Controller
         if (!$aboutLab) {
             return abort(404, 'About Lab information not found');
         }
-        return view('admin.AboutLab', compact('aboutLab'));
+        return view('about-lab.show', compact('aboutLab'));
     }
 
     public function editInfoView(Request $request)
     {
         $aboutlab = AboutLab::first();
-        return view('admin.EditAboutLab', compact('aboutlab'));
+        return view('about-lab.edit', compact('aboutlab'));
     }
 
     public function editInfo(Request $request)

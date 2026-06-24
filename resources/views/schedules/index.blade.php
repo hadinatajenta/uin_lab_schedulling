@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col space-y-6" x-data="{ selectedName: '', deleteUrl: '' }">
-    <x-ui.page-header title="Penjadwalan" description="Kelola jadwal pemakaian ruangan laboratorium.">
+    <x-ui.page-header title="Schedules" description="Manage laboratory room usage schedules.">
         @if (Auth::user()->jabatan !== 'Mahasiswa')
             <a href="{{ route('addJadwalView') }}"
                 class="w-full md:w-auto inline-flex items-center justify-center rounded-xl ui-primary px-4 h-11 md:h-10 font-semibold text-sm md:text-xs shadow-sm shadow-[rgb(var(--color-primary))_/_0.1] hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2">
@@ -78,7 +78,7 @@
                         @if (count($jadwal) > 0)
                             <ol class="{{ $timelineClasses }}">
                                 @foreach ($jadwal as $agenda)
-                                        @include('lab.partials.schedule-item', ['agenda' => $agenda, 'showDate' => false])
+                                        @include('jadwal.partials.schedule-item', ['agenda' => $agenda, 'showDate' => false])
                                 @endforeach
                             </ol>
                         @else
@@ -95,7 +95,7 @@
                         @if (count($jadwal_besok) > 0)
                             <ol class="{{ $timelineClasses }}">
                                 @foreach ($jadwal_besok as $agenda)
-                                        @include('lab.partials.schedule-item', ['agenda' => $agenda, 'showDate' => false])
+                                        @include('jadwal.partials.schedule-item', ['agenda' => $agenda, 'showDate' => false])
                                 @endforeach
                             </ol>
                         @else
@@ -112,7 +112,7 @@
                         @if (count($jadwal_minggu_ini) > 0)
                             <ol class="{{ $timelineClasses }}">
                                 @foreach ($jadwal_minggu_ini as $agenda)
-                                        @include('lab.partials.schedule-item', ['agenda' => $agenda, 'showDate' => true])
+                                        @include('jadwal.partials.schedule-item', ['agenda' => $agenda, 'showDate' => true])
                                 @endforeach
                             </ol>
                         @else
