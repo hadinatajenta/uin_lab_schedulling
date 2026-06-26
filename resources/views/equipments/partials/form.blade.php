@@ -130,25 +130,47 @@
                 Media Barang
             </h5>
         </div>
-        <div class="p-6">
-            <div class="flex items-center justify-center w-full relative">
-                {{-- Preview Image --}}
-                <div class="absolute inset-0 w-full h-full p-2 pointer-events-none" style="display: {{ !empty($alat->gambar) ? 'block' : 'none' }}" id="image-preview-container">
-                    <img id="image-preview" src="{{ !empty($alat->gambar) ? asset('storage/'.$alat->gambar) : '' }}" class="w-full h-full object-contain rounded-xl bg-zinc-50" />
+        <div class="p-6" x-data="imageUploader({{ json_encode(!empty($alat->gambar) ? (is_array($alat->gambar) ? array_map(function($p) { return asset('storage/'.$p); }, $alat->gambar) : [asset('storage/'.$alat->gambar)]) : []) }})">
+            
+            <div class="flex flex-col gap-4 w-full relative">
+                {{-- Dropzone --}}
+                <div @dragover.prevent="isDropping = true"
+                     @dragleave.prevent="isDropping = false"
+                     @drop.prevent="isDropping = false; handleFiles($event.dataTransfer.files)"
+                     class="w-full relative">
+                    <label for="dropzone-file" :class="isDropping ? 'border-[rgb(var(--color-primary))] bg-zinc-100' : 'border-zinc-300 bg-zinc-50/50 hover:bg-zinc-100 hover:border-[rgb(var(--color-primary))]'" class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-2xl cursor-pointer transition-colors group">
+                        <div class="flex flex-col items-center justify-center py-4 px-4 text-center">
+                            <div class="w-12 h-12 rounded-full ui-primary-soft text-[rgb(var(--color-primary))] flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-rounded text-[24px]">cloud_upload</span>
+                            </div>
+                            <p class="mb-1 text-sm text-zinc-600 font-semibold"><span class="text-[rgb(var(--color-primary))]">Klik untuk upload</span> atau drag and drop</p>
+                            <p class="text-xs text-zinc-500">Maks. 5 gambar (WEBP/JPG/PNG, Max 2MB)</p>
+                        </div>
+                        <input id="dropzone-file" type="file" name="gambar[]" accept="image/*" multiple class="hidden" @change="handleFiles($event.target.files)" />
+                    </label>
+                </div>
+
+                {{-- Image Previews Grid --}}
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-3" x-show="previews.length > 0" x-cloak>
+                    <template x-for="(preview, index) in previews" :key="index">
+                        <div class="relative group rounded-xl overflow-hidden border border-zinc-200 aspect-square bg-zinc-50">
+                            <img :src="preview" class="w-full h-full object-cover" />
+                            {{-- Hanya tampilkan tombol hapus jika ini adalah file baru (yang ada di input) --}}
+                            <button type="button" @click.prevent="removeFile(index)" x-show="isNewUpload"
+                                class="absolute top-2 right-2 bg-rose-500 hover:bg-rose-600 text-white p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                                <span class="material-symbols-rounded text-[16px]">close</span>
+                            </button>
+                        </div>
+                    </template>
                 </div>
                 
-                <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-48 border-2 border-zinc-300 border-dashed rounded-2xl cursor-pointer bg-zinc-50/50 hover:bg-zinc-100 hover:border-[rgb(var(--color-primary))] transition-colors group">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6 bg-white/60 backdrop-blur-sm rounded-2xl px-4 text-center">
-                        <div class="w-12 h-12 rounded-full ui-primary-soft text-[rgb(var(--color-primary))] flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                            <span class="material-symbols-rounded text-[24px]">cloud_upload</span>
-                        </div>
-                        <p class="mb-1 text-sm text-zinc-600 font-semibold"><span class="text-[rgb(var(--color-primary))]">Klik untuk upload</span> atau drag and drop</p>
-                        <p class="text-xs text-zinc-500">SVG, PNG, JPG (MAX. 5MB)</p>
-                    </div>
-                    <input id="dropzone-file" type="file" name="gambar" accept="image/*" class="hidden" onchange="previewImage(event)" />
-                </label>
+                <div x-show="previews.length > 0 && !isNewUpload" class="text-xs text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-200/50 flex items-center gap-2">
+                    <span class="material-symbols-rounded text-[16px]">info</span>
+                    Unggah gambar baru akan menggantikan semua gambar lama.
+                </div>
             </div>
             @error('gambar') <p class="text-rose-500 text-xs mt-2">{{ $message }}</p> @enderror
+            @error('gambar.*') <p class="text-rose-500 text-xs mt-2">{{ $message }}</p> @enderror
         </div>
     </div>
 
@@ -163,15 +185,13 @@
         <div class="p-6 space-y-5">
             <div>
                 <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Tanggal Pembelian</label>
-                <input type="date" name="tanggal_pembelian" value="{{ old('tanggal_pembelian', $alat->tanggal_pembelian ?? '') }}"
-                    class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors">
+                <x-ui.date-picker name="tanggal_pembelian" value="{{ old('tanggal_pembelian', $alat->tanggal_pembelian ?? '') }}" placeholder="Pilih tanggal pembelian" />
             </div>
 
             {{-- Tanggal Expired hanya relevan untuk Bahan, tapi kita sembunyikan dengan alpine jika Alat --}}
             <div x-show="kategori === 'Bahan'" x-collapse>
                 <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Tanggal Expired <span class="text-rose-500">*</span></label>
-                <input type="date" name="tanggal_expired" value="{{ old('tanggal_expired', $alat->tanggal_expired ?? '') }}"
-                    class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors">
+                <x-ui.date-picker name="tanggal_expired" value="{{ old('tanggal_expired', $alat->tanggal_expired ?? '') }}" placeholder="Pilih tanggal expired" />
                 @error('tanggal_expired') <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
@@ -207,18 +227,68 @@
 </div>
 
 <script>
-    function previewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('image-preview').src = e.target.result;
-                document.getElementById('image-preview-container').style.display = 'block';
+    function imageUploader(initialImages) {
+        return {
+            isDropping: false,
+            isNewUpload: false,
+            previews: initialImages || [],
+            
+            handleFiles(files) {
+                if (!files || files.length === 0) return;
+                
+                if (files.length > 5) {
+                    window.dispatchEvent(new CustomEvent('toast', {
+                        detail: { message: 'Maksimal hanya 5 gambar yang diperbolehkan!', type: 'error' }
+                    }));
+                    return;
+                }
+
+                // Check file size (max 2MB per file)
+                for (let i = 0; i < files.length; i++) {
+                    if (files[i].size > 2 * 1024 * 1024) {
+                        window.dispatchEvent(new CustomEvent('toast', {
+                            detail: { message: 'Ukuran file maksimal adalah 2MB per gambar!', type: 'error' }
+                        }));
+                        return;
+                    }
+                }
+
+                this.isNewUpload = true;
+                const dt = new DataTransfer();
+                this.previews = [];
+                
+                for (let i = 0; i < files.length; i++) {
+                    if (i >= 5) break;
+                    dt.items.add(files[i]);
+                    
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.previews.push(e.target.result);
+                    };
+                    reader.readAsDataURL(files[i]);
+                }
+                
+                document.getElementById('dropzone-file').files = dt.files;
+            },
+            
+            removeFile(index) {
+                this.previews.splice(index, 1);
+                
+                const input = document.getElementById('dropzone-file');
+                const dt = new DataTransfer();
+                const { files } = input;
+                
+                for (let i = 0; i < files.length; i++) {
+                    if (i !== index) {
+                        dt.items.add(files[i]);
+                    }
+                }
+                input.files = dt.files;
+                
+                if (this.previews.length === 0) {
+                    this.isNewUpload = false;
+                }
             }
-            reader.readAsDataURL(file);
-        } else {
-            document.getElementById('image-preview').src = '';
-            document.getElementById('image-preview-container').style.display = 'none';
         }
     }
 </script>

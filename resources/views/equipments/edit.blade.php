@@ -23,7 +23,7 @@
     @csrf
     @method('PUT')
 
-    @include('alat.partials.form', ['alat' => $edit, 'mode' => 'edit'])
+    @include('equipments.partials.form', ['alat' => $edit, 'mode' => 'edit'])
 
 </form>
 

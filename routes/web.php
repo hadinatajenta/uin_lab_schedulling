@@ -6,7 +6,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\LimbahController;
+use App\Http\Controllers\WasteController;
 use App\Http\Controllers\AboutLabController;
 use App\Http\Controllers\PeminjamanConttroller;
 use Illuminate\Support\Facades\Route;
@@ -60,12 +60,8 @@ Route::prefix('/admin')->middleware(['auth'])->group(function () {
     Route::post('ajukan-peminjaman/{id}', [PeminjamanConttroller::class, 'ajukanPeminjaman'])->name('ajukanPeminjaman');
     // Laporan
     Route::get('/laporan', [LaporanController::class, 'laporanView'])->name('laporanView');
-    // Limbah
-    Route::get('/limbah', [LimbahController::class, 'limbahView'])->name('limbah');
-    Route::get('/tambah-limbah', [LimbahController::class, 'tambahLimbahView'])->name('tambahLimbah');
-    Route::post('/create-limbah', [LimbahController::class, 'create'])->name('limbah.store');
-    Route::get('/detail-limbah/{id}', [LimbahController::class, 'detailLimbah'])->name('detailLimbah');
-    Route::delete('/hapus-limbah/{id}', [LimbahController::class, 'hapusLimbah'])->name('hapusLimbah');
+    // Limbah (Wastes)
+    Route::resource('wastes', WasteController::class);
     // Jaslab
     Route::get('/pengaturan-jaslab', [UsersController::class, 'jaslabView'])->name('jaslabView');
     Route::put('/jaslab-ubah/{id}', [UsersController::class, 'ubahJaslab'])->name('ubahJaslab');

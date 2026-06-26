@@ -25,7 +25,7 @@
  </div>
  <div class="flex flex-col text-white">
  <p class="text-lg font-semibold">Jumlah pengguna</p>
- <span class="text-sm">{{ $user->count() }}</span>
+ <span class="text-sm">{{ format_angka($user->count()) }}</span>
  </div>
  </div>
 
@@ -40,7 +40,7 @@
  </div>
  <div class="flex flex-col text-white">
  <p class="text-lg font-semibold">Alat/bahan</p>
- <span class="text-sm">{{ $alat->count() }}</span>
+ <span class="text-sm">{{ format_angka($alat->count()) }}</span>
  </div>
  </div>
 
@@ -54,7 +54,7 @@
  </div>
  <div class="flex flex-col text-white">
  <p class="text-lg font-semibold">Jumlah jadwal</p>
- <span class="text-sm">{{ $jadwals->count() }}</span>
+ <span class="text-sm">{{ format_angka($jadwals->count()) }}</span>
  </div>
  </div>
 
@@ -68,7 +68,7 @@
  </div>
  <div class="flex flex-col text-white">
  <p class="text-lg font-semibold">Barang rusak / habis </p>
- <span class="text-sm">{{ $alatRusakHabis->count() }}</span>
+ <span class="text-sm">{{ format_angka($alatRusakHabis->count()) }}</span>
  </div>
  </div>
  </div>

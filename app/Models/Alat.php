@@ -11,6 +11,11 @@ class Alat extends Model
 {
     use HasFactory, LogsActivity;
     protected $table = 'alat';
+    
+    protected $casts = [
+        'gambar' => 'array',
+    ];
+
     protected $fillable = [
         'nama_alat',
         'jenis_alat',

@@ -11,42 +11,78 @@ use Illuminate\Support\Facades\Validator;
 
 class JadwalController extends Controller
 {
-    // Halaman jadwal
     public function jadwalView(Request $request)
     {
         $now = Carbon::now();
         $today = now()->toDateString();
-        $jadwal = Jadwal::where('tanggal_jadwal', $today)->orderBy('waktu_mulai', 'asc')->get();
-        $tomorrow = now()->addDay()->toDateString();
-        $jadwal_besok = Jadwal::where('tanggal_jadwal', $tomorrow)->orderBy('waktu_mulai', 'asc')->get();
 
-        $sevenDaysAhead = now()->addDays(7)->toDateString();
-        $jadwal_minggu_ini = Jadwal::whereBetween('tanggal_jadwal', [$today, $sevenDaysAhead])
-            ->orderBy('tanggal_jadwal', 'asc')
-            ->orderBy('waktu_mulai', 'asc')
-            ->get();
+        // Metrics
+        $totalToday = Jadwal::where('tanggal_jadwal', $today)->count();
+        $totalLabs = \App\Models\Ruangan::count(); // Assuming Ruangan model exists
+        $activeLabsToday = Jadwal::where('tanggal_jadwal', $today)->distinct('ruangan_id')->count('ruangan_id');
+        $availableLabs = max(0, $totalLabs - $activeLabsToday);
 
         $keyword = $request->input('keyword');
-        $perPage = $request->input('per_page', 10); // Dynamic per_page, default 10
+        $dateFilter = $request->input('date');
+        $statusFilter = $request->input('status');
+        $perPage = $request->input('per_page', 10);
 
-        if (isset($keyword)) {
-            $schedule = Jadwal::where('mata_kuliah', 'LIKE', "%{$keyword}%")->orWhere('kelas', 'LIKE', "%{$keyword}%")->paginate($perPage)->withQueryString();
-        } else {
-            $schedule = Jadwal::orderBy('created_at', 'desc')->paginate($perPage)->withQueryString();
+        $query = Jadwal::with('dosen'); // Eager load dosen
+
+        if (!empty($keyword)) {
+            $query->where(function ($q) use ($keyword) {
+                $q->where('mata_kuliah', 'LIKE', "%{$keyword}%")
+                    ->orWhere('kelas', 'LIKE', "%{$keyword}%")
+                    ->orWhereHas('dosen', function ($q2) use ($keyword) {
+                        $q2->where('name', 'LIKE', "%{$keyword}%");
+                    });
+            });
         }
-        return view('schedules.index', compact('jadwal', 'jadwal_besok', 'jadwal_minggu_ini', 'schedule'));
+
+        if (!empty($dateFilter)) {
+            $query->where('tanggal_jadwal', $dateFilter);
+        }
+
+        if (!empty($statusFilter)) {
+            $query->where('status', $statusFilter);
+        }
+
+        $schedule = $query->orderBy('tanggal_jadwal', 'desc')
+            ->orderBy('waktu_mulai', 'asc')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        // Detect conflicts across all scheduled data to maintain accurate global metrics and highlighting
+        $conflicts = \Illuminate\Support\Facades\DB::table('jadwal as a')
+            ->join('jadwal as b', function ($join) {
+                $join->on('a.tanggal_jadwal', '=', 'b.tanggal_jadwal')
+                    ->on('a.ruangan_id', '=', 'b.ruangan_id')
+                    ->whereRaw('a.id != b.id')
+                    ->whereRaw('a.waktu_mulai < b.waktu_selesai')
+                    ->whereRaw('a.waktu_selesai > b.waktu_mulai');
+            })
+            ->pluck('a.id')
+            ->unique()
+            ->toArray();
+
+        $totalConflicts = count($conflicts);
+
+        if ($request->ajax()) {
+            return view('schedules.partials.table', compact('schedule', 'conflicts'))->render();
+        }
+
+        return view('schedules.index', compact('schedule', 'totalToday', 'availableLabs', 'totalConflicts', 'conflicts'));
     }
 
-    // Halaman tambah jadwal
     public function addJadwalView()
     {
         $user = User::whereHas('roles', function ($q) {
             $q->where('slug', 'lecturer');
         })->get();
-        return view('schedules.create', compact('user'));
+        $ruangans = \App\Models\Ruangan::all();
+        return view('schedules.create', compact('user', 'ruangans'));
     }
 
-    // Handle tambah jadwal
     public function addJadwal(\App\Http\Requests\JadwalRequest $request)
     {
         $validated = $request->validated();
@@ -69,7 +105,7 @@ class JadwalController extends Controller
     public function editjadwal(\App\Http\Requests\JadwalRequest $request, $id)
     {
         $jadwal = Jadwal::find($id);
-        
+
         if (!$jadwal) {
             return redirect()->route('lab')->with('error', 'Jadwal tidak ditemukan!');
         }
@@ -82,9 +118,7 @@ class JadwalController extends Controller
 
         return redirect()->route('lab')->with('success', 'Berhasil perbarui Jadwal!');
     }
-    // Handle function update jadwal
 
-    // Hapus jadwal
     public function hapusJadwal($id)
     {
         $jadwal = Jadwal::find($id);
@@ -99,7 +133,7 @@ class JadwalController extends Controller
     public function cancelJadwal($id)
     {
         $jadwal = Jadwal::findOrFail($id);
-        
+
         if (\Illuminate\Support\Facades\Auth::id() != $jadwal->dosen_id && \Illuminate\Support\Facades\Auth::user()->jabatan != 'Admin Lab') {
             abort(403, 'Unauthorized action.');
         }
@@ -128,7 +162,7 @@ class JadwalController extends Controller
     public function completeEarly($id)
     {
         $jadwal = Jadwal::findOrFail($id);
-        
+
         if (\Illuminate\Support\Facades\Auth::id() != $jadwal->dosen_id && \Illuminate\Support\Facades\Auth::user()->jabatan != 'Admin Lab') {
             abort(403, 'Unauthorized action.');
         }

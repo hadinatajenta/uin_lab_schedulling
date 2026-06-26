@@ -22,7 +22,7 @@
       class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
     @csrf
 
-    @include('alat.partials.form', ['alat' => new \App\Models\Alat(), 'mode' => 'create'])
+    @include('equipments.partials.form', ['alat' => new \App\Models\Alat(), 'mode' => 'create'])
 
     </div>
 </form>

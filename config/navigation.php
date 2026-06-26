@@ -52,8 +52,8 @@ return [
             [
                 'title' => 'Wastes',
                 'icon' => 'delete',
-                'route' => 'limbah',
-                'active_matches' => ['limbah', 'tambahLimbah'],
+                'route' => 'wastes.index',
+                'active_matches' => ['wastes.*'],
             ],
             [
                 'title' => 'User Activity Logs',

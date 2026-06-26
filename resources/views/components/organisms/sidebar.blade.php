@@ -52,9 +52,9 @@
                     <span>Laporan Peminjaman</span>
                 </x-atoms.nav-link>
 
-                <x-atoms.nav-link href="{{ route('limbah') }}" :active="request()->routeIs('limbah') || request()->routeIs('tambahLimbah')">
-                    <x-atoms.icon name="wishlist" class="w-[18px] h-[18px] mb-[1px]" />
-                    <span>Limbah</span>
+                <x-atoms.nav-link href="{{ route('wastes.index') }}" :active="request()->routeIs('wastes.*')">
+                    <x-atoms.icon name="beaker" class="w-[18px] h-[18px] mb-[1px]" />
+                    <span>Limbah B3</span>
                 </x-atoms.nav-link>
 
                 <x-atoms.nav-link href="{{ route('jaslabView') }}" :active="request()->routeIs('jaslabView')">
@@ -70,15 +70,45 @@
         </div>
         
         <!-- Bottom Profile & Logout -->
-        <div class="mt-auto pt-4 flex items-center justify-between">
-            <x-molecules.user-profile-snippet :name="Auth::user()->name ?? 'User'" :profileUrl="route('dashboard')" />
+        <div class="mt-auto pt-4 relative" x-data="{ open: false }">
+            <button @click="open = !open" @click.away="open = false" class="w-full flex items-center justify-between p-2 -mx-2 hover:bg-gray-100 rounded-xl transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))]">
+                <x-molecules.user-profile-snippet :name="Auth::user()->name ?? 'User'" profileUrl="#" />
+                <svg :class="{'rotate-180': open}" class="w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+            </button>
             
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="p-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-md transition-colors" title="Keluar">
-                    <x-atoms.icon name="logout" class="w-[18px] h-[18px]" />
-                </button>
-            </form>
+            <div x-show="open" 
+                 x-transition:enter="transition ease-out duration-200"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-150"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 class="absolute bottom-full left-0 w-full mb-2 bg-white rounded-xl shadow-lg shadow-gray-200/50 border border-gray-200 overflow-hidden z-50 origin-bottom"
+                 style="display: none;"
+                 x-cloak>
+                
+                <div class="px-4 py-3 border-b border-gray-100 bg-gray-50/50">
+                    <p class="text-sm text-gray-900 font-bold truncate">{{ Auth::user()->name ?? 'User Name' }}</p>
+                    <p class="text-[11px] text-gray-500 font-medium truncate">{{ Auth::user()->email ?? 'user@example.com' }}</p>
+                </div>
+
+                <div class="py-1 border-b border-gray-100">
+                    <a href="{{ route('profile.settings') }}" class="flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-gray-700 hover:bg-gray-50 hover:text-[rgb(var(--color-primary))] transition-colors">
+                        <x-atoms.icon name="settings" class="w-4 h-4" />
+                        Pengaturan Profil
+                    </a>
+                </div>
+                
+                <div class="py-1">
+                    <form method="POST" action="{{ route('logout') }}" class="w-full m-0">
+                        @csrf
+                        <button type="submit" class="w-full flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-rose-600 hover:bg-rose-50 transition-colors text-left">
+                            <x-atoms.icon name="logout" class="w-4 h-4" />
+                            Keluar
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </aside>

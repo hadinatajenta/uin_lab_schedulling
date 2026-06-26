@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             RuanganSeeder::class,
             JadwalSeeder::class,
             AlatSeeder::class,
+            WasteSeeder::class,
         ]);
     }
 }

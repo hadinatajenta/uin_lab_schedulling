@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Alat;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Encoders\WebpEncoder;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -61,7 +66,8 @@ class AlatController extends Controller
             'deskripsi' => 'nullable|string',
             'spesifikasi' => 'nullable|string',
             'kondisi' => 'nullable|string',
-            'gambar' => 'nullable|image|max:5120',
+            'gambar' => 'nullable|array|max:5',
+            'gambar.*' => 'image|max:2048', // max 2MB per gambar as requested
             'jumlah_satuan' => 'required_if:jenis_alat,Alat|nullable|numeric|min:0',
             'jumlah_ml' => 'required_if:jenis_alat,Bahan|nullable|numeric|min:0',
             'cara_penggunaan' => 'nullable|string',
@@ -78,12 +84,28 @@ class AlatController extends Controller
         $alat->spesifikasi = $request->input('spesifikasi');
         $alat->kondisi = $request->input('kondisi');
 
-        // handle gambar disini
+        // handle gambar multi upload & resize
         if ($request->hasFile('gambar')) {
-            $image = $request->file('gambar');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('images', $imageName, 'public');
-            $alat->gambar = $path;
+            $manager = new ImageManager(new Driver());
+            $paths = [];
+            foreach ($request->file('gambar') as $image) {
+                $imageName = time() . '_' . uniqid() . '.webp';
+                
+                // Read image (Intervention Image v4 uses decode)
+                $img = $manager->decode($image);
+                
+                // Scale down to max 1600px width/height maintaining aspect ratio
+                $img->scaleDown(1600, 1600);
+                
+                // Encode to webp with 80% quality
+                $encoded = $img->encode(new WebpEncoder(80));
+                
+                // Save to storage
+                Storage::disk('public')->put('images/' . $imageName, (string) $encoded);
+                
+                $paths[] = 'images/' . $imageName;
+            }
+            $alat->gambar = $paths;
         }
 
         $alat->cara_penggunaan = $request->input('cara_penggunaan');
@@ -104,12 +126,18 @@ class AlatController extends Controller
             $alat->tanggal_expired = $tanggal_expired;
 
             if ($tanggal_pembelian && $tanggal_expired && (strtotime($tanggal_pembelian) > strtotime($tanggal_expired))) {
-                return redirect()->back()->withInput()->with('error', 'Tanggal pembelian tidak boleh melebihi tanggal expired.');
+                return redirect()->back()->withInput()->with('toast', [
+                    'type' => 'error',
+                    'message' => 'Tanggal pembelian tidak boleh melebihi tanggal expired.'
+                ]);
             }
         }
 
         $alat->save();
-        return redirect()->route('alat')->with('success', 'Berhasil menambahkan data baru!');
+        return redirect()->route('alat')->with('toast', [
+            'type' => 'success',
+            'message' => 'Berhasil menambahkan data baru!'
+        ]);
     }
 
     // delete alat
@@ -120,11 +148,18 @@ class AlatController extends Controller
 
         // Jika objek Alat tidak ditemukan
         if (!$alat) {
-            return redirect()->route('alat')->with('error', 'Data Alat tidak ditemukan!');
+            return redirect()->route('alat')->with('toast', [
+                'type' => 'error',
+                'message' => 'Data Alat tidak ditemukan!'
+            ]);
         }
 
         // Hapus gambar jika ada
-        if ($alat->gambar) {
+        if (!empty($alat->gambar) && is_array($alat->gambar)) {
+            foreach ($alat->gambar as $path) {
+                Storage::disk('public')->delete($path);
+            }
+        } elseif (!empty($alat->gambar) && is_string($alat->gambar)) {
             Storage::disk('public')->delete($alat->gambar);
         }
 
@@ -132,7 +167,10 @@ class AlatController extends Controller
         $alat->delete();
 
         // Redirect dengan pesan sukses
-        return redirect()->route('alat')->with('success', 'Berhasil menghapus data Alat!');
+        return redirect()->route('alat')->with('toast', [
+            'type' => 'success',
+            'message' => 'Berhasil menghapus data Alat!'
+        ]);
     }
 
     public function alat($id)
@@ -163,7 +201,8 @@ class AlatController extends Controller
             'deskripsi' => 'nullable|string',
             'spesifikasi' => 'nullable|string',
             'kondisi' => 'nullable|string',
-            'gambar' => 'nullable|image|max:5120',
+            'gambar' => 'nullable|array|max:5',
+            'gambar.*' => 'image|max:2048', // max 2MB per gambar
             'jumlah_satuan' => 'required_if:jenis_alat,Alat|nullable|numeric|min:0',
             'jumlah_ml' => 'required_if:jenis_alat,Bahan|nullable|numeric|min:0',
             'cara_penggunaan' => 'nullable|string',
@@ -175,7 +214,10 @@ class AlatController extends Controller
         $alat = Alat::find($id);
 
         if (!$alat) {
-            return redirect()->back()->with('error', 'Data Alat tidak ditemukan.');
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'Data Alat tidak ditemukan.'
+            ]);
         }
 
         // Update data Alat
@@ -185,12 +227,32 @@ class AlatController extends Controller
         $alat->spesifikasi = $request->input('spesifikasi');
         $alat->kondisi = $request->input('kondisi');
 
-        // Handle gambar disini
+        // Handle gambar disini (timpa seluruh gambar lama jika ada unggahan baru)
         if ($request->hasFile('gambar')) {
-            $image = $request->file('gambar');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $path = $image->storeAs('images', $imageName, 'public');
-            $alat->gambar = $path;
+            // Hapus gambar lama
+            if (!empty($alat->gambar) && is_array($alat->gambar)) {
+                foreach ($alat->gambar as $oldPath) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            } elseif (!empty($alat->gambar) && is_string($alat->gambar)) {
+                Storage::disk('public')->delete($alat->gambar);
+            }
+
+            // Simpan gambar baru
+            $manager = new ImageManager(new Driver());
+            $paths = [];
+            foreach ($request->file('gambar') as $image) {
+                $imageName = time() . '_' . uniqid() . '.webp';
+                
+                $img = $manager->decode($image);
+                $img->scaleDown(1600, 1600);
+                $encoded = $img->encode(new WebpEncoder(80));
+                
+                Storage::disk('public')->put('images/' . $imageName, (string) $encoded);
+                
+                $paths[] = 'images/' . $imageName;
+            }
+            $alat->gambar = $paths;
         }
 
         $alat->cara_penggunaan = $request->input('cara_penggunaan');
@@ -211,12 +273,18 @@ class AlatController extends Controller
             $alat->tanggal_expired = $tanggal_expired;
 
             if ($tanggal_pembelian && $tanggal_expired && (strtotime($tanggal_pembelian) > strtotime($tanggal_expired))) {
-                return redirect()->back()->withInput()->with('error', 'Tanggal pembelian tidak boleh melebihi tanggal expired.');
+                return redirect()->back()->withInput()->with('toast', [
+                    'type' => 'error',
+                    'message' => 'Tanggal pembelian tidak boleh melebihi tanggal expired.'
+                ]);
             }
         }
 
         $alat->save();
-        return redirect()->route('alat')->with('success', 'Berhasil memperbarui data!');
+        return redirect()->route('alat')->with('toast', [
+            'type' => 'success',
+            'message' => 'Berhasil memperbarui data!'
+        ]);
     }
 
 

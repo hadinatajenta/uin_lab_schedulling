@@ -16,25 +16,25 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <x-dashboard.stat-card 
             label="Total Pengguna" 
-            :value="$totalPengguna" 
+            :value="format_angka($totalPengguna)" 
             icon="users" 
             type="primary" 
         />
         <x-dashboard.stat-card 
             label="Alat Tersedia" 
-            :value="$alatTersedia" 
+            :value="format_angka($alatTersedia)" 
             icon="cube" 
             type="zinc" 
         />
         <x-dashboard.stat-card 
             label="Bahan Tersedia" 
-            :value="$bahanTersedia" 
+            :value="format_angka($bahanTersedia)" 
             icon="beaker" 
             type="primary" 
         />
         <x-dashboard.stat-card 
             label="Peminjaman Aktif" 
-            :value="$peminjamanAktif" 
+            :value="format_angka($peminjamanAktif)" 
             icon="clipboard-document-list" 
             type="rose" 
         />

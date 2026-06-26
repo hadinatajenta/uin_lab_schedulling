@@ -12,22 +12,24 @@
     } else if (isset($item['route'])) {
         try {
             $isActive = request()->routeIs($item['route']);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
     }
 
     $routeUrl = '#';
     if (isset($item['route'])) {
         try {
             $routeUrl = route($item['route']);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
     }
 
     // Base classes
     $baseClasses = 'group flex items-center transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))] relative';
-    
+
     // Sizing and rounding
     $sizingClasses = $nested ? 'h-9 rounded-lg' : 'h-11 rounded-xl';
-    
+
     // Spacing (static for nested/mobile)
     $spacingClasses = '';
     if ($isMobile || $nested) {
@@ -36,9 +38,9 @@
 
     // State classes
     if ($isActive) {
-        $stateClasses = $nested 
-            ? 'bg-[rgb(var(--color-primary-soft))] text-zinc-900 font-semibold shadow-sm ring-1 ring-black/5' 
-            : 'bg-[rgb(var(--color-primary-soft))] text-zinc-900 font-semibold shadow-sm ring-1 ring-black/5';
+        $stateClasses = $nested
+            ? 'bg-[rgb(var(--color-primary-soft))] text-zinc-900 font-medium shadow-sm ring-1 ring-black/5'
+            : 'bg-[rgb(var(--color-primary-soft))] text-zinc-900 font-medium shadow-sm ring-1 ring-black/5';
         $iconClasses = 'text-[rgb(var(--color-primary))]';
     } else {
         $stateClasses = 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 font-medium';
@@ -49,67 +51,38 @@
 <li class="relative">
     @if($isActive && !$nested)
         <!-- Accent Bar for Parent -->
-        <div 
-            class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[rgb(var(--color-primary))] rounded-r-full z-10 pointer-events-none"
-            @if(!$isMobile)
-                x-show="$store.sidebar.expanded"
-            @endif
-        ></div>
+        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[rgb(var(--color-primary))] rounded-r-full z-10 pointer-events-none"
+            @if(!$isMobile) x-show="$store.sidebar.expanded" @endif></div>
     @endif
 
-    <a 
-        href="{{ $routeUrl }}" 
-        class="{{ $baseClasses }} {{ $sizingClasses }} {{ $spacingClasses }} {{ $stateClasses }}"
-        {{ $isActive ? 'aria-current="page"' : '' }}
-        @if(!$isMobile && !$nested)
-            :class="!$store.sidebar.expanded ? 'justify-center w-11 mx-auto' : 'px-3'"
-            x-data="{ tooltipVisible: false }"
-            @mouseenter="tooltipVisible = true"
-            @mouseleave="tooltipVisible = false"
-        @endif
-    >
+    <a href="{{ $routeUrl }}" class="{{ $baseClasses }} {{ $sizingClasses }} {{ $spacingClasses }} {{ $stateClasses }}"
+        {{ $isActive ? 'aria-current="page"' : '' }} @if(!$isMobile && !$nested)
+            :class="!$store.sidebar.expanded ? 'justify-center w-11 mx-auto' : 'px-3'" x-data="{ tooltipVisible: false }"
+        @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" @endif>
         @if(isset($item['icon']) && !$nested)
-            <span 
-                class="material-symbols-rounded shrink-0 transition-all duration-200 {{ $iconClasses }} {{ $isMobile ? 'text-[20px] mr-3' : '' }}" 
-                @if(!$isMobile)
-                    x-bind:class="!$store.sidebar.expanded ? 'text-[24px]' : 'text-[20px] mr-3'"
-                @endif
-            >{{ $item['icon'] }}</span>
+            <span
+                class="material-symbols-rounded shrink-0 transition-all duration-200 {{ $iconClasses }} {{ $isMobile ? 'text-[20px] mr-3' : '' }}"
+                @if(!$isMobile) x-bind:class="!$store.sidebar.expanded ? 'text-[24px]' : 'text-[20px] mr-3'"
+                @endif>{{ $item['icon'] }}</span>
         @endif
 
         @if(!$nested && !isset($item['icon']))
-            <div 
-                class="w-5 h-5 mr-3"
-                @if(!$isMobile)
-                    x-show="$store.sidebar.expanded"
-                @endif
-            ></div>
+            <div class="w-5 h-5 mr-3" @if(!$isMobile) x-show="$store.sidebar.expanded" @endif></div>
         @endif
 
-        <span 
-            class="truncate {{ $nested ? 'text-[13.5px]' : 'text-[14px]' }}"
-            @if(!$isMobile && !$nested)
-                x-show="$store.sidebar.expanded"
-                x-transition.opacity
-            @endif
-        >
+        <span class="truncate {{ $nested ? 'text-[13.5px]' : 'text-[14px]' }}" @if(!$isMobile && !$nested)
+        x-show="$store.sidebar.expanded" x-transition.opacity @endif>
             {{ $item['title'] }}
         </span>
-        
+
         @if(!$isMobile && !$nested)
             <!-- Tooltip -->
-            <div 
-                x-show="tooltipVisible && !$store.sidebar.expanded"
-                x-transition:enter="transition ease-out duration-100"
-                x-transition:enter-start="opacity-0 translate-x-2"
-                x-transition:enter-end="opacity-100 translate-x-0"
-                x-transition:leave="transition ease-in duration-75"
-                x-transition:leave-start="opacity-100 translate-x-0"
+            <div x-show="tooltipVisible && !$store.sidebar.expanded" x-transition:enter="transition ease-out duration-100"
+                x-transition:enter-start="opacity-0 translate-x-2" x-transition:enter-end="opacity-100 translate-x-0"
+                x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 translate-x-0"
                 x-transition:leave-end="opacity-0 translate-x-2"
                 class="absolute left-full ml-3 px-2.5 py-1.5 bg-zinc-900 text-zinc-50 text-xs font-medium rounded-md whitespace-nowrap shadow-md z-50 pointer-events-none"
-                style="display: none;"
-                x-cloak
-            >
+                style="display: none;" x-cloak>
                 {{ $item['title'] }}
                 <div class="absolute w-2 h-2 bg-zinc-900 rotate-45 -left-1 top-1/2 -translate-y-1/2"></div>
             </div>

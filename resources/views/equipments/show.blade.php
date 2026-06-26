@@ -9,15 +9,16 @@
 
         $jumlahLabel = '-';
         if (!is_null($alat->jumlah_ml)) {
-            $jumlahLabel = $alat->jumlah_ml . ' ml';
+            $jumlahLabel = format_angka($alat->jumlah_ml) . ' ml';
         } elseif (!is_null($alat->jumlah_satuan)) {
-            $jumlahLabel = $alat->jumlah_satuan . ' unit';
+            $jumlahLabel = format_angka($alat->jumlah_satuan) . ' unit';
         }
 
         $tanggalPembelian = $alat->tanggal_pembelian ? \Carbon\Carbon::parse($alat->tanggal_pembelian)->translatedFormat('d F Y') : '-';
         $tanggalExpired = $alat->tanggal_expired ? \Carbon\Carbon::parse($alat->tanggal_expired)->translatedFormat('d F Y') : '-';
-        $hasImage = !empty($alat->gambar);
-        $imageUrl = $hasImage ? asset('storage/' . $alat->gambar) : null;
+        $hasImage = !empty($alat->gambar) && (is_array($alat->gambar) ? count($alat->gambar) > 0 : is_string($alat->gambar));
+        $images = is_array($alat->gambar) ? $alat->gambar : (is_string($alat->gambar) ? [$alat->gambar] : []);
+        $imageUrl = count($images) > 0 ? asset('storage/' . $images[0]) : null;
 
         $tocItems = [
             ['id' => 'ringkasan', 'label' => 'Ringkasan'],
@@ -99,7 +100,7 @@
                                             <x-atoms.icon name="cube" class="w-8 h-8" />
                                         </div>
                                         <p class="text-sm font-semibold text-zinc-900">Tidak ada gambar</p>
-                                        <p class="text-xs text-zinc-500 mt-1">Siap dikembangkan ke galeri multi-gambar.</p>
+                                        <p class="text-xs text-zinc-500 mt-1">Belum ada gambar yang diunggah untuk data ini.</p>
                                     </div>
                                 </div>
                             @endif
@@ -269,34 +270,29 @@
                     <div class="flex items-center justify-between gap-3">
                         <div>
                             <p class="text-xs font-bold uppercase tracking-wider text-zinc-500">Media</p>
-                            <h2 class="mt-1 text-xl font-bold text-zinc-900">Gambar alat</h2>
+                            <h2 class="mt-1 text-xl font-bold text-zinc-900">Galeri gambar</h2>
                         </div>
                         <span class="rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-700">
-                            1 slot
+                            {{ count($images) }} gambar
                         </span>
                     </div>
 
-                    <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        @if ($hasImage)
-                            <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50">
-                                <img
-                                    src="{{ $imageUrl }}"
-                                    alt="{{ $alat->nama_alat }}"
-                                    class="h-64 w-full object-cover object-center"
-                                >
+                    <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                        @forelse ($images as $img)
+                            <div class="overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-50 aspect-square group">
+                                <a href="{{ asset('storage/' . $img) }}" target="_blank" class="block w-full h-full">
+                                    <img
+                                        src="{{ asset('storage/' . $img) }}"
+                                        alt="{{ $alat->nama_alat }}"
+                                        class="h-full w-full object-cover object-center group-hover:scale-110 transition-transform duration-500"
+                                    >
+                                </a>
                             </div>
-                        @else
-                            <div class="flex h-64 items-center justify-center rounded-2xl border border-dashed border-zinc-200 bg-zinc-50">
+                        @empty
+                            <div class="sm:col-span-2 md:col-span-3 flex h-40 items-center justify-center rounded-2xl border border-dashed border-zinc-200 bg-zinc-50">
                                 <p class="text-sm text-zinc-500">Belum ada gambar yang tersedia.</p>
                             </div>
-                        @endif
-
-                        <div class="rounded-2xl border border-zinc-200 bg-zinc-50 p-5">
-                            <p class="text-sm font-semibold text-zinc-900">Catatan pengembangan</p>
-                            <p class="mt-2 text-sm leading-7 text-zinc-600">
-                                Struktur ini sudah disiapkan agar nanti bisa ditambah galeri multi-gambar tanpa mengubah layout utama.
-                            </p>
-                        </div>
+                        @endforelse
                     </div>
                 </section>
             </main>

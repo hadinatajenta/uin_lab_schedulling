@@ -29,4 +29,9 @@ class Jadwal extends Model
     {
         return $this->belongsTo(User::class, 'dosen_id');
     }
+
+    public function wasteLogs()
+    {
+        return $this->hasMany(WasteLog::class, 'schedule_id', 'id');
+    }
 }

@@ -26,6 +26,12 @@
             }
         }
     }"
+    @toast.window="
+        message = $event.detail.message;
+        type = $event.detail.type || 'success';
+        show = true;
+        setTimeout(() => { show = false; }, 5000);
+    "
     x-show="show"
     x-transition:enter="transition ease-out duration-300"
     x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 sm:translate-x-4"

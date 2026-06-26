@@ -3,90 +3,66 @@
 @section('title', 'About Lab')
 
 @section('content')
-    {{-- SOP --}}
-    <section class="bg-white ">
-        <div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-            <div class=" lg:mt-0 lg:col-span-5 lg:flex">
-                <img src="https://img.freepik.com/free-vector/process-optimization-concept-illustration_114360-21583.jpg?w=740&t=st=1717837674~exp=1717838274~hmac=e3281dddc79904938a2a6dbb3dfc170a6c5c7ab36ac08cf0b0a1b1618aed908a"
-                    alt="mockup">
+<div class="px-2 pb-8 min-h-[calc(100vh-12rem)] flex flex-col space-y-6">
+    {{-- Header --}}
+    <x-ui.page-header title="About Lab" description="Laboratory operational standards and organizational structure information.">
+        @if (Auth::user() && Auth::user()->jabatan !== 'Mahasiswa')
+            <a href="{{ route('editInfoLab') }}"
+                class="w-full md:w-auto inline-flex items-center justify-center rounded-xl ui-primary px-4 h-11 md:h-10 font-semibold text-sm md:text-xs shadow-sm shadow-[rgb(var(--color-primary))_/_0.1] hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:ring-offset-2">
+                <span class="material-symbols-rounded text-[18px] mr-2">edit</span>
+                Edit Information
+            </a>
+        @endif
+    </x-ui.page-header>
+
+    {{-- Content Grid --}}
+    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 items-start">
+        
+        {{-- SOP Section --}}
+        <div class="xl:col-span-7 space-y-6">
+            <div class="ui-surface p-6 md:p-8 rounded-2xl shadow-sm border border-[rgb(var(--color-border))]">
+                <div class="flex items-center space-x-3 mb-6 pb-6 border-b border-[rgb(var(--color-border))]">
+                    <div class="w-11 h-11 rounded-xl bg-[rgb(var(--color-primary)_/_0.1)] text-[rgb(var(--color-primary))] flex items-center justify-center shrink-0">
+                        <span class="material-symbols-rounded">gavel</span>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900 tracking-tight">Standard Operating Procedures</h2>
+                        <p class="text-sm ui-text-muted mt-0.5">Rules and guidelines for laboratory usage.</p>
+                    </div>
+                </div>
+                
+                <div class="prose prose-sm md:prose-base prose-blue max-w-none text-gray-600 leading-relaxed break-words">
+                    {!! !empty($aboutLab->sop) ? $aboutLab->sop : '<p class="italic text-gray-400">No SOP information available.</p>' !!}
+                </div>
             </div>
-            <div class="mr-auto place-self-center lg:col-span-7">
-                <h1 class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl ">
-                    Standard Operating Procedures</h1>
-                <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl ">You can
-                    see the Standard Operating Procedures of this Biology Lab here before starting your practicum / using
-                    the lab.</p>
-                <a href="#" data-modal-target="sop" data-modal-toggle="sop"
-                    class="inline-flex items-center self-end px-5 py-3 mr-3 text-base font-medium text-center bg-gray-800 text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 ">
-                    Lihat SOP
-                    <svg class="w-5 h-5 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
-                </a>
+        </div>
 
-                {{-- Modal --}}
-                <div id="sop" tabindex="-1" aria-hidden="true"
-                    class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
-                    <div class="relative p-4 w-full max-w-2xl max-h-full">
-                        <!-- Modal content -->
-                        <div class="relative bg-white rounded-lg shadow ">
-                            <!-- Modal header -->
-                            <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t ">
-                                <h3 class="text-xl font-semibold text-gray-900 ">
-                                    PERATURAN DAN TATA TERTIB LABORATORIUM BIOLOGI
-                                </h3>
-                                <button type="button"
-                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center "
-                                    data-modal-hide="sop">
-                                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                        viewBox="0 0 14 14">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-                                    </svg>
-                                    <span class="sr-only">Close modal</span>
-                                </button>
-                            </div>
-                            <!-- Modal body -->
-                            <div class="p-4 md:p-5 space-y-4">
-                                <p class="text-base leading-relaxed text-gray-500 ">
-                                    {!! $aboutLab->sop !!}
-                                </p>
-
-                            </div>
-                            <!-- Modal footer -->
-                            <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b ">
-                                <button data-modal-hide="sop" type="button"
-                                    class="text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center ">I
-                                    accept</button>
-                            </div>
-                        </div>
+        {{-- Structure Section --}}
+        <div class="xl:col-span-5 space-y-6">
+            <div class="ui-surface p-6 md:p-8 rounded-2xl shadow-sm border border-[rgb(var(--color-border))]">
+                <div class="flex items-center space-x-3 mb-6 pb-6 border-b border-[rgb(var(--color-border))]">
+                    <div class="w-11 h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                        <span class="material-symbols-rounded">account_tree</span>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900 tracking-tight">Organizational Structure</h2>
+                        <p class="text-sm ui-text-muted mt-0.5">Laboratory management hierarchy.</p>
                     </div>
                 </div>
 
+                @if(!empty($aboutLab) && !empty($aboutLab->stuktur))
+                    <div class="rounded-xl overflow-hidden border border-[rgb(var(--color-border))] bg-gray-50 flex items-center justify-center p-4">
+                        <img src="{{ asset('storage/' . $aboutLab->stuktur) }}" alt="Organizational Structure" class="max-w-full h-auto object-contain rounded-lg hover:scale-[1.02] transition-transform duration-300">
+                    </div>
+                @else
+                    <div class="flex flex-col items-center justify-center p-8 rounded-xl border border-dashed border-gray-300 bg-gray-50">
+                        <span class="material-symbols-rounded text-gray-400 text-4xl mb-2">image_not_supported</span>
+                        <p class="text-sm text-gray-500 font-medium">No structure image uploaded</p>
+                    </div>
+                @endif
             </div>
         </div>
-    </section>
 
-    {{-- Struktur organisasi --}}
-    <div class="container mx-auto my-8 bg-white p-4 rounded-lg">
-        <div class="mb-4">
-            <h2 class="text-2xl font-bold">Struktur Organisasi</h2>
-            <p>Menampilkan Struktur Organisasi Dari Laboratorium Biologi UIN </p>
-        </div>
-        <div class="flex justify-center">
-            <img src="{{ asset('storage/' . $aboutLab->stuktur) }}" alt="Struktur Organisasi" class="max-w-full h-auto">
-        </div>
     </div>
-
-    <div class="container mx-auto my-8">
-        <div class="flex justify-end">
-            <a href="{{ route('editInfoLab') }}"
-                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                Edit
-            </a>
-        </div>
-    </div>
+</div>
 @endsection

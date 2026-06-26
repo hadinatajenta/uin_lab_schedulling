@@ -18,19 +18,39 @@ class UsersController extends Controller
 {
     public function usersView(Request $request)
     {
+        $name = $request->input('name');
+        $email = $request->input('email');
+        $nim = $request->input('nim');
+        $nip = $request->input('nip');
+        $department_id = $request->input('department_id');
+        $faculty = $request->input('faculty');
         $keyword = $request->input('keyword');
-        $roleSlug = $request->input('jabatan'); // Kept variable name for backwards compatibility in UI
+        
+        $roleSlug = $request->input('jabatan');
 
-        $query = User::query(); // Mulai dari base query tanpa eager loading
+        $query = User::query();
 
-        $query->when($keyword, function ($q) use ($keyword) {
-            $q->where(function ($sub) use ($keyword) {
+        if ($keyword) {
+            $query->where(function ($sub) use ($keyword) {
                 $sub->where('name', 'LIKE', "%{$keyword}%")
                     ->orWhere('email', 'LIKE', "%{$keyword}%")
                     ->orWhere('nim', 'LIKE', "%{$keyword}%")
                     ->orWhere('nip', 'LIKE', "%{$keyword}%");
             });
-        });
+        }
+
+        if ($name) $query->where('name', 'LIKE', "%{$name}%");
+        if ($email) $query->where('email', 'LIKE', "%{$email}%");
+        if ($nim) $query->where('nim', 'LIKE', "%{$nim}%");
+        if ($nip) $query->where('nip', 'LIKE', "%{$nip}%");
+        
+        if ($department_id) {
+            $query->where('department_id', $department_id);
+        } elseif ($faculty) {
+            $query->whereHas('department', function ($q) use ($faculty) {
+                $q->where('faculty', $faculty);
+            });
+        }
 
         $query->when($roleSlug, function ($q) use ($roleSlug) {
             $mappedSlug = match (strtolower(trim($roleSlug))) {
@@ -67,8 +87,14 @@ class UsersController extends Controller
 
         $users = $paginator;
         $roles = Role::all();
+        $allDepartments = Department::all(['id', 'name', 'faculty']);
+        $faculties = Department::select('faculty')->whereNotNull('faculty')->distinct()->pluck('faculty');
 
-        return view('users.index', compact('users', 'roles'));
+        if ($request->ajax()) {
+            return view('users.partials.table', compact('users', 'roles', 'allDepartments', 'faculties'))->render();
+        }
+
+        return view('users.index', compact('users', 'roles', 'allDepartments', 'faculties'));
     }
 
     public function importView()
