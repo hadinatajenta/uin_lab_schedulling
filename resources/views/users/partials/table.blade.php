@@ -63,12 +63,11 @@
                     @if (Auth::user()->jabatan !== 'Mahasiswa')
                         <div class="flex items-center justify-end">
                             <x-table.action-menu>
-                                <button type="button" data-modal-target="edit-modal-{{ $user->id }}"
-                                    data-modal-toggle="edit-modal-{{ $user->id }}"
+                                <a href="{{ route('users.show', $user->id) }}"
                                     class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center">
                                     <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-400" />
                                     Edit Pengguna
-                                </button>
+                                </a>
                                 <button type="button"
                                     class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
                                     <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
@@ -103,12 +102,11 @@
                 @if (Auth::user()->jabatan !== 'Mahasiswa')
                     <div class="absolute top-4 right-4">
                         <x-table.action-menu>
-                            <button type="button" data-modal-target="edit-modal-{{ $user->id }}"
-                                data-modal-toggle="edit-modal-{{ $user->id }}"
+                            <a href="{{ route('users.show', $user->id) }}"
                                 class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center min-h-[44px]">
                                 <x-atoms.icon name="settings" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-zinc-400" />
                                 Edit Pengguna
-                            </button>
+                            </a>
                             <div class="h-px bg-zinc-100 my-1"></div>
                             <button type="button" data-modal-target="delete-modal-{{ $user->id }}"
                                 data-modal-toggle="delete-modal-{{ $user->id }}"
@@ -165,7 +163,6 @@
 
 @foreach($users as $user)
     @if (Auth::user()->jabatan !== 'Mahasiswa')
-        <x-admin.users.edit-modal :user="$user" />
         <x-admin.users.delete-modal :user="$user" />
     @endif
 @endforeach

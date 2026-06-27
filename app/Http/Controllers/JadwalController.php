@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Jadwal;
-use App\Models\User;
+use App\Domains\User\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -18,7 +18,7 @@ class JadwalController extends Controller
 
         // Metrics
         $totalToday = Jadwal::where('tanggal_jadwal', $today)->count();
-        $totalLabs = \App\Models\Ruangan::count(); // Assuming Ruangan model exists
+        $totalLabs = \App\Models\Ruangan::count();
         $activeLabsToday = Jadwal::where('tanggal_jadwal', $today)->distinct('ruangan_id')->count('ruangan_id');
         $availableLabs = max(0, $totalLabs - $activeLabsToday);
 
@@ -27,7 +27,7 @@ class JadwalController extends Controller
         $statusFilter = $request->input('status');
         $perPage = $request->input('per_page', 10);
 
-        $query = Jadwal::with('dosen'); // Eager load dosen
+        $query = Jadwal::with('dosen');
 
         if (!empty($keyword)) {
             $query->where(function ($q) use ($keyword) {
@@ -43,16 +43,6 @@ class JadwalController extends Controller
             $query->where('tanggal_jadwal', $dateFilter);
         }
 
-        if (!empty($statusFilter)) {
-            $query->where('status', $statusFilter);
-        }
-
-        $schedule = $query->orderBy('tanggal_jadwal', 'desc')
-            ->orderBy('waktu_mulai', 'asc')
-            ->paginate($perPage)
-            ->withQueryString();
-
-        // Detect conflicts across all scheduled data to maintain accurate global metrics and highlighting
         $conflicts = \Illuminate\Support\Facades\DB::table('jadwal as a')
             ->join('jadwal as b', function ($join) {
                 $join->on('a.tanggal_jadwal', '=', 'b.tanggal_jadwal')
@@ -66,6 +56,19 @@ class JadwalController extends Controller
             ->toArray();
 
         $totalConflicts = count($conflicts);
+
+        if (!empty($statusFilter)) {
+            if ($statusFilter === 'konflik') {
+                $query->whereIn('id', $conflicts);
+            } else {
+                $query->where('status', $statusFilter);
+            }
+        }
+
+        $schedule = $query->orderBy('tanggal_jadwal', 'desc')
+            ->orderBy('waktu_mulai', 'asc')
+            ->paginate($perPage)
+            ->withQueryString();
 
         if ($request->ajax()) {
             return view('schedules.partials.table', compact('schedule', 'conflicts'))->render();

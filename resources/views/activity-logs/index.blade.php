@@ -79,12 +79,8 @@
             <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3">
                 {{-- Search Input --}}
                 <div class="relative flex-grow">
-                    <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                        <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" x-show="!isLoading" />
-                        <div class="w-4 h-4 rounded-full border-2 border-zinc-200 border-t-[rgb(var(--color-primary))] animate-spin" x-show="isLoading" style="display: none;"></div>
-                    </div>
-                    <input type="search" name="keyword" x-model="keyword" x-on:keydown.enter.prevent="submitForm"
-                        class="block w-full h-11 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors"
+                    <x-ui.input type="search" name="keyword" x-model="keyword" x-on:keydown.enter.prevent="submitForm"
+                        icon="search" alpineLoading="isLoading"
                         placeholder="Cari deskripsi aktivitas atau alamat IP..." />
                 </div>
 

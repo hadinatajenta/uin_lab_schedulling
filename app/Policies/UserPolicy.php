@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\User;
+use App\Domains\User\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy

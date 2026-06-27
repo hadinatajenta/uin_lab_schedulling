@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Domains\User\Models\User;
 use App\Models\Alat;
 use App\Models\Peminjaman;
 use Carbon\Carbon;

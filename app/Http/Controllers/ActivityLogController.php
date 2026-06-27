@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ActivityLog;
-use App\Models\User;
+use App\Domains\User\Models\User;
 use Illuminate\Http\Request;
 
 class ActivityLogController extends Controller

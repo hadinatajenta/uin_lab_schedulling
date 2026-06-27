@@ -35,6 +35,11 @@
                     let html = await response.text();
                     document.getElementById('table-container').innerHTML = html;
                     window.history.pushState({}, '', `?${queryString}`);
+
+                    // Re-initialize Flowbite components for newly injected elements
+                    if (typeof initFlowbite === 'function') {
+                        initFlowbite();
+                    }
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -120,17 +125,12 @@
             <form x-ref="filterForm" @submit.prevent="submitForm" class="flex flex-col">
                 {{-- Primary Bar --}}
                 <div class="flex flex-col md:flex-row items-stretch md:items-center gap-3">
-                    {{-- Global Search --}}
+                    {{-- Search Input --}}
                     <div class="relative flex-grow">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" x-show="!isLoading" />
-                            <div class="w-4 h-4 rounded-full border-2 border-zinc-200 border-t-[rgb(var(--color-primary))] animate-spin"
-                                x-show="isLoading" style="display: none;"></div>
-                        </div>
-                        <input type="search" name="keyword" x-model="keyword" x-on:input.debounce.500ms="submitForm"
-                            class="block w-full h-11 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors"
+                        <x-ui.input type="search" name="keyword" x-model="keyword" x-on:input.debounce.500ms="submitForm"
+                            icon="search" alpineLoading="isLoading"
                             placeholder="Cari Mata Kuliah, Dosen, atau Kelas..." />
-
+                        
                         {{-- Helper Text --}}
                         <p x-show="showHelper" x-cloak
                             class="absolute -bottom-5 left-0 text-[10px] text-rose-500 font-medium">Minimal 3 karakter untuk
@@ -170,6 +170,7 @@
                                     <option value="berlangsung">Berlangsung</option>
                                     <option value="selesai">Selesai</option>
                                     <option value="dibatalkan">Dibatalkan</option>
+                                    <option value="konflik">Konflik</option>
                                 </select>
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none">
                                     <span class="material-symbols-rounded text-zinc-400 text-[20px]">expand_more</span>

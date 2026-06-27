@@ -5,7 +5,7 @@ use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
-use App\Http\Controllers\UsersController;
+
 use App\Http\Controllers\WasteController;
 use App\Http\Controllers\AboutLabController;
 use App\Http\Controllers\PeminjamanConttroller;
@@ -21,14 +21,20 @@ Route::prefix('/admin')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // Management user
-    Route::get('/users', [UsersController::class, 'usersView'])->name('users.index');
-    Route::post('/add-user', [UsersController::class, 'addUser'])->name('add.users');
-    Route::put('/update-users/{id}', [UsersController::class, 'usersUpdate'])->name('update.users');
-    Route::delete('/hapus/{id}', [UsersController::class, 'deleteUser'])->name('delete.users');
-    Route::get('/users/import', [UsersController::class, 'importView'])->name('users.import.view');
-    Route::post('/users/validate-bulk', [UsersController::class, 'validateBulk'])->name('users.import.validateBulk');
-    Route::post('/users/validate-row', [UsersController::class, 'validateRow'])->name('users.import.validateRow');
-    Route::post('/users/process-bulk', [UsersController::class, 'processBulk'])->name('users.import.processBulk');
+    Route::get('/users', [\App\Domains\User\Controllers\UserController::class, 'index'])->name('users.index');
+    Route::post('/add-user', [\App\Domains\User\Controllers\UserController::class, 'store'])->name('add.users');
+    Route::put('/update-users/{id}', [\App\Domains\User\Controllers\UserController::class, 'update'])->name('update.users');
+    Route::delete('/hapus/{id}', [\App\Domains\User\Controllers\UserController::class, 'destroy'])->name('delete.users');
+    
+    // User Import
+    Route::get('/users/import', [\App\Domains\User\Controllers\UserImportController::class, 'index'])->name('users.import.view');
+    Route::post('/users/validate-bulk', [\App\Domains\User\Controllers\UserImportController::class, 'validateBulk'])->name('users.import.validateBulk');
+    Route::post('/users/validate-row', [\App\Domains\User\Controllers\UserImportController::class, 'validateRow'])->name('users.import.validateRow');
+    Route::post('/users/process-bulk', [\App\Domains\User\Controllers\UserImportController::class, 'processBulk'])->name('users.import.processBulk');
+    
+    // Dynamic user route must be below static routes
+    Route::get('/users/{id}', [\App\Domains\User\Controllers\UserController::class, 'show'])->name('users.show');
+    
     // Management lab
     Route::get('/list-jadwal', [JadwalController::class, 'jadwalView'])->name('lab');
     Route::get('/jadwal-baru', [JadwalController::class, 'addJadwalView'])->name('addJadwalView');
@@ -63,8 +69,8 @@ Route::prefix('/admin')->middleware(['auth'])->group(function () {
     // Limbah (Wastes)
     Route::resource('wastes', WasteController::class);
     // Jaslab
-    Route::get('/pengaturan-jaslab', [UsersController::class, 'jaslabView'])->name('jaslabView');
-    Route::put('/jaslab-ubah/{id}', [UsersController::class, 'ubahJaslab'])->name('ubahJaslab');
+    Route::get('/pengaturan-jaslab', [\App\Http\Controllers\JaslabController::class, 'index'])->name('jaslabView');
+    Route::put('/jaslab-ubah/{id}', [\App\Http\Controllers\JaslabController::class, 'update'])->name('ubahJaslab');
     // about lab
     Route::get('/tentang-lab', [AboutLabController::class, 'aboutLabView'])->name('tentangLab');
     Route::get('/edit-tentang-lab', [AboutLabController::class, 'editInfoView'])->name('editInfoLab');

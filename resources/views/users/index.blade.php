@@ -49,6 +49,8 @@
                             this.showHelper = false;
                             this.isLoading = true;
 
+                            await this.$nextTick();
+
                             let form = this.$refs.filterForm;
                             let formData = new FormData(form);
                             let queryString = new URLSearchParams(formData).toString();
@@ -64,6 +66,11 @@
                                     let html = await response.text();
                                     document.getElementById('table-container').innerHTML = html;
                                     window.history.pushState({}, '', `?${queryString}`);
+                                    
+                                    // Re-initialize Flowbite components for newly injected elements
+                                    if (typeof initFlowbite === 'function') {
+                                        initFlowbite();
+                                    }
                                 }
                             } catch (error) {
                                 console.error('Error fetching data:', error);
@@ -90,13 +97,8 @@
 
                     {{-- Search Input --}}
                     <div class="relative flex-grow">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                            <x-atoms.icon name="search" class="w-5 h-5 md:w-4 md:h-4 text-zinc-400" x-show="!isLoading" />
-                            <div class="w-4 h-4 rounded-full border-2 border-zinc-200 border-t-[rgb(var(--color-primary))] animate-spin"
-                                x-show="isLoading" style="display: none;"></div>
-                        </div>
-                        <input type="search" name="keyword" x-model="keyword" x-on:input.debounce.500ms="submitForm"
-                            class="block w-full h-11 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors"
+                        <x-ui.input type="search" name="keyword" x-model="keyword" x-on:input.debounce.500ms="submitForm"
+                            icon="search" alpineLoading="isLoading"
                             placeholder="Cari Nama, Email, atau ID..." />
 
                         {{-- Helper Text --}}
@@ -149,36 +151,32 @@
                             <label
                                 class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Nama
                                 Spesifik</label>
-                            <input type="text" name="name" value="{{ request('name') }}"
-                                x-on:input.debounce.500ms="submitForm" placeholder="Cari nama..."
-                                class="w-full text-sm h-10 border border-zinc-200 rounded-xl px-3 focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors">
+                            <x-ui.input type="text" name="name" value="{{ request('name') }}"
+                                x-on:input.debounce.500ms="submitForm" placeholder="Cari nama..." />
                         </div>
 
                         <div>
                             <label
                                 class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Email
                                 Spesifik</label>
-                            <input type="email" name="email" value="{{ request('email') }}"
-                                x-on:input.debounce.500ms="submitForm" placeholder="Cari email..."
-                                class="w-full text-sm h-10 border border-zinc-200 rounded-xl px-3 focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors">
+                            <x-ui.input type="email" name="email" value="{{ request('email') }}"
+                                x-on:input.debounce.500ms="submitForm" placeholder="Cari email..." />
                         </div>
 
                         {{-- Dynamic Field NIM (Mahasiswa/Asisten) --}}
                         <div x-show="['student', 'assistant', ''].includes(selectedRole)">
                             <label
                                 class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">NIM</label>
-                            <input type="text" name="nim" value="{{ request('nim') }}"
-                                x-on:input.debounce.500ms="submitForm" placeholder="Cari NIM..."
-                                class="w-full text-sm h-10 border border-zinc-200 rounded-xl px-3 focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors">
+                            <x-ui.input type="text" name="nim" value="{{ request('nim') }}"
+                                x-on:input.debounce.500ms="submitForm" placeholder="Cari NIM..." />
                         </div>
 
                         {{-- Dynamic Field NIP (Dosen) --}}
                         <div x-show="['lecturer', ''].includes(selectedRole)">
                             <label
                                 class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">NIP</label>
-                            <input type="text" name="nip" value="{{ request('nip') }}"
-                                x-on:input.debounce.500ms="submitForm" placeholder="Cari NIP..."
-                                class="w-full text-sm h-10 border border-zinc-200 rounded-xl px-3 focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors">
+                            <x-ui.input type="text" name="nip" value="{{ request('nip') }}"
+                                x-on:input.debounce.500ms="submitForm" placeholder="Cari NIP..." />
                         </div>
 
                         <div x-show="['student', 'assistant', 'lecturer', ''].includes(selectedRole)">

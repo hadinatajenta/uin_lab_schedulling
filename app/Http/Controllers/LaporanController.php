@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Alat;
 use App\Models\Jadwal;
-use App\Models\User;
+use App\Domains\User\Models\User;
 use Carbon\Carbon;
 
 class LaporanController extends Controller

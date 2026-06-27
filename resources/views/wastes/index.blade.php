@@ -22,11 +22,7 @@
         <form method="GET" action="{{ route('wastes.index') }}" class="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-4">
             {{-- Search Input --}}
             <div class="relative w-full md:w-1/3 shrink-0">
-                <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                    <span class="material-symbols-rounded text-zinc-400 text-[20px] md:text-[18px]">search</span>
-                </div>
-                <input type="search" name="keyword" value="{{ request('keyword') }}"
-                    class="block w-full h-11 md:h-10 pl-10 pr-4 text-sm md:text-xs font-medium text-zinc-800 border border-zinc-200 rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] shadow-sm transition-colors"
+                <x-ui.input type="search" name="keyword" value="{{ request('keyword') }}" icon="search"
                     placeholder="Cari kode atau nama limbah..." />
             </div>
 
@@ -112,7 +108,7 @@
                         </div>
                     </td>
                     <td class="px-5 py-3 whitespace-nowrap">
-                        <span class="inline-flex px-2 py-1 bg-blue-50 text-blue-700 text-[11px] font-bold rounded-lg uppercase tracking-wider border border-blue-200">
+                        <span class="inline-flex px-2 py-1  text-blue-700 text-[11px] font-bold  uppercase tracking-wider ">
                             {{ $waste->kategori }}
                         </span>
                     </td>
@@ -144,22 +140,28 @@
                         </div>
                     </td>
                     <td class="px-5 py-3 whitespace-nowrap text-right">
-                        <div class="flex items-center justify-end gap-1">
-                            <a href="{{ route('wastes.show', $waste->id) }}" class="inline-flex justify-center items-center p-2 rounded-xl text-zinc-600 hover:bg-zinc-100 transition-colors" title="Detail">
-                                <span class="material-symbols-rounded text-[18px]">visibility</span>
-                            </a>
-                            @if (Auth::user()->jabatan !== 'Mahasiswa')
-                                <a href="{{ route('wastes.edit', $waste->id) }}" class="inline-flex justify-center items-center p-2 rounded-xl text-blue-600 hover:bg-blue-50 transition-colors" title="Edit">
-                                    <span class="material-symbols-rounded text-[18px]">edit</span>
+                        <div class="flex items-center justify-end">
+                            <x-table.action-menu>
+                                <a href="{{ route('wastes.show', $waste->id) }}" class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center">
+                                    <x-atoms.icon name="eye" class="w-3.5 h-3.5 mr-2 text-zinc-400" />
+                                    Detail
                                 </a>
-                                <form action="{{ route('wastes.destroy', $waste->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus katalog limbah ini?');">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="inline-flex justify-center items-center p-2 rounded-xl text-rose-600 hover:bg-rose-50 transition-colors" title="Hapus">
-                                        <span class="material-symbols-rounded text-[18px]">delete</span>
-                                    </button>
-                                </form>
-                            @endif
+                                @if (Auth::user()->jabatan !== 'Mahasiswa')
+                                    <a href="{{ route('wastes.edit', $waste->id) }}" class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center">
+                                        <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-400" />
+                                        Edit Master
+                                    </a>
+                                    <div class="h-px bg-zinc-100 my-1"></div>
+                                    <form action="{{ route('wastes.destroy', $waste->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus katalog limbah ini?');" class="block w-full">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full text-left px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center">
+                                            <x-atoms.icon name="trash" class="w-3.5 h-3.5 mr-2 text-rose-400" />
+                                            Hapus
+                                        </button>
+                                    </form>
+                                @endif
+                            </x-table.action-menu>
                         </div>
                     </td>
                 </tr>
@@ -170,31 +172,29 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:hidden gap-4 flex-grow mt-2">
                 @foreach ($wastes as $waste)
                     <div class="ui-surface border border-zinc-200/80 rounded-2xl p-4 shadow-sm relative">
-                        @if (Auth::user()->jabatan !== 'Mahasiswa')
-                            <div class="absolute top-4 right-4">
-                                <x-ui.dropdown align="right" width="48">
-                                    <x-slot name="trigger">
-                                        <button type="button" class="inline-flex justify-center items-center p-1.5 rounded-lg text-zinc-500 hover:bg-zinc-100 transition-colors">
-                                            <span class="material-symbols-rounded text-[20px]">more_vert</span>
+                        <div class="absolute top-4 right-4">
+                            <x-table.action-menu>
+                                <a href="{{ route('wastes.show', $waste->id) }}" class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center min-h-[44px]">
+                                    <x-atoms.icon name="eye" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-zinc-400" />
+                                    Detail
+                                </a>
+                                @if (Auth::user()->jabatan !== 'Mahasiswa')
+                                    <a href="{{ route('wastes.edit', $waste->id) }}" class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center min-h-[44px]">
+                                        <x-atoms.icon name="settings" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-zinc-400" />
+                                        Edit Master
+                                    </a>
+                                    <div class="h-px bg-zinc-100 my-1"></div>
+                                    <form action="{{ route('wastes.destroy', $waste->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus katalog limbah ini?');" class="block w-full">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
+                                            <x-atoms.icon name="trash" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-rose-400" />
+                                            Hapus
                                         </button>
-                                    </x-slot>
-                                    <x-slot name="content">
-                                        <x-ui.dropdown-item href="{{ route('wastes.edit', $waste->id) }}">
-                                            <span class="material-symbols-rounded text-[18px] mr-2 text-zinc-400">edit</span>
-                                            Edit Master
-                                        </x-ui.dropdown-item>
-                                        <form action="{{ route('wastes.destroy', $waste->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus katalog limbah ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="w-full text-left px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
-                                                <span class="material-symbols-rounded text-[18px] mr-2 text-rose-400">delete</span>
-                                                Hapus
-                                            </button>
-                                        </form>
-                                    </x-slot>
-                                </x-ui.dropdown>
-                            </div>
-                        @endif
+                                    </form>
+                                @endif
+                            </x-table.action-menu>
+                        </div>
 
                         <div class="flex items-start gap-4 mb-4 pr-8">
                             @if($waste->gambar_panduan)
@@ -215,7 +215,7 @@
                         <div class="space-y-3 pt-3 border-t border-zinc-100/80">
                             <div class="flex items-center justify-between gap-4">
                                 <span class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider">Kategori</span>
-                                <span class="inline-flex px-2 py-1 bg-blue-50 text-blue-700 text-[10px] font-bold rounded-lg uppercase tracking-wider border border-blue-200">
+                                <span class="inline-flex px-2 py-1  text-blue-700 text-[10px] font-bold uppercase tracking-wider  ">
                                     {{ $waste->kategori }}
                                 </span>
                             </div>
@@ -239,7 +239,6 @@
                 @endforeach
             </div>
 
-            <!-- Pagination Container -->
             <x-ui.pagination :paginator="$wastes" label="Total Limbah" class="mt-4 border-t border-zinc-100 pt-4" />
         @endif
     </div>
