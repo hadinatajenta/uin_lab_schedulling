@@ -57,7 +57,7 @@ class UpdateJadwalStatus extends Command
 
     private function logActivity($jadwal, $newStatus)
     {
-        \App\Models\ActivityLog::create([
+        \App\Domains\ActivityLog\Models\ActivityLog::create([
             'user_id' => null, // System
             'action' => 'updated',
             'subject_type' => get_class($jadwal),

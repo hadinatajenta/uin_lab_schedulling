@@ -3,7 +3,7 @@
 namespace App\Domains\Schedule\Services;
 
 use App\Domains\Schedule\Models\Schedule;
-use App\Models\ActivityLog;
+use App\Domains\ActivityLog\Models\ActivityLog;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Auth;
 

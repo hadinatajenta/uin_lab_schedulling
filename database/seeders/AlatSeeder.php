@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Alat;
+use App\Domains\Equipment\Models\Equipment;
 use Faker\Factory as Faker;
 use Carbon\Carbon;
 

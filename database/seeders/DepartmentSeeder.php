@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Department;
+use App\Domains\Department\Models\Department;
 use Illuminate\Support\Str;
 
 class DepartmentSeeder extends Seeder

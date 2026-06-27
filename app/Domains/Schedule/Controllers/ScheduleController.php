@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Domains\Schedule\Repositories\ScheduleRepositoryInterface;
 use App\Domains\Schedule\Services\ScheduleService;
 use App\Domains\User\Models\User;
-use App\Models\Ruangan;
+use App\Domains\Room\Models\Ruangan;
 use App\Http\Requests\JadwalRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

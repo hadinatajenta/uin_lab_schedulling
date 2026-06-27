@@ -21,7 +21,6 @@ class DashboardController extends Controller
         $activities = $this->dashboardService->getRecentActivities();
         $upcomingSchedules = $this->dashboardService->getUpcomingSchedules();
 
-        // Extract metrics for view
         $totalPengguna = $metrics['totalPengguna'];
         $alatTersedia = $metrics['alatTersedia'];
         $bahanTersedia = $metrics['bahanTersedia'];

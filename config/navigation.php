@@ -65,15 +65,29 @@ return [
     ],
 
     [
+        'section' => 'MASTER DATA',
+        'icon' => 'database',
+        'roles' => ['super_admin'],
+        'items' => [
+            [
+                'title' => 'Room Management',
+                'icon' => 'meeting_room',
+                'route' => 'rooms.index',
+                'active_matches' => ['rooms.*'],
+            ],
+            [
+                'title' => 'Department Management',
+                'icon' => 'domain',
+                'route' => 'departments.index',
+                'active_matches' => ['departments.*'],
+            ],
+        ],
+    ],
+
+    [
         'section' => 'SETTINGS',
         'icon' => 'settings',
         'items' => [
-            [
-                'title' => 'Lab Suits',
-                'icon' => 'work',
-                'route' => 'jaslabView',
-                'active_matches' => ['jaslabView'],
-            ],
             [
                 'title' => 'About Lab',
                 'icon' => 'info',

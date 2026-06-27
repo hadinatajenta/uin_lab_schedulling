@@ -8,9 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 use App\Traits\LogsActivity;
-use App\Models\Role;
-use App\Models\Department;
-use App\Models\ActivityLog;
+use App\Domains\Role\Models\Role;
+use App\Domains\Department\Models\Department;
+use App\Domains\ActivityLog\Models\ActivityLog;
 
 class User extends Authenticatable
 {

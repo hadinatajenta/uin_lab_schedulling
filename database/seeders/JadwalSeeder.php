@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Domains\Schedule\Models\Schedule;
-use App\Models\Ruangan;
+use App\Domains\Room\Models\Ruangan;
 use App\Domains\User\Models\User;
 use Faker\Factory as Faker;
 use Carbon\Carbon;

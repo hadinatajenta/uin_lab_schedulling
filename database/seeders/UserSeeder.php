@@ -4,8 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Domains\User\Models\User;
-use App\Models\Role;
-use App\Models\Department;
+use App\Domains\Role\Models\Role;
+use App\Domains\Department\Models\Department;
 use Illuminate\Support\Facades\Hash;
 use Faker\Factory as Faker;
 

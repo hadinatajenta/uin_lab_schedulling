@@ -1,14 +1,12 @@
 <?php
 
-use App\Http\Controllers\AlatController;
 
-use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\ProfileController;
+
+
+use App\Domains\Profile\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
 
-use App\Http\Controllers\WasteController;
-use App\Http\Controllers\AboutLabController;
-use App\Http\Controllers\PeminjamanConttroller;
+
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,37 +49,48 @@ Route::prefix('/admin')->middleware(['auth'])->group(function () {
     Route::put('/cancel-jadwal/{id}', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'cancel'])->name('cancelJadwal');
     Route::put('/complete-early/{id}', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'completeEarly'])->name('completeEarly');
 
-    // Management alat
-    Route::get('/manajemen-alat', [AlatController::class, 'alatView'])->name('alat');
-    Route::get('/tambah-alat', [AlatController::class, 'tambahAlatView'])->name('add.alat');
-    Route::post('/tambah-alat', [AlatController::class, 'addAlat'])->name('post.alat');
-    Route::delete('/hapus-alat/{id}', [AlatController::class, 'deleteAlat'])->name('hapus.alat');
-    Route::get('/detail-alat/{id}', [AlatController::class, 'alat'])->name('detailAlat');
-    Route::post('/detail-alat/{id}', [AlatController::class, 'detailAlat'])->name('updateAlat');
-    Route::get('/edit-alat/{id}', [AlatController::class, 'editAlat'])->name('editAlat');
-    Route::put('/update-alat/{id}', [AlatController::class, 'updateAlat'])->name('perbarui');
+    // Management alat (Equipment)
+    Route::get('/manajemen-alat', [\App\Domains\Equipment\Controllers\EquipmentController::class, 'index'])->name('alat');
+    Route::get('/tambah-alat', [\App\Domains\Equipment\Controllers\EquipmentController::class, 'create'])->name('add.alat');
+    Route::post('/tambah-alat', [\App\Domains\Equipment\Controllers\EquipmentController::class, 'store'])->name('post.alat');
+    Route::delete('/hapus-alat/{id}', [\App\Domains\Equipment\Controllers\EquipmentController::class, 'destroy'])->name('hapus.alat');
+    Route::get('/detail-alat/{id}', [\App\Domains\Equipment\Controllers\EquipmentController::class, 'show'])->name('detailAlat');
+    Route::get('/edit-alat/{id}', [\App\Domains\Equipment\Controllers\EquipmentController::class, 'edit'])->name('editAlat');
+    Route::put('/update-alat/{id}', [\App\Domains\Equipment\Controllers\EquipmentController::class, 'update'])->name('perbarui');
     //Peminjaman
-    Route::get('pinjam-alat/{id}', [PeminjamanConttroller::class, 'pinjamAlat'])->name('pinjamAlat');
-    Route::get('laporan-peminjaman', [PeminjamanConttroller::class, 'laporanPeminjaman'])->name('laporanPeminjaman');
-    Route::post('ajukan-peminjaman/{id}', [PeminjamanConttroller::class, 'ajukanPeminjaman'])->name('ajukanPeminjaman');
+    Route::get('pinjam-alat/{id}', [\App\Domains\Borrowing\Controllers\BorrowingController::class, 'pinjamAlat'])->name('pinjamAlat');
+    Route::get('laporan-peminjaman', [\App\Domains\Borrowing\Controllers\BorrowingController::class, 'laporanPeminjaman'])->name('laporanPeminjaman');
+    Route::post('ajukan-peminjaman/{id}', [\App\Domains\Borrowing\Controllers\BorrowingController::class, 'ajukanPeminjaman'])->name('ajukanPeminjaman');
     // Laporan
-    Route::get('/laporan', [LaporanController::class, 'laporanView'])->name('laporanView');
+    Route::get('/laporan', [\App\Domains\Report\Controllers\ReportController::class, 'laporanView'])->name('laporanView');
     // Limbah (Wastes)
-    Route::resource('wastes', WasteController::class);
-    // Jaslab
-    Route::get('/pengaturan-jaslab', [\App\Http\Controllers\JaslabController::class, 'index'])->name('jaslabView');
-    Route::put('/jaslab-ubah/{id}', [\App\Http\Controllers\JaslabController::class, 'update'])->name('ubahJaslab');
-    // about lab
-    Route::get('/tentang-lab', [AboutLabController::class, 'aboutLabView'])->name('tentangLab');
-    Route::get('/edit-tentang-lab', [AboutLabController::class, 'editInfoView'])->name('editInfoLab');
-    Route::put('/update-aboutlab', [AboutLabController::class, 'editInfo'])->name('editInfo');
+    Route::resource('wastes', \App\Domains\Waste\Controllers\WasteController::class);
+
+    // About LAB
+    Route::get('/tentang-lab', [\App\Domains\AboutLab\Controllers\AboutLabController::class, 'aboutLabView'])->name('tentangLab');
+    Route::get('/edit-tentang-lab', [\App\Domains\AboutLab\Controllers\AboutLabController::class, 'editInfoView'])->name('editInfoLab');
+    Route::put('/update-aboutlab', [\App\Domains\AboutLab\Controllers\AboutLabController::class, 'editInfo'])->name('editInfo');
+    Route::post('/ubah-struktur', [\App\Domains\AboutLab\Controllers\AboutLabController::class, 'ubahStruktur'])->name('ubahStruktur');
+
+    // SUPER ADMIN EXCLUSIVE ROUTES
+    Route::middleware([\App\Http\Middleware\CheckJabatan::class])->group(function () {
+        Route::resource('rooms', \App\Domains\Room\Controllers\RoomController::class);
+        Route::put('rooms/{room}/deactivate', [\App\Domains\Room\Controllers\RoomController::class, 'deactivate'])->name('rooms.deactivate');
+        Route::post('rooms/{room}/transfer-schedules', [\App\Domains\Room\Controllers\RoomController::class, 'transferSchedules'])->name('rooms.transfer_schedules');
+        
+        Route::post('rooms/{room}/maintenance', [\App\Domains\Room\Controllers\RoomController::class, 'scheduleMaintenance'])->name('rooms.maintenance.store');
+        Route::put('rooms/maintenance/{maintenance}/complete', [\App\Domains\Room\Controllers\RoomController::class, 'completeMaintenance'])->name('rooms.maintenance.complete');
+        Route::put('rooms/maintenance/{maintenance}/cancel', [\App\Domains\Room\Controllers\RoomController::class, 'cancelMaintenance'])->name('rooms.maintenance.cancel');
+
+        Route::get('/departments', [\App\Domains\Department\Controllers\DepartmentController::class, 'index'])->name('departments.index');
+    });
 
     // Activity Logs
-    Route::get('/activity-logs', [\App\Http\Controllers\ActivityLogController::class, 'index'])->name('activity.logs');
+    Route::get('/activity-logs', [\App\Domains\ActivityLog\Controllers\ActivityLogController::class, 'index'])->name('activity.logs');
 
     // Profile Settings
-    Route::get('/profile-settings', [\App\Http\Controllers\ProfileSettingsController::class, 'index'])->name('profile.settings');
-    Route::put('/profile-settings', [\App\Http\Controllers\ProfileSettingsController::class, 'update'])->name('profile.settings.update');
+    Route::get('/profile-settings', [\App\Domains\Profile\Controllers\ProfileSettingsController::class, 'index'])->name('profile.settings');
+    Route::put('/profile-settings', [\App\Domains\Profile\Controllers\ProfileSettingsController::class, 'update'])->name('profile.settings.update');
 
 });
 

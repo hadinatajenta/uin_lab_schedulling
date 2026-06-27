@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Domains\Department\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use App\Domains\User\Models\User;
+
+class Department extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'code',
+        'name',
+        'faculty',
+    ];
+
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+}

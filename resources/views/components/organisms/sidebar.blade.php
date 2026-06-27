@@ -57,10 +57,7 @@
                     <span>Limbah B3</span>
                 </x-atoms.nav-link>
 
-                <x-atoms.nav-link href="{{ route('jaslabView') }}" :active="request()->routeIs('jaslabView')">
-                    <x-atoms.icon name="settings" class="w-[18px] h-[18px] mb-[1px]" />
-                    <span>Pengaturan Jaslab</span>
-                </x-atoms.nav-link>
+
 
                 <x-atoms.nav-link href="{{ route('tentangLab') }}" :active="request()->routeIs('tentangLab') || request()->routeIs('editInfoLab')">
                     <x-atoms.icon name="chat" class="w-[18px] h-[18px] mb-[1px]" />

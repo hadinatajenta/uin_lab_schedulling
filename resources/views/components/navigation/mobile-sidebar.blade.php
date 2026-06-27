@@ -58,6 +58,19 @@
     <div class="flex-1 px-3 overflow-y-auto hide-scrollbar pb-4">
         <ul class="space-y-6">
             @foreach($navigation as $section)
+                @php
+                    // Check Role Access
+                    if (isset($section['roles']) && Auth::check()) {
+                        $hasRole = false;
+                        foreach ($section['roles'] as $role) {
+                            if (Auth::user()->roles->contains('slug', $role)) {
+                                $hasRole = true;
+                                break;
+                            }
+                        }
+                        if (!$hasRole) continue;
+                    }
+                @endphp
                 <li>
                     @if($section['section'] !== 'GENERAL')
                         <div class="px-2 mb-2 text-xs font-semibold tracking-wider text-zinc-400 uppercase flex items-center">

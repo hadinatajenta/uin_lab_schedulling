@@ -9,7 +9,9 @@ class UserRepository implements UserRepositoryInterface
 {
     public function getPaginatedUsers(array $filters, int $perPage = 10): LengthAwarePaginator
     {
-        $query = User::query();
+        $query = User::whereDoesntHave('roles', function ($q) {
+            $q->where('slug', 'super_admin');
+        });
 
         if (!empty($filters['keyword'])) {
             $keyword = $filters['keyword'];

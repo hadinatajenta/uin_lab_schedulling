@@ -6,9 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Domains\User\Models\User;
 use App\Domains\User\Repositories\UserRepositoryInterface;
 use App\Domains\User\Services\UserService;
-use App\Models\Role;
-use App\Models\Department;
-use App\Models\ActivityLog;
+use App\Domains\Role\Models\Role;
+use App\Domains\Department\Models\Department;
+use App\Domains\ActivityLog\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
@@ -32,7 +32,7 @@ class UserController extends Controller
         $perPage = $request->input('per_page', 10);
         $users = $this->userRepository->getPaginatedUsers($filters, $perPage);
         
-        $roles = Role::all();
+        $roles = Role::where('slug', '!=', 'super_admin')->get();
         $allDepartments = Department::all(['id', 'name', 'faculty']);
         $faculties = Department::select('faculty')->whereNotNull('faculty')->distinct()->pluck('faculty');
 
@@ -46,7 +46,12 @@ class UserController extends Controller
     public function show(int $id)
     {
         $user = $this->userRepository->findById($id, ['roles', 'department']);
-        $roles = Role::all();
+        
+        if ($user->roles->contains('slug', 'super_admin')) {
+            abort(403, 'Unauthorized access to Super Admin data.');
+        }
+
+        $roles = Role::where('slug', '!=', 'super_admin')->get();
         $allDepartments = Department::all(['id', 'name', 'faculty']);
         
         $activities = ActivityLog::where('user_id', $id)
@@ -97,7 +102,11 @@ class UserController extends Controller
 
     public function update(Request $request, int $id)
     {
-        $user = $this->userRepository->findById($id);
+        $user = $this->userRepository->findById($id, ['roles']);
+        
+        if ($user->roles->contains('slug', 'super_admin')) {
+            abort(403, 'Cannot modify Super Admin data.');
+        }
 
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -118,7 +127,11 @@ class UserController extends Controller
 
     public function destroy(int $id)
     {
-        $user = $this->userRepository->findById($id);
+        $user = $this->userRepository->findById($id, ['roles']);
+        
+        if ($user->roles->contains('slug', 'super_admin')) {
+            abort(403, 'Cannot delete Super Admin.');
+        }
 
         try {
             $this->userService->deleteUser($user, Auth::id());

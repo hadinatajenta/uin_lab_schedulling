@@ -18,8 +18,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             RuanganSeeder::class,
             JadwalSeeder::class,
-            AlatSeeder::class,
+            AboutLabSeeder::class,
             WasteSeeder::class,
+            SuperAdminSeeder::class,
         ]);
     }
 }

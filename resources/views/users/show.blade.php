@@ -101,7 +101,7 @@
                         <div class="sm:col-span-2 pt-4 mt-2 border-t border-zinc-100">
                             <label class="block mb-3 text-[11px] font-bold text-zinc-500 uppercase tracking-wider">Peran & Akses Sistem <span class="text-rose-500">*</span></label>
                             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                                @foreach(\App\Models\Role::all() ?? [] as $role)
+                                @foreach(\App\Domains\Role\Models\Role::all() ?? [] as $role)
                                     <label class="relative flex items-center justify-center p-3.5 border border-zinc-200 rounded-2xl cursor-pointer hover:bg-zinc-50 transition-colors" 
                                            :class="{ 
                                                'ui-primary-soft border-[rgb(var(--color-primary)_/_0.2)] ring-1 ring-[rgb(var(--color-primary)_/_0.2)] shadow-sm': roles.includes('{{ $role->slug }}'), 
@@ -154,7 +154,7 @@
                             <div class="relative w-full">
                                 <select name="department_id" class="w-full h-11 text-sm font-medium border border-zinc-200 rounded-xl px-4 pr-10 bg-white focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors text-zinc-800 appearance-none shadow-sm">
                                     <option value="">Pilih Jurusan...</option>
-                                    @foreach(\App\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
+                                    @foreach(\App\Domains\Department\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
                                         <optgroup label="{{ $faculty ?: 'Lainnya' }}">
                                             @foreach($depts as $dept)
                                                 <option value="{{ $dept->id }}" {{ old('department_id', $user->department_id) == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>

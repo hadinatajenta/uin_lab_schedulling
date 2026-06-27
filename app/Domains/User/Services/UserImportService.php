@@ -3,9 +3,9 @@
 namespace App\Domains\User\Services;
 
 use App\Domains\User\Models\User;
-use App\Models\Department;
-use App\Models\Role;
-use App\Models\ActivityLog;
+use App\Domains\Department\Models\Department;
+use App\Domains\Role\Models\Role;
+use App\Domains\ActivityLog\Models\ActivityLog;
 use App\Jobs\ProcessBulkUsersJob;
 
 class UserImportService

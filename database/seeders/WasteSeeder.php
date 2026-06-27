@@ -3,8 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Waste;
-use App\Models\WasteLog;
+use App\Domains\Waste\Models\Waste;
+use App\Domains\Waste\Models\WasteLog;
 use App\Domains\Schedule\Models\Schedule;
 use Faker\Factory as Faker;
 

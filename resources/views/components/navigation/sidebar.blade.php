@@ -24,6 +24,18 @@
             <ul class="space-y-2">
                 @foreach($navigation as $index => $section)
                     @php
+                        // Check Role Access
+                        if (isset($section['roles']) && Auth::check()) {
+                            $hasRole = false;
+                            foreach ($section['roles'] as $role) {
+                                if (Auth::user()->roles->contains('slug', $role)) {
+                                    $hasRole = true;
+                                    break;
+                                }
+                            }
+                            if (!$hasRole) continue;
+                        }
+
                         // Check if any child route is active to keep it open by default
                         $hasActiveChild = false;
                         foreach ($section['items'] as $item) {

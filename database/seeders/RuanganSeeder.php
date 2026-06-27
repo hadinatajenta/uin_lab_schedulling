@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Ruangan;
+use App\Domains\Room\Models\Ruangan;
 
 class RuanganSeeder extends Seeder
 {

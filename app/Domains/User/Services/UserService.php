@@ -3,8 +3,8 @@
 namespace App\Domains\User\Services;
 
 use App\Domains\User\Models\User;
-use App\Models\Role;
-use App\Models\ActivityLog;
+use App\Domains\Role\Models\Role;
+use App\Domains\ActivityLog\Models\ActivityLog;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Collection;

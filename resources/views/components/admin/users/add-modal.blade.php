@@ -33,7 +33,7 @@
                 <div>
                     <label class="block mb-2.5 text-xs font-bold text-zinc-500 uppercase">Peran / Role <span class="text-rose-500">*</span></label>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        @foreach(\App\Models\Role::all() ?? [] as $role)
+                        @foreach(\App\Domains\Role\Models\Role::all() ?? [] as $role)
                             <label class="relative flex items-center justify-center p-3 border border-zinc-200 rounded-xl cursor-pointer hover:bg-zinc-50 transition-colors" :class="{ 'ui-primary-soft border-[rgb(var(--color-primary)_/_0.2)] ring-1 ring-[rgb(var(--color-primary)_/_0.2)]': roles.includes('{{ $role->slug }}'), 'opacity-60 cursor-not-allowed bg-zinc-50': ('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) || (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) || (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent()) }">
                                 <input type="checkbox" name="roles[]" value="{{ $role->slug }}" x-model="roles" class="sr-only" :disabled="('{{ $role->slug }}' === 'lecturer' && roles.includes('admin_lab')) || ('{{ $role->slug }}' === 'student' && roles.includes('assistant')) || (['student', 'assistant'].includes('{{ $role->slug }}') && hasLecturer()) || (['lecturer', 'admin_lab'].includes('{{ $role->slug }}') && hasStudent())" @change="if('{{ $role->slug }}' === 'admin_lab' && roles.includes('admin_lab') && !roles.includes('lecturer')) roles.push('lecturer'); if('{{ $role->slug }}' === 'assistant' && roles.includes('assistant') && !roles.includes('student')) roles.push('student');">
                                 <span class="text-xs font-bold text-zinc-700 select-none" :class="{ 'text-[rgb(var(--color-primary))]': roles.includes('{{ $role->slug }}') }">{{ $role->name }}</span>
@@ -70,7 +70,7 @@
                     <label class="block mb-1.5 text-xs font-bold text-zinc-500 uppercase">Jurusan</label>
                     <select name="department_id" class="bg-zinc-50 border border-zinc-200 text-zinc-800 text-xs font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] block w-full p-2.5 transition-colors">
                         <option value="">Pilih Jurusan...</option>
-                        @foreach(\App\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
+                        @foreach(\App\Domains\Department\Models\Department::all()->groupBy('faculty') as $faculty => $depts)
                             <optgroup label="{{ $faculty ?: 'Lainnya' }}">
                                 @foreach($depts as $dept)
                                     <option value="{{ $dept->id }}" {{ old('department_id') == $dept->id ? 'selected' : '' }}>{{ $dept->name }}</option>

@@ -66,7 +66,7 @@ class ScheduleRepository implements ScheduleRepositoryInterface
     public function getMetrics(string $date): array
     {
         $totalToday = Schedule::where('tanggal_jadwal', $date)->count();
-        $totalLabs = \App\Models\Ruangan::count();
+        $totalLabs = \App\Domains\Room\Models\Ruangan::count();
         $activeLabsToday = Schedule::where('tanggal_jadwal', $date)->distinct('ruangan_id')->count('ruangan_id');
         $availableLabs = max(0, $totalLabs - $activeLabsToday);
         $conflicts = $this->getConflictIds();

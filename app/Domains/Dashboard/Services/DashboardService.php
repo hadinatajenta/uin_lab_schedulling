@@ -3,8 +3,8 @@
 namespace App\Domains\Dashboard\Services;
 
 use App\Domains\User\Models\User;
-use App\Models\Alat;
-use App\Models\Peminjaman;
+use App\Domains\Equipment\Models\Equipment;
+use App\Domains\Borrowing\Models\Borrowing;
 use App\Domains\Schedule\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
@@ -17,13 +17,13 @@ class DashboardService
 
         return [
             'totalPengguna' => User::count(),
-            'alatTersedia' => Alat::where('jenis_alat', 'Alat')->sum('jumlah_satuan'),
-            'bahanTersedia' => Alat::where('jenis_alat', 'Bahan')->count(), // Total types of materials
-            'peminjamanAktif' => Peminjaman::count(), // Active/total loans
+            'alatTersedia' => Equipment::where('jenis_alat', 'Alat')->sum('jumlah_satuan'),
+            'bahanTersedia' => Equipment::where('jenis_alat', 'Bahan')->count(),
+            'peminjamanAktif' => Borrowing::count(),
             'jadwalHariIni' => Schedule::whereDate('tanggal_jadwal', $today)->count(),
-            'peminjamanHariIni' => Peminjaman::whereDate('tanggal_peminjaman', $today)->count(),
-            'pengembalianHariIni' => 0, // Column not yet available in MVP
-            'menungguPersetujuan' => 0, // Column not yet available in MVP
+            'peminjamanHariIni' => Borrowing::whereDate('tanggal_peminjaman', $today)->count(),
+            'pengembalianHariIni' => 0,
+            'menungguPersetujuan' => 0,
         ];
     }
 
@@ -34,7 +34,7 @@ class DashboardService
             if ($item->roles->isNotEmpty()) {
                 $role = ucfirst($item->roles->first()->name);
             }
-            
+
             return [
                 'title' => 'Pengguna Baru Terdaftar',
                 'description' => "{$item->name} ({$item->email}) terdaftar dengan jabatan " . $role . ".",
@@ -44,7 +44,7 @@ class DashboardService
             ];
         });
 
-        $recentLoans = Peminjaman::select('peminjaman_alat.*', 'alat.nama_alat')
+        $recentLoans = Borrowing::select('peminjaman_alat.*', 'alat.nama_alat')
             ->join('alat', 'peminjaman_alat.alat_id', '=', 'alat.id')
             ->orderBy('peminjaman_alat.created_at', 'desc')
             ->take(5)
@@ -59,7 +59,7 @@ class DashboardService
                 ];
             });
 
-        $recentAlat = Alat::latest()->take(5)->get()->map(function ($item) {
+        $recentAlat = Equipment::latest()->take(5)->get()->map(function ($item) {
             return [
                 'title' => $item->jenis_alat === 'Alat' ? 'Alat Baru Ditambahkan' : 'Bahan Baru Ditambahkan',
                 'description' => "{$item->nama_alat} ditambahkan ke inventaris " . ($item->jenis_alat === 'Alat' ? 'alat' : 'bahan') . ".",

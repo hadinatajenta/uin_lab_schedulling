@@ -16,8 +16,13 @@ class CheckJabatan
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->jabatan === 'Mahasiswa') {
-            return response()->json(['message' => 'Unauthorized'], 403);
+        if (Auth::check()) {
+            if (Auth::user()->roles->contains('slug', 'super_admin')) {
+                return $next($request);
+            }
+            if (Auth::user()->jabatan === 'Mahasiswa') {
+                return response()->json(['message' => 'Unauthorized'], 403);
+            }
         }
 
         return $next($request);
