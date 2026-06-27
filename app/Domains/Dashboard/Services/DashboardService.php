@@ -1,27 +1,43 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Domains\Dashboard\Services;
 
 use App\Domains\User\Models\User;
 use App\Models\Alat;
 use App\Models\Peminjaman;
+use App\Domains\Schedule\Models\Schedule;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
-class DashboardController extends Controller
+class DashboardService
 {
-    public function index()
+    public function getMetrics(): array
     {
-        $totalPengguna = User::count();
-        $alatTersedia = Alat::where('jenis_alat', 'Alat')->sum('jumlah_satuan');
-        $bahanTersedia = Alat::where('jenis_alat', 'Bahan')->count(); // Total types of materials
-        $peminjamanAktif = Peminjaman::count(); // Active/total loans
+        $today = Carbon::today();
 
-        // Real Recent Activities
+        return [
+            'totalPengguna' => User::count(),
+            'alatTersedia' => Alat::where('jenis_alat', 'Alat')->sum('jumlah_satuan'),
+            'bahanTersedia' => Alat::where('jenis_alat', 'Bahan')->count(), // Total types of materials
+            'peminjamanAktif' => Peminjaman::count(), // Active/total loans
+            'jadwalHariIni' => Schedule::whereDate('tanggal_jadwal', $today)->count(),
+            'peminjamanHariIni' => Peminjaman::whereDate('tanggal_peminjaman', $today)->count(),
+            'pengembalianHariIni' => 0, // Column not yet available in MVP
+            'menungguPersetujuan' => 0, // Column not yet available in MVP
+        ];
+    }
+
+    public function getRecentActivities(): Collection
+    {
         $recentUsers = User::latest()->take(5)->get()->map(function ($item) {
+            $role = 'Mahasiswa';
+            if ($item->roles->isNotEmpty()) {
+                $role = ucfirst($item->roles->first()->name);
+            }
+            
             return [
                 'title' => 'Pengguna Baru Terdaftar',
-                'description' => "{$item->name} ({$item->email}) terdaftar dengan jabatan " . ucfirst($item->jabatan ?? 'Mahasiswa') . ".",
+                'description' => "{$item->name} ({$item->email}) terdaftar dengan jabatan " . $role . ".",
                 'time' => $item->created_at,
                 'icon' => 'users',
                 'color' => 'text-emerald-600 bg-emerald-50'
@@ -74,31 +90,17 @@ class DashboardController extends Controller
             ]);
         }
 
-        $jadwalHariIni = \App\Models\Jadwal::whereDate('tanggal_jadwal', Carbon::today())->count();
-        $peminjamanHariIni = Peminjaman::whereDate('tanggal_peminjaman', Carbon::today())->count();
-        $pengembalianHariIni = 0; // Column not yet available in MVP
-        $menungguPersetujuan = 0; // Column not yet available in MVP
+        return $activities;
+    }
 
-        // Upcoming Schedules
-        $upcomingSchedules = \App\Models\Jadwal::select('jadwal.*', 'ruangan.nama_ruangan')
+    public function getUpcomingSchedules(): Collection
+    {
+        return Schedule::select('jadwal.*', 'ruangan.nama_ruangan')
             ->leftJoin('ruangan', 'jadwal.ruangan_id', '=', 'ruangan.id')
             ->whereDate('tanggal_jadwal', '>=', Carbon::today())
             ->orderBy('tanggal_jadwal', 'asc')
             ->orderBy('waktu_mulai', 'asc')
             ->take(4)
             ->get();
-
-        return view('dashboard.index', compact(
-            'totalPengguna',
-            'alatTersedia',
-            'bahanTersedia',
-            'peminjamanAktif',
-            'activities',
-            'jadwalHariIni',
-            'peminjamanHariIni',
-            'pengembalianHariIni',
-            'menungguPersetujuan',
-            'upcomingSchedules'
-        ));
     }
 }

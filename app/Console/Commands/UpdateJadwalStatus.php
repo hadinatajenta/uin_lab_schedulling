@@ -30,7 +30,7 @@ class UpdateJadwalStatus extends Command
         $currentTime = $now->format('H:i');
 
         // 1. dijadwalkan -> berlangsung
-        $toOngoing = \App\Models\Jadwal::where('tanggal_jadwal', $today)
+        $toOngoing = \App\Domains\Schedule\Models\Schedule::where('tanggal_jadwal', $today)
             ->where('status', 'dijadwalkan')
             ->where('waktu_mulai', '<=', $currentTime)
             ->where('waktu_selesai', '>', $currentTime)
@@ -42,7 +42,7 @@ class UpdateJadwalStatus extends Command
         }
 
         // 2. berlangsung (atau dijadwalkan tapi sudah lewat) -> selesai
-        $toCompleted = \App\Models\Jadwal::where('tanggal_jadwal', $today)
+        $toCompleted = \App\Domains\Schedule\Models\Schedule::where('tanggal_jadwal', $today)
             ->whereIn('status', ['dijadwalkan', 'berlangsung'])
             ->where('waktu_selesai', '<=', $currentTime)
             ->get();

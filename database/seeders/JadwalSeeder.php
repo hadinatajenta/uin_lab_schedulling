@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\Jadwal;
+use App\Domains\Schedule\Models\Schedule;
 use App\Models\Ruangan;
 use App\Domains\User\Models\User;
 use Faker\Factory as Faker;

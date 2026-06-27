@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AlatController;
-use App\Http\Controllers\JadwalController;
+
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RuanganController;
@@ -18,7 +18,7 @@ Route::get('/', function () {
 // Admin - dosen
 Route::prefix('/admin')->middleware(['auth'])->group(function () {
     // Dashboard
-    Route::get('/dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [\App\Domains\Dashboard\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // Management user
     Route::get('/users', [\App\Domains\User\Controllers\UserController::class, 'index'])->name('users.index');
@@ -35,21 +35,21 @@ Route::prefix('/admin')->middleware(['auth'])->group(function () {
     // Dynamic user route must be below static routes
     Route::get('/users/{id}', [\App\Domains\User\Controllers\UserController::class, 'show'])->name('users.show');
     
-    // Management lab
-    Route::get('/list-jadwal', [JadwalController::class, 'jadwalView'])->name('lab');
-    Route::get('/jadwal-baru', [JadwalController::class, 'addJadwalView'])->name('addJadwalView');
-    Route::post('/jadwal-baru', [JadwalController::class, 'addJadwal'])->name('addJadwal');
+    // Management lab (Schedules)
+    Route::get('/list-jadwal', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'index'])->name('lab');
+    Route::get('/jadwal-baru', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'create'])->name('addJadwalView');
+    Route::post('/jadwal-baru', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'store'])->name('addJadwal');
 
     // Edit jadwal route
-    Route::get('/update-jadwal/{id}', [JadwalController::class, 'updateJadwal'])->name('updateJadwal');
-    Route::put('/edit-jadwal/{id}', [JadwalController::class, 'editjadwal'])->name('editJadwal');
+    Route::get('/update-jadwal/{id}', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'edit'])->name('updateJadwal');
+    Route::put('/edit-jadwal/{id}', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'update'])->name('editJadwal');
 
     // Hapus jadwal route
-    Route::delete('/hapus-jadwal/{id}', [JadwalController::class, 'hapusJadwal'])->name('hapusJadwal');
+    Route::delete('/hapus-jadwal/{id}', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'destroy'])->name('hapusJadwal');
 
     // Status Management Routes
-    Route::put('/cancel-jadwal/{id}', [JadwalController::class, 'cancelJadwal'])->name('cancelJadwal');
-    Route::put('/complete-early/{id}', [JadwalController::class, 'completeEarly'])->name('completeEarly');
+    Route::put('/cancel-jadwal/{id}', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'cancel'])->name('cancelJadwal');
+    Route::put('/complete-early/{id}', [\App\Domains\Schedule\Controllers\ScheduleController::class, 'completeEarly'])->name('completeEarly');
 
     // Management alat
     Route::get('/manajemen-alat', [AlatController::class, 'alatView'])->name('alat');

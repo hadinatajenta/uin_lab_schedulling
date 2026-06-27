@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Models;
+namespace App\Domains\Schedule\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Domains\User\Models\User;
+use App\Models\WasteLog;
 
 use App\Traits\LogsActivity;
 
-class Jadwal extends Model
+class Schedule extends Model
 {
     use HasFactory, LogsActivity;
 

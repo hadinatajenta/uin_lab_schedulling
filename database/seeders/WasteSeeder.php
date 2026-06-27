@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Waste;
 use App\Models\WasteLog;
-use App\Models\Jadwal;
+use App\Domains\Schedule\Models\Schedule;
 use Faker\Factory as Faker;
 
 class WasteSeeder extends Seeder

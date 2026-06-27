@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Alat;
-use App\Models\Jadwal;
+use App\Domains\Schedule\Models\Schedule;
 use App\Domains\User\Models\User;
 use Carbon\Carbon;
 

@@ -16,7 +16,7 @@ return new class extends Migration
         });
 
         // Map existing dosen strings to user ids
-        $jadwals = \App\Models\Jadwal::all();
+        $jadwals = \App\Domains\Schedule\Models\Schedule::all();
         foreach ($jadwals as $jadwal) {
             $user = \App\Domains\User\Models\User::where('name', $jadwal->dosen)->first();
             if ($user) {
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->string('dosen')->nullable();
         });
 
-        $jadwals = \App\Models\Jadwal::all();
+        $jadwals = \App\Domains\Schedule\Models\Schedule::all();
         foreach ($jadwals as $jadwal) {
             $user = \App\Domains\User\Models\User::find($jadwal->dosen_id);
             if ($user) {

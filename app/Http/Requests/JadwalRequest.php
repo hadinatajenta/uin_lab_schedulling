@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Jadwal;
+use App\Domains\Schedule\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
