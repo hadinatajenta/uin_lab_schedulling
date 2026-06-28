@@ -16,6 +16,7 @@
             this.instance = flatpickr(this.$refs.input, {
                 dateFormat: 'Y-m-d',
                 defaultDate: this.value,
+                minDate: new Date().fp_incr(1), // Disable past dates and today (minDate is tomorrow)
                 locale: 'id',
                 disableMobile: true, // ensure custom UI is used on mobile too
                 onChange: (selectedDates, dateStr) => {
@@ -40,12 +41,12 @@
     wire:ignore>
     
     <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
-        <span class="material-symbols-rounded text-[18px] text-zinc-400">calendar_month</span>
+        <span class="material-symbols-rounded text-[18px] text-foreground-muted">calendar_month</span>
     </div>
     
     <input type="text"
            x-ref="input"
-           class="block w-full h-[42px] pl-[38px] pr-4 text-[13px] font-medium text-zinc-800 border border-zinc-200/80 rounded-xl bg-zinc-50/50 hover:bg-zinc-50 focus:bg-white focus:outline-none focus:ring-4 focus:ring-[rgb(var(--color-primary)_/_0.1)] focus:border-[rgb(var(--color-primary))] transition-all cursor-pointer placeholder:text-zinc-400 placeholder:font-normal shadow-sm" 
+           class="block w-full h-[42px] pl-[38px] pr-4 text-[13px] font-medium text-foreground border border-default/80 rounded-xl bg-surface-muted/50 hover:bg-surface-muted focus:bg-surface focus:outline-none focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all cursor-pointer placeholder:text-foreground-muted placeholder:font-normal shadow-sm" 
            placeholder="{{ $placeholder }}">
 
     {{-- Hidden input for actual form submission --}}

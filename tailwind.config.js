@@ -15,6 +15,31 @@ export default {
                 sans: ['"IBM Plex Sans"', ...defaultTheme.fontFamily.sans],
                 mono: ['"IBM Plex Mono"', ...defaultTheme.fontFamily.mono],
             },
+            colors: {
+                background: "rgb(var(--color-bg) / <alpha-value>)",
+                surface: "rgb(var(--color-surface) / <alpha-value>)",
+                'surface-muted': "rgb(var(--color-surface-muted) / <alpha-value>)",
+                default: "rgb(var(--color-border) / <alpha-value>)", // border color
+                foreground: "rgb(var(--color-text) / <alpha-value>)",
+                'foreground-muted': "rgb(var(--color-text-muted) / <alpha-value>)",
+                primary: {
+                    DEFAULT: "rgb(var(--color-primary) / <alpha-value>)",
+                    foreground: "rgb(var(--color-primary-foreground) / <alpha-value>)",
+                    soft: "rgb(var(--color-primary-soft) / <alpha-value>)",
+                },
+                secondary: {
+                    DEFAULT: "rgb(var(--color-secondary) / <alpha-value>)",
+                    soft: "rgb(var(--color-secondary-soft) / <alpha-value>)",
+                },
+                danger: {
+                    DEFAULT: "rgb(var(--color-danger) / <alpha-value>)",
+                    soft: "rgb(var(--color-danger-soft) / <alpha-value>)",
+                },
+                warning: {
+                    DEFAULT: "rgb(var(--color-warning) / <alpha-value>)",
+                    soft: "rgb(var(--color-warning-soft) / <alpha-value>)",
+                }
+            },
         },
     },
 
