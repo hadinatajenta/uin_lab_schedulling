@@ -1,18 +1,7 @@
-<footer class="w-full">
-    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between py-4">
-        <div class="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm ui-text-muted">
-            <span class="font-medium text-zinc-600">© {{ date('Y') }}</span>
-            <a href="{{ url('/') }}" class="font-semibold text-[rgb(var(--color-primary))] hover:opacity-80 transition-opacity">
-                Lab Biologi UIN
-            </a>
-            <span class="hidden sm:inline text-zinc-300">•</span>
-            <span class="text-zinc-500">Lab management system</span>
-        </div>
-
-        <div class="flex items-center gap-2">
-            <span class="inline-flex items-center rounded-full ui-surface bg-white px-3 py-1 text-xs font-semibold text-zinc-600 shadow-sm">
-                Versi 1.0.0
-            </span>
-        </div>
+<footer class="w-full mt-auto">
+    <div class="py-6 flex items-center justify-center">
+        <p class="text-sm text-zinc-500 font-medium tracking-wide">
+            &copy; {{ date('Y') }} <span class="text-zinc-800 font-semibold ml-1">{{ config('app.name', 'Lab Biologi UIN') }}</span>. All rights reserved.
+        </p>
     </div>
 </footer>

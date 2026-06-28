@@ -1,15 +1,18 @@
-@props(['title', 'description' => null])
+@props(['title', 'description' => null, 'breadcrumbs' => []])
 
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 rounded-3xl border ui-surface px-5 py-4 shadow-sm mb-6">
-    <div>
-        <p class="text-xs font-bold uppercase tracking-[0.18em] ui-primary-soft inline-flex rounded-full px-2 py-1">Section</p>
-        <h1 class="mt-2 text-2xl font-bold tracking-tight text-zinc-900">{{ $title }}</h1>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-5 mb-8 border-b border-zinc-200/80">
+    <div class="w-full">
+        <!-- Breadcrumbs -->
+        <x-ui.breadcrumbs :breadcrumbs="$breadcrumbs" />
+
+        <h1 class="text-2xl sm:text-3xl font-semibold tracking-tight text-zinc-900">{{ $title }}</h1>
         @if($description)
-            <p class="text-sm leading-6 ui-text-muted mt-1">{{ $description }}</p>
+            <p class="text-sm leading-6 ui-text-muted mt-2 max-w-3xl">{{ $description }}</p>
         @endif
     </div>
+    
     @if(isset($slot) && $slot->isNotEmpty())
-        <div class="flex items-center gap-3 shrink-0 w-full md:w-auto">
+        <div class="flex items-center gap-3 shrink-0 w-full md:w-auto mt-2 md:mt-0">
             {{ $slot }}
         </div>
     @endif

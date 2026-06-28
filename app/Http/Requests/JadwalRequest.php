@@ -90,7 +90,7 @@ class JadwalRequest extends FormRequest
 
         // Query untuk mengecek irisan waktu
         // Rumus Irisan Waktu: (mulai_baru < selesai_lama) AND (selesai_baru > mulai_lama)
-        $conflicts = Jadwal::where('tanggal_jadwal', $tanggal)
+        $conflicts = Schedule::where('tanggal_jadwal', $tanggal)
             ->when($jadwalId, function($query) use ($jadwalId) {
                 return $query->where('id', '!=', $jadwalId);
             })
