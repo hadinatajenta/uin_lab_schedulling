@@ -27,18 +27,18 @@
 
 @if(count($breadcrumbs) > 0)
     <nav class="flex mb-3" aria-label="Breadcrumb">
-        <ol role="list" class="flex flex-wrap items-center gap-2 text-xs font-medium text-zinc-500">
+        <ol role="list" class="flex flex-wrap items-center gap-2 text-xs font-medium text-foreground-muted">
             @foreach($breadcrumbs as $index => $crumb)
                 <li>
                     <div class="flex items-center">
                         @if($index > 0)
-                            <span class="material-symbols-rounded text-[14px] text-zinc-400 mr-2">chevron_right</span>
+                            <span class="material-symbols-rounded text-[14px] text-foreground-muted mr-2">chevron_right</span>
                         @endif
 
                         @if($loop->last || empty($crumb['url']))
-                            <span class="text-zinc-800">{{ $crumb['name'] }}</span>
+                            <span class="text-foreground">{{ $crumb['name'] }}</span>
                         @else
-                            <a href="{{ $crumb['url'] }}" class="hover:text-indigo-600 transition-colors">{{ $crumb['name'] }}</a>
+                            <a href="{{ $crumb['url'] }}" class="hover:text-primary transition-colors">{{ $crumb['name'] }}</a>
                         @endif
                     </div>
                 </li>

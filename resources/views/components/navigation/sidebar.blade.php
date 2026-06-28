@@ -3,17 +3,17 @@
 @endphp
 
 <aside
-    class="hidden md:flex fixed top-0 left-0 z-40 h-screen transition-all duration-300 ui-surface border-r border-[rgb(var(--color-border))] shadow-sm flex-col w-64"
+    class="hidden md:flex fixed top-0 left-0 z-40 h-screen transition-all duration-300 ui-surface border-r border-default shadow-sm flex-col w-64"
     aria-label="Sidebar">
     <div class="h-full flex flex-col hide-scrollbar relative">
 
         <!-- Header -->
-        <div class="h-16 flex items-center shrink-0 border-b border-zinc-100 relative px-4 justify-between">
+        <div class="h-16 flex items-center shrink-0 border-b border-default/50 relative px-4 justify-between">
             <div class="flex items-center space-x-3 cursor-pointer">
                 <img src="{{ asset('images/logo-uin.svg') }}" alt="Logo UIN" class="w-8 h-8 shrink-0 object-contain" />
                 <div>
-                    <h2 class="text-[15px] font-bold text-zinc-900 leading-none tracking-tight">Lab UIN Raden Intan</h2>
-                    <p class="text-[11px] text-zinc-500 font-medium mt-1 uppercase tracking-wider">Lab Management System
+                    <h2 class="text-[15px] font-bold text-foreground leading-none tracking-tight">Lab UIN Raden Intan</h2>
+                    <p class="text-[11px] text-foreground-muted font-medium mt-1 uppercase tracking-wider">Lab Management System
                     </p>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                         <li x-data="{ open: {{ $hasActiveChild ? 'true' : 'false' }} }" class="pt-1">
                             <!-- Parent Toggle -->
                             <button @click="open = !open"
-                                class="w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold tracking-wider ui-text-muted uppercase hover:text-zinc-900 transition-colors rounded-lg hover:bg-[rgb(var(--color-surface-muted))] outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))] group"
+                                class="w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold tracking-wider ui-text-muted uppercase hover:text-foreground transition-colors rounded-lg hover:bg-surface-muted outline-none focus-visible:ring-2 focus-visible:ring-primary group"
                                 x-transition.opacity>
                                 <div class="flex items-center group-hover:translate-x-0.5 transition-transform">
                                     @if(isset($section['icon']))
@@ -85,8 +85,8 @@
                                     @endif
                                     <span>{{ $section['section'] }}</span>
                                 </div>
-                                <svg class="w-3.5 h-3.5 text-zinc-400 transition-transform duration-200"
-                                    :class="open ? 'rotate-180 text-zinc-600' : ''" fill="none" viewBox="0 0 24 24"
+                                <svg class="w-3.5 h-3.5 text-foreground-muted transition-transform duration-200"
+                                    :class="open ? 'rotate-180 text-foreground' : ''" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
                                         d="M19 9l-7 7-7-7" />
@@ -95,12 +95,12 @@
 
                             <!-- Divider when collapsed -->
                             <div x-show="!$store.sidebar.expanded" class="px-2 py-2 flex justify-center" style="display: none;">
-                                <div class="w-5 h-px bg-zinc-200"></div>
+                                <div class="w-5 h-px bg-default"></div>
                             </div>
 
                             <!-- Children -->
                             <ul class="space-y-1 mt-1 relative" x-show="!$store.sidebar.expanded || open"
-                                :class="$store.sidebar.expanded ? 'ml-2 pl-2 border-l border-zinc-100' : ''"
+                                :class="$store.sidebar.expanded ? 'ml-2 pl-2 border-l border-default/50' : ''"
                                 style="display: none;">
                                 @foreach($section['items'] as $item)
                                     @if(isset($item['children']))
@@ -117,7 +117,7 @@
         </div>
 
         <!-- User Menu -->
-        <div class="mt-auto shrink-0 border-t border-[rgb(var(--color-border))] p-3 bg-[rgb(var(--color-surface-muted)_/_0.5)]">
+        <div class="mt-auto shrink-0 border-t border-default p-3 bg-surface-muted/50">
             <x-navigation.user-menu :isMobile="false" />
         </div>
     </div>

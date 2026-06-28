@@ -25,7 +25,7 @@
     }
 
     // Base classes
-    $baseClasses = 'group flex items-center transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))] relative';
+    $baseClasses = 'group flex items-center transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary relative';
 
     // Sizing and rounding
     $sizingClasses = $nested ? 'h-9 rounded-lg' : 'h-11 rounded-xl';
@@ -39,19 +39,19 @@
     // State classes
     if ($isActive) {
         $stateClasses = $nested
-            ? 'bg-[rgb(var(--color-primary-soft))] text-zinc-900 font-medium shadow-sm ring-1 ring-black/5'
-            : 'bg-[rgb(var(--color-primary-soft))] text-zinc-900 font-medium shadow-sm ring-1 ring-black/5';
-        $iconClasses = 'text-[rgb(var(--color-primary))]';
+            ? 'bg-primary-soft text-foreground font-medium shadow-sm ring-1 ring-ring/5'
+            : 'bg-primary-soft text-foreground font-medium shadow-sm ring-1 ring-ring/5';
+        $iconClasses = 'text-primary';
     } else {
-        $stateClasses = 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 font-medium';
-        $iconClasses = 'text-zinc-400 group-hover:text-zinc-600';
+        $stateClasses = 'text-nav hover:bg-nav-hover hover:text-foreground font-medium';
+        $iconClasses = 'text-foreground-muted group-hover:text-nav';
     }
 @endphp
 
 <li class="relative">
     @if($isActive && !$nested)
         <!-- Accent Bar for Parent -->
-        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[rgb(var(--color-primary))] rounded-r-full z-10 pointer-events-none"
+        <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-primary rounded-r-full z-10 pointer-events-none"
             @if(!$isMobile) x-show="$store.sidebar.expanded" @endif></div>
     @endif
 
@@ -81,10 +81,10 @@
                 x-transition:enter-start="opacity-0 translate-x-2" x-transition:enter-end="opacity-100 translate-x-0"
                 x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 translate-x-0"
                 x-transition:leave-end="opacity-0 translate-x-2"
-                class="absolute left-full ml-3 px-2.5 py-1.5 bg-zinc-900 text-zinc-50 text-xs font-medium rounded-md whitespace-nowrap shadow-md z-50 pointer-events-none"
+                class="absolute left-full ml-3 px-2.5 py-1.5 bg-tooltip text-tooltip text-xs font-medium rounded-md whitespace-nowrap shadow-md z-50 pointer-events-none"
                 style="display: none;" x-cloak>
                 {{ $item['title'] }}
-                <div class="absolute w-2 h-2 bg-zinc-900 rotate-45 -left-1 top-1/2 -translate-y-1/2"></div>
+                <div class="absolute w-2 h-2 bg-tooltip rotate-45 -left-1 top-1/2 -translate-y-1/2"></div>
             </div>
         @endif
     </a>

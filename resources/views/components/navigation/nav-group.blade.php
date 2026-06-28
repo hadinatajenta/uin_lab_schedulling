@@ -26,15 +26,15 @@
 
     $isGroupActive = $hasActiveChild;
     
-    $buttonClasses = 'w-full group flex items-center justify-between rounded-xl transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))]';
+    $buttonClasses = 'w-full group flex items-center justify-between rounded-xl transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary';
     $spacingClasses = $isMobile ? 'px-3 h-11' : '';
 
     if ($isGroupActive) {
-        $stateClasses = 'text-[rgb(var(--color-primary))] font-semibold';
-        $iconClasses = 'text-[rgb(var(--color-primary))]';
+        $stateClasses = 'text-primary font-semibold';
+        $iconClasses = 'text-primary';
     } else {
-        $stateClasses = 'text-zinc-600 hover:bg-zinc-100 hover:text-zinc-900 font-medium';
-        $iconClasses = 'text-zinc-400 group-hover:text-zinc-600';
+        $stateClasses = 'text-nav hover:bg-nav-hover hover:text-foreground font-medium';
+        $iconClasses = 'text-foreground-muted group-hover:text-nav';
     }
 @endphp
 
@@ -95,12 +95,12 @@
                 x-transition:leave="transition ease-in duration-75"
                 x-transition:leave-start="opacity-100 translate-x-0"
                 x-transition:leave-end="opacity-0 translate-x-2"
-                class="absolute left-full ml-3 px-2.5 py-1.5 bg-zinc-900 text-zinc-50 text-xs font-medium rounded-md whitespace-nowrap shadow-md z-50 pointer-events-none"
+                class="absolute left-full ml-3 px-2.5 py-1.5 bg-tooltip text-tooltip text-xs font-medium rounded-md whitespace-nowrap shadow-md z-50 pointer-events-none"
                 style="display: none;"
                 x-cloak
             >
                 {{ $group['title'] }}
-                <div class="absolute w-2 h-2 bg-zinc-900 rotate-45 -left-1 top-1/2 -translate-y-1/2"></div>
+                <div class="absolute w-2 h-2 bg-tooltip rotate-45 -left-1 top-1/2 -translate-y-1/2"></div>
             </div>
         @endif
     </button>

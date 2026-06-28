@@ -4,11 +4,11 @@
     <div class="overflow-x-auto">
         <table class="w-full text-left border-collapse whitespace-nowrap">
             <thead>
-                <tr class="ui-surface-muted border-b border-zinc-200/80">
+                <tr class="ui-surface-muted border-b border-default/80">
                     {{ $header }}
                 </tr>
             </thead>
-            <tbody class="divide-y divide-zinc-100">
+            <tbody class="divide-y divide-default/50">
                 {{ $slot }}
             </tbody>
         </table>

@@ -38,7 +38,20 @@ export default {
                 warning: {
                     DEFAULT: "rgb(var(--color-warning) / <alpha-value>)",
                     soft: "rgb(var(--color-warning-soft) / <alpha-value>)",
-                }
+                },
+                success: {
+                    DEFAULT: "rgb(var(--color-success) / <alpha-value>)",
+                    soft: "rgb(var(--color-success-soft) / <alpha-value>)",
+                },
+                tooltip: {
+                    DEFAULT: "rgb(var(--color-tooltip-bg) / <alpha-value>)",
+                    text: "rgb(var(--color-tooltip-text) / <alpha-value>)",
+                },
+                nav: {
+                    DEFAULT: "rgb(var(--color-nav-text) / <alpha-value>)",
+                    hover: "rgb(var(--color-nav-hover-bg) / <alpha-value>)",
+                },
+                ring: "rgb(var(--color-ring) / <alpha-value>)",
             },
         },
     },

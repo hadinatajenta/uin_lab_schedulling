@@ -2,10 +2,10 @@
 
 @php
     $classes = match($type) {
-        'success', 'primary' => 'ui-primary-soft ring-[rgb(var(--color-primary-soft))]',
-        'warning' => 'ui-warning-soft ring-amber-200',
-        'danger' => 'ui-danger-soft ring-rose-200',
-        default => 'bg-zinc-50 text-zinc-700 ring-zinc-200',
+        'success', 'primary' => 'ui-primary-soft ring-primary-soft',
+        'warning' => 'ui-warning-soft ring-warning-soft',
+        'danger' => 'ui-danger-soft ring-danger-soft',
+        default => 'bg-surface-muted text-foreground-muted ring-default',
     };
 @endphp
 
