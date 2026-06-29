@@ -26,13 +26,13 @@
                         <span class="material-symbols-rounded">gavel</span>
                     </div>
                     <div>
-                        <h2 class="text-xl font-bold text-gray-900 tracking-tight">Standard Operating Procedures</h2>
+                        <h2 class="text-xl font-bold text-foreground tracking-tight">Standard Operating Procedures</h2>
                         <p class="text-sm ui-text-muted mt-0.5">Rules and guidelines for laboratory usage.</p>
                     </div>
                 </div>
                 
-                <div class="prose prose-sm md:prose-base prose-blue max-w-none text-gray-600 leading-relaxed break-words">
-                    {!! !empty($aboutLab->sop) ? $aboutLab->sop : '<p class="italic text-gray-400">No SOP information available.</p>' !!}
+                <div class="prose prose-sm md:prose-base prose-blue max-w-none text-foreground-muted leading-relaxed break-words">
+                    {!! !empty($aboutLab->sop) ? $aboutLab->sop : '<p class="italic text-foreground-muted/60">No SOP information available.</p>' !!}
                 </div>
             </div>
         </div>
@@ -41,23 +41,23 @@
         <div class="xl:col-span-5 space-y-6">
             <div class="ui-surface p-6 md:p-8 rounded-2xl shadow-sm border border-[rgb(var(--color-border))]">
                 <div class="flex items-center space-x-3 mb-6 pb-6 border-b border-[rgb(var(--color-border))]">
-                    <div class="w-11 h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center shrink-0">
+                    <div class="w-11 h-11 rounded-xl ui-primary-soft text-purple-600 flex items-center justify-center shrink-0">
                         <span class="material-symbols-rounded">account_tree</span>
                     </div>
                     <div>
-                        <h2 class="text-xl font-bold text-gray-900 tracking-tight">Organizational Structure</h2>
+                        <h2 class="text-xl font-bold text-foreground tracking-tight">Organizational Structure</h2>
                         <p class="text-sm ui-text-muted mt-0.5">Laboratory management hierarchy.</p>
                     </div>
                 </div>
 
                 @if(!empty($aboutLab) && !empty($aboutLab->stuktur))
-                    <div class="rounded-xl overflow-hidden border border-[rgb(var(--color-border))] bg-gray-50 flex items-center justify-center p-4">
+                    <div class="rounded-xl overflow-hidden border border-[rgb(var(--color-border))] bg-surface-muted flex items-center justify-center p-4">
                         <img src="{{ asset('storage/' . $aboutLab->stuktur) }}" alt="Organizational Structure" class="max-w-full h-auto object-contain rounded-lg hover:scale-[1.02] transition-transform duration-300">
                     </div>
                 @else
-                    <div class="flex flex-col items-center justify-center p-8 rounded-xl border border-dashed border-gray-300 bg-gray-50">
-                        <span class="material-symbols-rounded text-gray-400 text-4xl mb-2">image_not_supported</span>
-                        <p class="text-sm text-gray-500 font-medium">No structure image uploaded</p>
+                    <div class="flex flex-col items-center justify-center p-8 rounded-xl border border-dashed border-default bg-surface-muted">
+                        <span class="material-symbols-rounded text-foreground-muted/60 text-4xl mb-2">image_not_supported</span>
+                        <p class="text-sm text-foreground-muted font-medium">No structure image uploaded</p>
                     </div>
                 @endif
             </div>

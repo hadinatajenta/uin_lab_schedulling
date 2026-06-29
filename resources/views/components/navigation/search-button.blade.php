@@ -1,7 +1,7 @@
 @props(['isMobile' => false])
 
 <button 
-    class="w-full flex items-center rounded-xl ui-surface-muted hover:bg-zinc-200 ui-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))]"
+    class="w-full flex items-center rounded-xl ui-surface-muted hover:bg-default/50 ui-text-muted transition-colors focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))]"
     @if(!$isMobile)
         :class="!$store.sidebar.expanded ? 'h-11 justify-center' : 'h-9 px-2.5 justify-between'"
     @else
@@ -19,12 +19,12 @@
         >Quick Search...</span>
     </div>
     <div 
-        class="hidden sm:flex items-center space-x-0.5 text-[10px] font-semibold tracking-wider text-zinc-400"
+        class="hidden sm:flex items-center space-x-0.5 text-[10px] font-semibold tracking-wider text-foreground-muted/60"
         @if(!$isMobile)
             x-show="$store.sidebar.expanded"
         @endif
     >
-        <span class="px-1.5 py-0.5 rounded-md border border-zinc-200 bg-white">⌘</span>
-        <span class="px-1.5 py-0.5 rounded-md border border-zinc-200 bg-white">K</span>
+        <span class="px-1.5 py-0.5 rounded-md border border-default bg-surface">⌘</span>
+        <span class="px-1.5 py-0.5 rounded-md border border-default bg-surface">K</span>
     </div>
 </button>

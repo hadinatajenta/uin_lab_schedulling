@@ -33,17 +33,17 @@
     style="display: none;"
 >
     <!-- Header -->
-    <div class="h-16 flex items-center justify-between px-4 border-b border-zinc-100 shrink-0">
+    <div class="h-16 flex items-center justify-between px-4 border-b border-default/50 shrink-0">
         <div class="flex items-center space-x-3 cursor-pointer">
             <img src="{{ asset('images/logo-uin.svg') }}" alt="Logo UIN" class="w-8 h-8 shrink-0 object-contain" />
             <div>
-                <h2 class="text-[15px] font-bold text-zinc-900 leading-none tracking-tight">Lab UIN</h2>
-                <p class="text-[11px] text-zinc-500 font-medium mt-1 uppercase tracking-wider">Management</p>
+                <h2 class="text-[15px] font-bold text-foreground leading-none tracking-tight">Lab UIN</h2>
+                <p class="text-[11px] text-foreground-muted font-medium mt-1 uppercase tracking-wider">Management</p>
             </div>
         </div>
         <button 
             @click="$store.sidebar.isMobileOpen = false"
-            class="p-2 rounded-xl text-zinc-400 hover:bg-zinc-100 hover:text-zinc-600 transition-colors focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))]"
+            class="p-2 rounded-xl text-foreground-muted/60 hover:bg-surface-muted hover:text-foreground-muted transition-colors focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))]"
         >
             <span class="material-symbols-rounded text-[24px]">close</span>
         </button>
@@ -73,7 +73,7 @@
                 @endphp
                 <li>
                     @if($section['section'] !== 'GENERAL')
-                        <div class="px-2 mb-2 text-xs font-semibold tracking-wider text-zinc-400 uppercase flex items-center">
+                        <div class="px-2 mb-2 text-xs font-semibold tracking-wider text-foreground-muted/60 uppercase flex items-center">
                             @if(isset($section['icon']))
                                 <span class="material-symbols-rounded text-[16px] mr-1.5">{{ $section['icon'] }}</span>
                             @endif

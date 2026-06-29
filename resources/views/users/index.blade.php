@@ -32,7 +32,7 @@
             @endif
         </x-ui.page-header>
 
-        <div class="ui-surface border border-zinc-200/80 rounded-3xl p-4 shadow-sm" x-data="{ 
+        <div class="ui-surface border border-default/80 rounded-3xl p-4 shadow-sm" x-data="{ 
                         advancedOpen: {{ request('name') || request('email') || request('nim') || request('nip') || request('faculty') || request('department_id') ? 'true' : 'false' }},
                         selectedRole: '{{ request('jabatan', '') }}',
                         selectedFaculty: '{{ request('faculty', '') }}', 
@@ -103,7 +103,7 @@
 
                         {{-- Helper Text --}}
                         <p x-show="showHelper" x-cloak
-                            class="absolute -bottom-5 left-0 text-[10px] text-rose-500 font-medium">Minimal 3 karakter untuk
+                            class="absolute -bottom-5 left-0 text-[10px] text-danger font-medium">Minimal 3 karakter untuk
                             mencari.</p>
                     </div>
 
@@ -112,29 +112,29 @@
                         <input type="hidden" name="jabatan" x-model="selectedRole">
                         <x-ui.dropdown align="left" width="full">
                             <x-slot name="trigger">
-                                <button type="button" class="w-full flex items-center justify-between px-4 h-11 md:h-10 text-sm md:text-xs font-medium text-zinc-700 border border-zinc-200 rounded-xl bg-white hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors">
+                                <button type="button" class="w-full flex items-center justify-between px-4 h-11 md:h-10 text-sm md:text-xs font-medium text-foreground-muted border border-default rounded-xl bg-surface hover:bg-surface-muted focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors">
                                     <span x-text="
                                         selectedRole === 'admin_lab' ? 'Admin Lab' :
                                         selectedRole === 'lecturer' ? 'Dosen' :
                                         selectedRole === 'assistant' ? 'Asisten Dosen' :
                                         selectedRole === 'student' ? 'Mahasiswa' : 'Semua Role'
                                     "></span>
-                                    <span class="material-symbols-rounded text-[20px] text-zinc-400">expand_more</span>
+                                    <span class="material-symbols-rounded text-[20px] text-foreground-muted/60">expand_more</span>
                                 </button>
                             </x-slot>
                             <x-slot name="content">
-                                <button type="button" @click="selectedRole = ''; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors">Semua Role</button>
-                                <button type="button" @click="selectedRole = 'admin_lab'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors">Admin Lab</button>
-                                <button type="button" @click="selectedRole = 'lecturer'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors">Dosen</button>
-                                <button type="button" @click="selectedRole = 'assistant'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors">Asisten Dosen</button>
-                                <button type="button" @click="selectedRole = 'student'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors">Mahasiswa</button>
+                                <button type="button" @click="selectedRole = ''; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors">Semua Role</button>
+                                <button type="button" @click="selectedRole = 'admin_lab'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors">Admin Lab</button>
+                                <button type="button" @click="selectedRole = 'lecturer'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors">Dosen</button>
+                                <button type="button" @click="selectedRole = 'assistant'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors">Asisten Dosen</button>
+                                <button type="button" @click="selectedRole = 'student'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors">Mahasiswa</button>
                             </x-slot>
                         </x-ui.dropdown>
                     </div>
 
                     {{-- Toggle Advanced --}}
                     <button type="button" @click="advancedOpen = !advancedOpen"
-                        class="w-full md:w-auto h-11 md:h-10 px-4 inline-flex items-center justify-center text-sm md:text-xs font-semibold text-zinc-600 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-colors shadow-sm shrink-0 focus:outline-none">
+                        class="w-full md:w-auto h-11 md:h-10 px-4 inline-flex items-center justify-center text-sm md:text-xs font-semibold text-foreground-muted bg-surface border border-default rounded-xl hover:bg-surface-muted transition-colors shadow-sm shrink-0 focus:outline-none">
                         <span class="material-symbols-rounded text-[18px] mr-1.5"
                             :class="advancedOpen ? 'text-[rgb(var(--color-primary))]' : ''">tune</span>
                         Filter Lanjutan
@@ -145,11 +145,11 @@
 
                 {{-- Advanced Filters Panel --}}
                 <div x-show="advancedOpen" x-collapse x-cloak>
-                    <div class="pt-4 mt-4 border-t border-zinc-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="pt-4 mt-4 border-t border-default/50 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
                         <div>
                             <label
-                                class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Nama
+                                class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">Nama
                                 Spesifik</label>
                             <x-ui.input type="text" name="name" value="{{ request('name') }}"
                                 x-on:input.debounce.500ms="submitForm" placeholder="Cari nama..." />
@@ -157,7 +157,7 @@
 
                         <div>
                             <label
-                                class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Email
+                                class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">Email
                                 Spesifik</label>
                             <x-ui.input type="email" name="email" value="{{ request('email') }}"
                                 x-on:input.debounce.500ms="submitForm" placeholder="Cari email..." />
@@ -166,7 +166,7 @@
                         {{-- Dynamic Field NIM (Mahasiswa/Asisten) --}}
                         <div x-show="['student', 'assistant', ''].includes(selectedRole)">
                             <label
-                                class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">NIM</label>
+                                class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">NIM</label>
                             <x-ui.input type="text" name="nim" value="{{ request('nim') }}"
                                 x-on:input.debounce.500ms="submitForm" placeholder="Cari NIM..." />
                         </div>
@@ -174,34 +174,34 @@
                         {{-- Dynamic Field NIP (Dosen) --}}
                         <div x-show="['lecturer', ''].includes(selectedRole)">
                             <label
-                                class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">NIP</label>
+                                class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">NIP</label>
                             <x-ui.input type="text" name="nip" value="{{ request('nip') }}"
                                 x-on:input.debounce.500ms="submitForm" placeholder="Cari NIP..." />
                         </div>
 
                         <div x-show="['student', 'assistant', 'lecturer', ''].includes(selectedRole)">
                             <label
-                                class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Fakultas</label>
+                                class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">Fakultas</label>
                             <div class="relative">
                                 <select name="faculty" x-model="selectedFaculty" @change="submitForm"
-                                    class="w-full text-sm h-10 border border-zinc-200 rounded-xl pl-3 pr-8 bg-white focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors text-zinc-700 appearance-none">
+                                    class="w-full text-sm h-10 border border-default rounded-xl pl-3 pr-8 bg-surface focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors text-foreground-muted appearance-none">
                                     <option value="">Semua Fakultas</option>
                                     @foreach($faculties ?? [] as $faculty)
                                         <option value="{{ $faculty }}">{{ $faculty }}</option>
                                     @endforeach
                                 </select>
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none">
-                                    <span class="material-symbols-rounded text-zinc-400 text-[20px]">expand_more</span>
+                                    <span class="material-symbols-rounded text-foreground-muted/60 text-[20px]">expand_more</span>
                                 </div>
                             </div>
                         </div>
 
                         <div x-show="['student', 'assistant', 'lecturer', ''].includes(selectedRole)">
                             <label
-                                class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Jurusan</label>
+                                class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">Jurusan</label>
                             <div class="relative">
                                 <select name="department_id" @change="submitForm"
-                                    class="w-full text-sm h-10 border border-zinc-200 rounded-xl pl-3 pr-8 bg-white focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors text-zinc-700 appearance-none">
+                                    class="w-full text-sm h-10 border border-default rounded-xl pl-3 pr-8 bg-surface focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors text-foreground-muted appearance-none">
                                     <option value="">Semua Jurusan</option>
                                     <template
                                         x-for="dept in departments.filter(d => !selectedFaculty || d.faculty === selectedFaculty)"
@@ -211,7 +211,7 @@
                                     </template>
                                 </select>
                                 <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none">
-                                    <span class="material-symbols-rounded text-zinc-400 text-[20px]">expand_more</span>
+                                    <span class="material-symbols-rounded text-foreground-muted/60 text-[20px]">expand_more</span>
                                 </div>
                             </div>
                         </div>
@@ -234,8 +234,8 @@
                 @endphp
 
                 @if($activeFilters->count() > 0)
-                    <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-zinc-100">
-                        <span class="text-[11px] font-bold text-zinc-400 mr-1 uppercase tracking-wider">Filter Aktif:</span>
+                    <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-default/50">
+                        <span class="text-[11px] font-bold text-foreground-muted/60 mr-1 uppercase tracking-wider">Filter Aktif:</span>
                         @foreach($activeFilters as $key => $label)
                             <span
                                 class="inline-flex items-center px-2 py-1 rounded-lg text-xs font-semibold bg-[rgb(var(--color-primary)_/_0.1)] text-[rgb(var(--color-primary))] border border-[rgb(var(--color-primary)_/_0.2)]">
@@ -248,7 +248,7 @@
                         @endforeach
 
                         <a href="{{ route('users.index') }}"
-                            class="inline-flex items-center px-2 py-1 text-[11px] font-bold text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors ml-1 uppercase tracking-wider">
+                            class="inline-flex items-center px-2 py-1 text-[11px] font-bold text-foreground-muted/60 hover:text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors ml-1 uppercase tracking-wider">
                             Reset Semua
                         </a>
                     </div>

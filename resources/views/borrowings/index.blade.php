@@ -8,52 +8,52 @@
         </x-ui.page-header>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div class="bg-white border border-zinc-200/80 rounded-3xl p-5 shadow-sm">
+            <div class="bg-surface border border-default/80 rounded-3xl p-5 shadow-sm">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 rounded-2xl ui-primary-soft text-[rgb(var(--color-primary))] flex items-center justify-center">
                         <x-atoms.icon name="cube" class="w-5 h-5" />
                     </div>
-                    <p class="text-sm font-semibold text-zinc-500">Peminjaman bulan ini</p>
+                    <p class="text-sm font-semibold text-foreground-muted">Peminjaman bulan ini</p>
                 </div>
-                <h2 class="text-3xl font-bold text-zinc-900">{{ $currentMonthTotal }}</h2>
-                <p class="mt-1 text-sm text-zinc-500">
+                <h2 class="text-3xl font-bold text-foreground">{{ $currentMonthTotal }}</h2>
+                <p class="mt-1 text-sm text-foreground-muted">
                     <span class="{{ $percentageClass }} font-extrabold">{{ $formattedPercentage }}%</span>
                     {{ $comparisonText }}
                 </p>
             </div>
 
-            <div class="bg-white border border-zinc-200/80 rounded-3xl p-5 shadow-sm">
+            <div class="bg-surface border border-default/80 rounded-3xl p-5 shadow-sm">
                 <div class="flex items-center gap-3 mb-3">
                     <div class="w-10 h-10 rounded-2xl ui-primary-soft text-[rgb(var(--color-primary))] flex items-center justify-center">
                         <x-atoms.icon name="cube" class="w-5 h-5" />
                     </div>
-                    <p class="text-sm font-semibold text-zinc-500">Total Pemakaian alat/bahan</p>
+                    <p class="text-sm font-semibold text-foreground-muted">Total Pemakaian alat/bahan</p>
                 </div>
-                <h2 class="text-3xl font-bold text-zinc-900">{{ $totalBahan }}</h2>
+                <h2 class="text-3xl font-bold text-foreground">{{ $totalBahan }}</h2>
             </div>
 
-            <div class="bg-white border border-zinc-200/80 rounded-3xl p-5 shadow-sm">
+            <div class="bg-surface border border-default/80 rounded-3xl p-5 shadow-sm">
                 <div class="flex items-center gap-3 mb-3">
-                    <div class="w-10 h-10 rounded-2xl bg-zinc-100 text-zinc-600 flex items-center justify-center">
+                    <div class="w-10 h-10 rounded-2xl bg-surface-muted text-foreground-muted flex items-center justify-center">
                         <x-atoms.icon name="clipboard-document-list" class="w-5 h-5" />
                     </div>
-                    <p class="text-sm font-semibold text-zinc-500">Total Pemakaian bahan</p>
+                    <p class="text-sm font-semibold text-foreground-muted">Total Pemakaian bahan</p>
                 </div>
-                <h2 class="text-3xl font-bold text-zinc-900">- ml</h2>
+                <h2 class="text-3xl font-bold text-foreground">- ml</h2>
             </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="bg-white rounded-3xl p-5 border border-zinc-200/80 shadow-sm">
-                <h2 class="text-lg font-bold text-zinc-900">Bar Chart Peminjaman</h2>
-                <p class="text-sm text-zinc-500 mt-1 mb-4">Jumlah peminjaman per tanggal</p>
+            <div class="bg-surface rounded-3xl p-5 border border-default/80 shadow-sm">
+                <h2 class="text-lg font-bold text-foreground">Bar Chart Peminjaman</h2>
+                <p class="text-sm text-foreground-muted mt-1 mb-4">Jumlah peminjaman per tanggal</p>
                 <div class="h-[320px]">
                     <canvas id="peminjamanChart" class="w-full h-full"></canvas>
                 </div>
             </div>
-            <div class="bg-white rounded-3xl p-5 border border-zinc-200/80 shadow-sm">
-                <h2 class="text-lg font-bold text-zinc-900">Pie Chart Peminjaman</h2>
-                <p class="text-sm text-zinc-500 mt-1 mb-4">Jumlah peminjaman berdasarkan alat</p>
+            <div class="bg-surface rounded-3xl p-5 border border-default/80 shadow-sm">
+                <h2 class="text-lg font-bold text-foreground">Pie Chart Peminjaman</h2>
+                <p class="text-sm text-foreground-muted mt-1 mb-4">Jumlah peminjaman berdasarkan alat</p>
                 <div class="h-[320px]">
                     <canvas id="donutChart" class="w-full h-full"></canvas>
                 </div>

@@ -13,28 +13,28 @@
 @else
     <x-ui.table class="hidden lg:block flex-grow mt-4">
         <x-slot name="header">
-            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider w-10 text-center">No.</th>
-            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Pengguna</th>
-            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Role</th>
-            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Jurusan</th>
-            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider hidden md:table-cell">
+            <th class="px-6 py-4 text-[10px] font-bold text-foreground-muted uppercase tracking-wider w-10 text-center">No.</th>
+            <th class="px-6 py-4 text-[10px] font-bold text-foreground-muted uppercase tracking-wider">Pengguna</th>
+            <th class="px-6 py-4 text-[10px] font-bold text-foreground-muted uppercase tracking-wider">Role</th>
+            <th class="px-6 py-4 text-[10px] font-bold text-foreground-muted uppercase tracking-wider">Jurusan</th>
+            <th class="px-6 py-4 text-[10px] font-bold text-foreground-muted uppercase tracking-wider hidden md:table-cell">
                 Bergabung</th>
-            <th class="px-6 py-4 text-[10px] font-bold text-zinc-500 uppercase tracking-wider text-right">Aksi</th>
+            <th class="px-6 py-4 text-[10px] font-bold text-foreground-muted uppercase tracking-wider text-right">Aksi</th>
         </x-slot>
 
         @foreach ($users as $user)
-            <tr class="group hover:bg-zinc-50/80 transition-all">
-                <td class="px-6 py-4 text-center text-[13px] font-semibold text-zinc-500">
+            <tr class="group hover:bg-surface-muted/80 transition-all">
+                <td class="px-6 py-4 text-center text-[13px] font-semibold text-foreground-muted">
                     {{ $users->firstItem() + $loop->index }}
                 </td>
                 <td class="px-6 py-4">
                     <div class="flex items-center gap-4 min-w-0">
                         <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=EEF2FF&color=4F46E5&bold=true"
                             alt="{{ $user->name }}"
-                            class="w-10 h-10 rounded-full object-cover ring-4 ring-white shadow-sm shrink-0">
+                            class="w-10 h-10 rounded-full object-cover ring-4 ring-surface shadow-sm shrink-0">
                         <div class="min-w-0 flex-1">
-                            <p class="text-[14px] font-bold text-zinc-900 truncate tracking-tight">{{ $user->name }}</p>
-                            <p class="text-[13px] font-medium text-zinc-500 truncate mt-0.5">{{ $user->email }}</p>
+                            <p class="text-[14px] font-bold text-foreground truncate tracking-tight">{{ $user->name }}</p>
+                            <p class="text-[13px] font-medium text-foreground-muted truncate mt-0.5">{{ $user->email }}</p>
                         </div>
                     </div>
                 </td>
@@ -52,10 +52,10 @@
                     </x-ui.badge>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <span class="text-[13px] font-medium text-zinc-600">{{ $user->department->name ?? '-' }}</span>
+                    <span class="text-[13px] font-medium text-foreground-muted">{{ $user->department->name ?? '-' }}</span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
-                    <span class="text-[12px] font-medium text-zinc-400" title="{{ $user->created_at }}">
+                    <span class="text-[12px] font-medium text-foreground-muted/60" title="{{ $user->created_at }}">
                         {{ $user->created_at ? $user->created_at->diffForHumans() : '-' }}
                     </span>
                 </td>
@@ -64,25 +64,25 @@
                         <div class="flex items-center justify-end">
                             <x-table.action-menu>
                                 <a href="{{ route('users.show', $user->id) }}"
-                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center">
-                                    <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-400" />
+                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-foreground-muted hover:bg-surface-muted transition-colors flex items-center">
+                                    <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-foreground-muted/60" />
                                     Edit Pengguna
                                 </a>
                                 <button type="button"
-                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
-                                    <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
+                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-foreground-muted/60 cursor-not-allowed hover:bg-surface-muted transition-colors flex items-center">
+                                    <x-atoms.icon name="settings" class="w-3.5 h-3.5 mr-2 text-default" />
                                     Reset Password
                                 </button>
                                 <button type="button"
-                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-zinc-400 cursor-not-allowed hover:bg-zinc-50 transition-colors flex items-center">
-                                    <x-atoms.icon name="x-mark" class="w-3.5 h-3.5 mr-2 text-zinc-300" />
+                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-foreground-muted/60 cursor-not-allowed hover:bg-surface-muted transition-colors flex items-center">
+                                    <x-atoms.icon name="x-mark" class="w-3.5 h-3.5 mr-2 text-default" />
                                     Nonaktifkan
                                 </button>
-                                <div class="h-px bg-zinc-100 my-1"></div>
+                                <div class="h-px bg-surface-muted my-1"></div>
                                 <button type="button" data-modal-target="delete-modal-{{ $user->id }}"
                                     data-modal-toggle="delete-modal-{{ $user->id }}"
-                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center">
-                                    <x-atoms.icon name="trash" class="w-3.5 h-3.5 mr-2 text-rose-400" />
+                                    class="w-full text-left px-3 py-1.5 text-xs font-semibold text-danger hover:ui-danger-soft transition-colors flex items-center">
+                                    <x-atoms.icon name="trash" class="w-3.5 h-3.5 mr-2 text-danger/80" />
                                     Hapus
                                 </button>
                             </x-table.action-menu>
@@ -98,20 +98,20 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:hidden gap-4 flex-grow">
         @foreach ($users as $user)
             <div
-                class="ui-surface border border-zinc-200/80 rounded-3xl p-5 shadow-sm hover:shadow-md transition-shadow relative">
+                class="ui-surface border border-default/80 rounded-3xl p-5 shadow-sm hover:shadow-md transition-shadow relative">
                 @if (Auth::user()->jabatan !== 'Mahasiswa')
                     <div class="absolute top-4 right-4">
                         <x-table.action-menu>
                             <a href="{{ route('users.show', $user->id) }}"
-                                class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-zinc-700 hover:bg-zinc-50 transition-colors flex items-center min-h-[44px]">
-                                <x-atoms.icon name="settings" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-zinc-400" />
+                                class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-foreground-muted hover:bg-surface-muted transition-colors flex items-center min-h-[44px]">
+                                <x-atoms.icon name="settings" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-foreground-muted/60" />
                                 Edit Pengguna
                             </a>
-                            <div class="h-px bg-zinc-100 my-1"></div>
+                            <div class="h-px bg-surface-muted my-1"></div>
                             <button type="button" data-modal-target="delete-modal-{{ $user->id }}"
                                 data-modal-toggle="delete-modal-{{ $user->id }}"
-                                class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-rose-600 hover:bg-rose-50 transition-colors flex items-center min-h-[44px]">
-                                <x-atoms.icon name="trash" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-rose-400" />
+                                class="w-full text-left px-3 py-2 text-sm md:text-xs font-semibold text-danger hover:ui-danger-soft transition-colors flex items-center min-h-[44px]">
+                                <x-atoms.icon name="trash" class="w-4 h-4 md:w-3.5 md:h-3.5 mr-2 text-danger/80" />
                                 Hapus
                             </button>
                         </x-table.action-menu>
@@ -121,16 +121,16 @@
                 <div class="flex items-start gap-4 mb-4 pr-12">
                     <img src="https://ui-avatars.com/api/?name={{ urlencode($user->name) }}&background=EEF2FF&color=4F46E5&bold=true"
                         alt="{{ $user->name }}"
-                        class="w-12 h-12 rounded-full object-cover ring-4 ring-white shadow-sm shrink-0">
+                        class="w-12 h-12 rounded-full object-cover ring-4 ring-surface shadow-sm shrink-0">
                     <div class="min-w-0 flex-1">
-                        <p class="text-[15px] font-bold text-zinc-900 truncate tracking-tight mb-0.5">{{ $user->name }}</p>
-                        <p class="text-[13px] font-medium text-zinc-500 truncate">{{ $user->email }}</p>
+                        <p class="text-[15px] font-bold text-foreground truncate tracking-tight mb-0.5">{{ $user->name }}</p>
+                        <p class="text-[13px] font-medium text-foreground-muted truncate">{{ $user->email }}</p>
                     </div>
                 </div>
 
-                <div class="space-y-3 pt-3 border-t border-zinc-100/80">
+                <div class="space-y-3 pt-3 border-t border-default/50">
                     <div class="flex items-center justify-between gap-4">
-                        <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Role</span>
+                        <span class="text-[12px] font-bold text-foreground-muted/60 uppercase tracking-wider">Role</span>
                         @php
                             $badgeType = match (strtolower($user->jabatan)) {
                                 'admin lab' => 'primary',
@@ -144,14 +144,14 @@
                         </x-ui.badge>
                     </div>
                     <div class="flex items-center justify-between gap-4">
-                        <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Jurusan</span>
+                        <span class="text-[12px] font-bold text-foreground-muted/60 uppercase tracking-wider">Jurusan</span>
                         <span
-                            class="text-[13px] font-semibold text-zinc-700 text-right">{{ $user->department->name ?? '-' }}</span>
+                            class="text-[13px] font-semibold text-foreground-muted text-right">{{ $user->department->name ?? '-' }}</span>
                     </div>
                     <div class="flex items-center justify-between gap-4">
-                        <span class="text-[12px] font-bold text-zinc-400 uppercase tracking-wider">Bergabung</span>
+                        <span class="text-[12px] font-bold text-foreground-muted/60 uppercase tracking-wider">Bergabung</span>
                         <span
-                            class="text-[13px] font-semibold text-zinc-700 text-right">{{ $user->created_at ? $user->created_at->format('d M Y') : '-' }}</span>
+                            class="text-[13px] font-semibold text-foreground-muted text-right">{{ $user->created_at ? $user->created_at->format('d M Y') : '-' }}</span>
                     </div>
                 </div>
             </div>

@@ -54,7 +54,7 @@ switch ($width) {
         x-transition:leave="transition ease-in duration-75"
         x-transition:leave-start="opacity-100 scale-100 transform translate-y-0"
         x-transition:leave-end="opacity-0 scale-95 transform -translate-y-2"
-        class="absolute z-50 {{ $widthClasses }} {{ $alignmentClasses }} bg-white border border-default shadow-md rounded-xl p-1 focus:outline-none max-h-60 overflow-y-auto"
+        class="absolute z-50 {{ $widthClasses }} {{ $alignmentClasses }} bg-surface border border-default shadow-md rounded-xl p-1 focus:outline-none max-h-60 overflow-y-auto"
         style="display: none;"
         @click="open = false">
         {{ $content }}

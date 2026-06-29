@@ -4,12 +4,12 @@
     <div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8">
         <div class="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div class="flex items-center gap-4">
-                <a href="{{ route('rooms.index') }}" class="text-gray-500 hover:text-gray-700">
+                <a href="{{ route('rooms.index') }}" class="text-foreground-muted hover:text-foreground-muted">
                     <span class="material-symbols-rounded">arrow_back</span>
                 </a>
                 <div>
-                    <h1 class="text-2xl font-bold text-gray-900">{{ $room->room_code }} - {{ $room->nama_ruangan }}</h1>
-                    <p class="mt-1 text-sm text-gray-500">{{ $room->building ?? 'N/A' }}, Floor: {{ $room->floor ?? 'N/A' }} | Capacity: {{ $room->kapasitas }}</p>
+                    <h1 class="text-2xl font-bold text-foreground">{{ $room->room_code }} - {{ $room->nama_ruangan }}</h1>
+                    <p class="mt-1 text-sm text-foreground-muted">{{ $room->building ?? 'N/A' }}, Floor: {{ $room->floor ?? 'N/A' }} | Capacity: {{ $room->kapasitas }}</p>
                 </div>
             </div>
             
@@ -53,26 +53,26 @@
             <!-- Left Column: Details -->
             <div class="lg:col-span-1 space-y-6">
                 <!-- Photo Card -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="bg-surface rounded-xl shadow-sm border border-default overflow-hidden">
                     @if($room->photo)
                         <img src="{{ asset('storage/' . $room->photo) }}" alt="Room Photo" class="w-full h-48 object-cover">
                     @else
-                        <div class="w-full h-48 bg-gray-100 flex items-center justify-center">
-                            <span class="material-symbols-rounded text-gray-400 text-5xl">meeting_room</span>
+                        <div class="w-full h-48 bg-surface-muted flex items-center justify-center">
+                            <span class="material-symbols-rounded text-foreground-muted/60 text-5xl">meeting_room</span>
                         </div>
                     @endif
                     <div class="p-6">
-                        <h3 class="text-lg font-medium text-gray-900 mb-2">Description</h3>
-                        <p class="text-sm text-gray-600">{{ $room->description ?? 'No description provided.' }}</p>
+                        <h3 class="text-lg font-medium text-foreground mb-2">Description</h3>
+                        <p class="text-sm text-foreground-muted">{{ $room->description ?? 'No description provided.' }}</p>
                         
                         <div class="mt-6 pt-6 border-t border-gray-100">
                             <dl class="space-y-4">
                                 <div>
-                                    <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">PIC (Admin Lab)</dt>
-                                    <dd class="mt-1 text-sm font-medium text-gray-900">{{ $room->pic->name ?? 'Not Assigned' }}</dd>
+                                    <dt class="text-xs font-medium text-foreground-muted uppercase tracking-wider">PIC (Admin Lab)</dt>
+                                    <dd class="mt-1 text-sm font-medium text-foreground">{{ $room->pic->name ?? 'Not Assigned' }}</dd>
                                 </div>
                                 <div>
-                                    <dt class="text-xs font-medium text-gray-500 uppercase tracking-wider">Status</dt>
+                                    <dt class="text-xs font-medium text-foreground-muted uppercase tracking-wider">Status</dt>
                                     <dd class="mt-1">
                                         @if(!$room->is_active)
                                             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Nonaktif / Darurat</span>
@@ -89,9 +89,9 @@
                 </div>
 
                 <!-- Facilities Card -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
-                        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Facilities</h3>
+                <div class="bg-surface rounded-xl shadow-sm border border-default overflow-hidden">
+                    <div class="px-6 py-4 border-b border-default bg-surface-muted">
+                        <h3 class="text-sm font-semibold text-foreground uppercase tracking-wider">Facilities</h3>
                     </div>
                     <div class="p-6">
                         @if($room->facilities->count() > 0)
@@ -100,12 +100,12 @@
                                     <li class="flex items-center justify-between">
                                         <div class="flex items-center">
                                             @if($facility->icon)
-                                                <span class="material-symbols-rounded text-gray-400 mr-2 text-[18px]">{{ $facility->icon }}</span>
+                                                <span class="material-symbols-rounded text-foreground-muted/60 mr-2 text-[18px]">{{ $facility->icon }}</span>
                                             @endif
-                                            <span class="text-sm text-gray-700">{{ $facility->name }}</span>
+                                            <span class="text-sm text-foreground-muted">{{ $facility->name }}</span>
                                         </div>
                                         <div class="flex items-center gap-2 text-xs">
-                                            <span class="text-gray-500">Qty: {{ $facility->pivot->quantity }}</span>
+                                            <span class="text-foreground-muted">Qty: {{ $facility->pivot->quantity }}</span>
                                             <span class="px-2 py-0.5 rounded-full {{ $facility->pivot->condition === 'baik' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700' }}">
                                                 {{ ucfirst(str_replace('_', ' ', $facility->pivot->condition)) }}
                                             </span>
@@ -114,7 +114,7 @@
                                 @endforeach
                             </ul>
                         @else
-                            <p class="text-sm text-gray-500 text-center">No facilities assigned.</p>
+                            <p class="text-sm text-foreground-muted text-center">No facilities assigned.</p>
                         @endif
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                 @endphp
                 
                 @if($activeMaintenances->count() > 0)
-                    <div class="bg-white rounded-xl shadow-sm border border-red-200 overflow-hidden">
+                    <div class="bg-surface rounded-xl shadow-sm border border-red-200 overflow-hidden">
                         <div class="px-6 py-4 border-b border-red-200 bg-red-50">
                             <h3 class="text-sm font-semibold text-red-900 uppercase tracking-wider">Active Alerts</h3>
                         </div>
@@ -149,7 +149,7 @@
                                             </div>
                                         </div>
                                         <div>
-                                            <button type="button" x-data @click="$dispatch('open-modal', 'complete-maintenance-{{ $maintenance->id }}')" class="px-3 py-1 bg-white shadow-sm border border-gray-300 rounded text-xs font-semibold text-gray-700 hover:bg-gray-50">
+                                            <button type="button" x-data @click="$dispatch('open-modal', 'complete-maintenance-{{ $maintenance->id }}')" class="px-3 py-1 bg-surface shadow-sm border border-default rounded text-xs font-semibold text-foreground-muted hover:bg-surface-muted">
                                                 Resolve
                                             </button>
                                         </div>
@@ -163,32 +163,32 @@
                 @endif
 
                 <!-- Future Schedules -->
-                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div class="px-6 py-4 border-b border-gray-200 bg-gray-50 flex justify-between items-center">
-                        <h3 class="text-sm font-semibold text-gray-900 uppercase tracking-wider">Upcoming Schedules</h3>
+                <div class="bg-surface rounded-xl shadow-sm border border-default overflow-hidden">
+                    <div class="px-6 py-4 border-b border-default bg-surface-muted flex justify-between items-center">
+                        <h3 class="text-sm font-semibold text-foreground uppercase tracking-wider">Upcoming Schedules</h3>
                     </div>
                     <div class="p-0">
                         <table class="w-full text-left border-collapse">
                             <thead>
                                 <tr>
-                                    <th class="border-b border-gray-200 py-3 px-6 font-semibold text-xs text-gray-500 uppercase">Date & Time</th>
-                                    <th class="border-b border-gray-200 py-3 px-6 font-semibold text-xs text-gray-500 uppercase">Subject</th>
-                                    <th class="border-b border-gray-200 py-3 px-6 font-semibold text-xs text-gray-500 uppercase">Lecturer</th>
-                                    <th class="border-b border-gray-200 py-3 px-6 font-semibold text-xs text-gray-500 uppercase">Status</th>
+                                    <th class="border-b border-default py-3 px-6 font-semibold text-xs text-foreground-muted uppercase">Date & Time</th>
+                                    <th class="border-b border-default py-3 px-6 font-semibold text-xs text-foreground-muted uppercase">Subject</th>
+                                    <th class="border-b border-default py-3 px-6 font-semibold text-xs text-foreground-muted uppercase">Lecturer</th>
+                                    <th class="border-b border-default py-3 px-6 font-semibold text-xs text-foreground-muted uppercase">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @forelse($room->schedules as $schedule)
                                     <tr>
                                         <td class="border-b border-gray-100 py-3 px-6 text-sm">
-                                            <div class="font-medium text-gray-900">{{ \Carbon\Carbon::parse($schedule->tanggal_jadwal)->format('d M Y') }}</div>
-                                            <div class="text-gray-500 text-xs">{{ $schedule->waktu_mulai }} - {{ $schedule->waktu_selesai }}</div>
+                                            <div class="font-medium text-foreground">{{ \Carbon\Carbon::parse($schedule->tanggal_jadwal)->format('d M Y') }}</div>
+                                            <div class="text-foreground-muted text-xs">{{ $schedule->waktu_mulai }} - {{ $schedule->waktu_selesai }}</div>
                                         </td>
-                                        <td class="border-b border-gray-100 py-3 px-6 text-sm text-gray-800">
+                                        <td class="border-b border-gray-100 py-3 px-6 text-sm text-foreground">
                                             {{ $schedule->mata_kuliah }}
-                                            <div class="text-xs text-gray-500">Kelas: {{ $schedule->kelas }}</div>
+                                            <div class="text-xs text-foreground-muted">Kelas: {{ $schedule->kelas }}</div>
                                         </td>
-                                        <td class="border-b border-gray-100 py-3 px-6 text-sm text-gray-500">
+                                        <td class="border-b border-gray-100 py-3 px-6 text-sm text-foreground-muted">
                                             {{ $schedule->dosen }}
                                         </td>
                                         <td class="border-b border-gray-100 py-3 px-6">
@@ -197,13 +197,13 @@
                                             @elseif($schedule->status === 'ditunda_darurat')
                                                 <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">Suspended (Emergency)</span>
                                             @else
-                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">{{ $schedule->status }}</span>
+                                                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-surface-muted text-foreground">{{ $schedule->status }}</span>
                                             @endif
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="4" class="border-b border-gray-100 py-6 px-6 text-sm text-center text-gray-500">
+                                        <td colspan="4" class="border-b border-gray-100 py-6 px-6 text-sm text-center text-foreground-muted">
                                             No upcoming schedules.
                                         </td>
                                     </tr>

@@ -1,4 +1,4 @@
-<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-[260px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[#FBFBFC] border-r border-gray-200 text-gray-800 flex flex-col" aria-label="Sidebar">
+<aside id="default-sidebar" class="fixed top-0 left-0 z-40 w-[260px] h-screen transition-transform -translate-x-full sm:translate-x-0 bg-[#FBFBFC] border-r border-default text-foreground flex flex-col" aria-label="Sidebar">
     <div class="h-full px-4 py-5 overflow-y-auto flex flex-col">
         <!-- Header -->
         <div class="flex items-center justify-between mb-6">
@@ -8,13 +8,13 @@
                 </div>
                 <div>
                     <div class="flex items-center space-x-1">
-                        <h2 class="text-[15px] font-semibold text-gray-900 leading-tight">Lab UIN</h2>
-                        <svg class="w-3.5 h-3.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        <h2 class="text-[15px] font-semibold text-foreground leading-tight">Lab UIN</h2>
+                        <svg class="w-3.5 h-3.5 text-foreground-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </div>
-                    <p class="text-xs text-gray-500 font-medium mt-0.5">Sistem Manajemen</p>
+                    <p class="text-xs text-foreground-muted font-medium mt-0.5">Sistem Manajemen</p>
                 </div>
             </div>
-            <button class="p-1.5 text-gray-400 hover:bg-gray-100 rounded-md transition-colors sm:hidden" data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button">
+            <button class="p-1.5 text-foreground-muted/60 hover:bg-surface-muted rounded-md transition-colors sm:hidden" data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar" type="button">
                 <x-atoms.icon name="menu" class="w-5 h-5" />
             </button>
         </div>
@@ -68,9 +68,9 @@
         
         <!-- Bottom Profile & Logout -->
         <div class="mt-auto pt-4 relative" x-data="{ open: false }">
-            <button @click="open = !open" @click.away="open = false" class="w-full flex items-center justify-between p-2 -mx-2 hover:bg-gray-100 rounded-xl transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))]">
+            <button @click="open = !open" @click.away="open = false" class="w-full flex items-center justify-between p-2 -mx-2 hover:bg-surface-muted rounded-xl transition-colors outline-none focus-visible:ring-2 focus-visible:ring-[rgb(var(--color-primary))]">
                 <x-molecules.user-profile-snippet :name="Auth::user()->name ?? 'User'" profileUrl="#" />
-                <svg :class="{'rotate-180': open}" class="w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                <svg :class="{'rotate-180': open}" class="w-4 h-4 text-foreground-muted/60 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
             </button>
             
             <div x-show="open" 
@@ -80,17 +80,17 @@
                  x-transition:leave="transition ease-in duration-150"
                  x-transition:leave-start="opacity-100 translate-y-0"
                  x-transition:leave-end="opacity-0 translate-y-2"
-                 class="absolute bottom-full left-0 w-full mb-2 bg-white rounded-xl shadow-lg shadow-gray-200/50 border border-gray-200 overflow-hidden z-50 origin-bottom"
+                 class="absolute bottom-full left-0 w-full mb-2 bg-surface rounded-xl shadow-lg shadow-gray-200/50 border border-default overflow-hidden z-50 origin-bottom"
                  style="display: none;"
                  x-cloak>
                 
-                <div class="px-4 py-3 border-b border-gray-100 bg-gray-50/50">
-                    <p class="text-sm text-gray-900 font-bold truncate">{{ Auth::user()->name ?? 'User Name' }}</p>
-                    <p class="text-[11px] text-gray-500 font-medium truncate">{{ Auth::user()->email ?? 'user@example.com' }}</p>
+                <div class="px-4 py-3 border-b border-gray-100 bg-surface-muted/50">
+                    <p class="text-sm text-foreground font-bold truncate">{{ Auth::user()->name ?? 'User Name' }}</p>
+                    <p class="text-[11px] text-foreground-muted font-medium truncate">{{ Auth::user()->email ?? 'user@example.com' }}</p>
                 </div>
 
                 <div class="py-1 border-b border-gray-100">
-                    <a href="{{ route('profile.settings') }}" class="flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-gray-700 hover:bg-gray-50 hover:text-[rgb(var(--color-primary))] transition-colors">
+                    <a href="{{ route('profile.settings') }}" class="flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-foreground-muted hover:bg-surface-muted hover:text-[rgb(var(--color-primary))] transition-colors">
                         <x-atoms.icon name="settings" class="w-4 h-4" />
                         Pengaturan Profil
                     </a>
@@ -99,7 +99,7 @@
                 <div class="py-1">
                     <form method="POST" action="{{ route('logout') }}" class="w-full m-0">
                         @csrf
-                        <button type="submit" class="w-full flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-rose-600 hover:bg-rose-50 transition-colors text-left">
+                        <button type="submit" class="w-full flex items-center gap-2 px-4 py-2 text-[13px] font-semibold text-danger hover:ui-danger-soft transition-colors text-left">
                             <x-atoms.icon name="logout" class="w-4 h-4" />
                             Keluar
                         </button>

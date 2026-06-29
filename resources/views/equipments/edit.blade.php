@@ -4,13 +4,13 @@
 
 @section('content')
 <div class="mb-6">
-    <div class="flex items-center gap-2 text-sm text-zinc-500 mb-2">
+    <div class="flex items-center gap-2 text-sm text-foreground-muted mb-2">
         <a href="{{ route('alat') }}" class="hover:text-[rgb(var(--color-primary))] transition-colors">Alat & Bahan</a>
         <span class="material-symbols-rounded text-[16px]">chevron_right</span>
-        <span class="font-semibold text-zinc-900">Edit Data</span>
+        <span class="font-semibold text-foreground">Edit Data</span>
     </div>
-    <h4 class="text-2xl font-bold text-zinc-900">Edit Alat / Bahan</h4>
-    <p class="text-sm font-medium text-zinc-500 mt-1">
+    <h4 class="text-2xl font-bold text-foreground">Edit Alat / Bahan</h4>
+    <p class="text-sm font-medium text-foreground-muted mt-1">
         Perbarui informasi detail mengenai alat atau bahan di laboratorium.
     </p>
 </div>

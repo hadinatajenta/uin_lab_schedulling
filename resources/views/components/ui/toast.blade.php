@@ -43,7 +43,7 @@
     style="display: none;"
 >
     <!-- Toast Content -->
-    <div class="w-full flex items-start p-4 bg-white rounded-2xl shadow-2xl border border-default/50 ring-1 ring-ring/5">
+    <div class="w-full flex items-start p-4 bg-surface rounded-2xl shadow-2xl border border-default/50 ring-1 ring-ring/5">
         <div class="flex-shrink-0">
             <!-- Icons based on type -->
             <template x-if="type === 'success'">
@@ -73,7 +73,7 @@
             <p class="mt-1 text-xs font-medium text-foreground-muted leading-relaxed" x-text="message"></p>
         </div>
         <div class="ml-4 flex flex-shrink-0">
-            <button @click="show = false" type="button" class="inline-flex rounded-md bg-white text-foreground-muted hover:text-foreground focus:outline-none transition-colors">
+            <button @click="show = false" type="button" class="inline-flex rounded-md bg-surface text-foreground-muted hover:text-foreground focus:outline-none transition-colors">
                 <span class="sr-only">Close</span>
                 <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />

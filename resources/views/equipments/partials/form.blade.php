@@ -1,7 +1,7 @@
 {{-- Left Card: Informasi Utama --}}
-<div class="lg:col-span-2 ui-surface border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
-    <div class="p-5 border-b border-zinc-100/80 bg-zinc-50/50">
-        <h5 class="text-sm font-bold text-zinc-800 uppercase tracking-wider flex items-center gap-2">
+<div class="lg:col-span-2 ui-surface border border-default/80 rounded-2xl shadow-sm overflow-hidden">
+    <div class="p-5 border-b border-default/50 bg-surface-muted/50">
+        <h5 class="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
             <span class="material-symbols-rounded text-[rgb(var(--color-primary))] text-[20px]">info</span>
             Informasi Utama
         </h5>
@@ -10,40 +10,40 @@
     <div class="p-6 space-y-6">
         {{-- Nama Barang --}}
         <div>
-            <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Nama Barang <span class="text-rose-500">*</span></label>
+            <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Nama Barang <span class="text-danger">*</span></label>
             <input type="text" name="nama_alat" value="{{ old('nama_alat', $alat->nama_alat ?? '') }}" required
-                class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors"
+                class="w-full px-4 py-2.5 bg-surface-muted border border-default text-foreground text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors"
                 placeholder="Masukkan nama alat atau bahan...">
-            @error('nama_alat') <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
+            @error('nama_alat') <p class="text-danger text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         {{-- Kategori (Segmented Control) --}}
         <div>
-            <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Kategori Barang <span class="text-rose-500">*</span></label>
-            <div class="flex p-1 bg-zinc-100/80 rounded-xl w-full">
+            <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Kategori Barang <span class="text-danger">*</span></label>
+            <div class="flex p-1 bg-surface-muted/80 rounded-xl w-full">
                 <label class="flex-1 cursor-pointer">
                     <input type="radio" name="jenis_alat" value="Alat" x-model="kategori" class="peer sr-only">
-                    <div class="w-full py-2.5 text-sm font-bold text-center text-zinc-500 rounded-lg peer-checked:ui-surface peer-checked:text-[rgb(var(--color-primary))] peer-checked:shadow-sm peer-checked:ring-1 peer-checked:ring-zinc-200 transition-all">
+                    <div class="w-full py-2.5 text-sm font-bold text-center text-foreground-muted rounded-lg peer-checked:ui-surface peer-checked:text-[rgb(var(--color-primary))] peer-checked:shadow-sm peer-checked:ring-1 peer-checked:ring-default transition-all">
                         Alat
                     </div>
                 </label>
                 <label class="flex-1 cursor-pointer">
                     <input type="radio" name="jenis_alat" value="Bahan" x-model="kategori" class="peer sr-only">
-                    <div class="w-full py-2.5 text-sm font-bold text-center text-zinc-500 rounded-lg peer-checked:ui-surface peer-checked:text-[rgb(var(--color-primary))] peer-checked:shadow-sm peer-checked:ring-1 peer-checked:ring-zinc-200 transition-all">
+                    <div class="w-full py-2.5 text-sm font-bold text-center text-foreground-muted rounded-lg peer-checked:ui-surface peer-checked:text-[rgb(var(--color-primary))] peer-checked:shadow-sm peer-checked:ring-1 peer-checked:ring-default transition-all">
                         Bahan
                     </div>
                 </label>
             </div>
-            @error('jenis_alat') <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
+            @error('jenis_alat') <p class="text-danger text-xs mt-1">{{ $message }}</p> @enderror
         </div>
 
         {{-- Horizontal Row: Kondisi & Jumlah --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             {{-- Kondisi --}}
             <div>
-                <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Kondisi Barang</label>
+                <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Kondisi Barang</label>
                 <div class="relative">
-                    <select name="kondisi" class="w-full pl-4 pr-10 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors appearance-none">
+                    <select name="kondisi" class="w-full pl-4 pr-10 py-2.5 bg-surface-muted border border-default text-foreground text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors appearance-none">
                         <option value="">Pilih Kondisi...</option>
                         <option value="Baru" {{ old('kondisi', $alat->kondisi ?? '') == 'Baru' ? 'selected' : '' }}>Baru</option>
                         <option value="Bekas" {{ old('kondisi', $alat->kondisi ?? '') == 'Bekas' ? 'selected' : '' }}>Bekas</option>
@@ -56,7 +56,7 @@
                         <option value="Layak" {{ old('kondisi', $alat->kondisi ?? '') == 'Layak' ? 'selected' : '' }}>Layak</option>
                         <option value="Tidak Layak" {{ old('kondisi', $alat->kondisi ?? '') == 'Tidak Layak' ? 'selected' : '' }}>Tidak Layak</option>
                     </select>
-                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-zinc-500">
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-foreground-muted">
                         <span class="material-symbols-rounded text-[20px]">expand_more</span>
                     </div>
                 </div>
@@ -74,11 +74,11 @@
                      x-transition:leave-end="opacity-0 -translate-y-2"
                      class="absolute inset-0 w-full"
                      style="display: none;">
-                    <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Jumlah Satuan (unit) <span class="text-rose-500">*</span></label>
+                    <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Jumlah Satuan (unit) <span class="text-danger">*</span></label>
                     <input type="number" name="jumlah_satuan" value="{{ old('jumlah_satuan', $alat->jumlah_satuan ?? '') }}" min="0"
-                        class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors"
+                        class="w-full px-4 py-2.5 bg-surface-muted border border-default text-foreground text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors"
                         placeholder="Contoh: 10">
-                    @error('jumlah_satuan') <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    @error('jumlah_satuan') <p class="text-danger text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
 
                 {{-- Jumlah Bahan --}}
@@ -91,11 +91,11 @@
                      x-transition:leave-end="opacity-0 -translate-y-2"
                      class="absolute inset-0 w-full"
                      style="display: none;">
-                    <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Jumlah Takaran (ml) <span class="text-rose-500">*</span></label>
+                    <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Jumlah Takaran (ml) <span class="text-danger">*</span></label>
                     <input type="number" name="jumlah_ml" value="{{ old('jumlah_ml', $alat->jumlah_ml ?? '') }}" min="0" step="0.1"
-                        class="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors"
+                        class="w-full px-4 py-2.5 bg-surface-muted border border-default text-foreground text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors"
                         placeholder="Contoh: 500">
-                    @error('jumlah_ml') <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
+                    @error('jumlah_ml') <p class="text-danger text-xs mt-1">{{ $message }}</p> @enderror
                 </div>
             </div>
         </div>
@@ -103,15 +103,15 @@
         {{-- Spesifikasi & Deskripsi --}}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-                <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Spesifikasi</label>
+                <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Spesifikasi</label>
                 <textarea name="spesifikasi" rows="4"
-                    class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors resize-none"
+                    class="w-full px-4 py-3 bg-surface-muted border border-default text-foreground text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors resize-none"
                     placeholder="Merek, tipe, dimensi, dll...">{{ old('spesifikasi', $alat->spesifikasi ?? '') }}</textarea>
             </div>
             <div>
-                <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Deskripsi Singkat</label>
+                <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Deskripsi Singkat</label>
                 <textarea name="deskripsi" rows="4"
-                    class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors resize-none"
+                    class="w-full px-4 py-3 bg-surface-muted border border-default text-foreground text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors resize-none"
                     placeholder="Penjelasan fungsi barang...">{{ old('deskripsi', $alat->deskripsi ?? '') }}</textarea>
             </div>
         </div>
@@ -123,9 +123,9 @@
 <div class="lg:col-span-1 space-y-6">
     
     {{-- Card Media --}}
-    <div class="ui-surface border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
-        <div class="p-5 border-b border-zinc-100/80 bg-zinc-50/50">
-            <h5 class="text-sm font-bold text-zinc-800 uppercase tracking-wider flex items-center gap-2">
+    <div class="ui-surface border border-default/80 rounded-2xl shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-default/50 bg-surface-muted/50">
+            <h5 class="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
                 <span class="material-symbols-rounded text-[rgb(var(--color-primary))] text-[20px]">image</span>
                 Media Barang
             </h5>
@@ -138,13 +138,13 @@
                      @dragleave.prevent="isDropping = false"
                      @drop.prevent="isDropping = false; handleFiles($event.dataTransfer.files)"
                      class="w-full relative">
-                    <label for="dropzone-file" :class="isDropping ? 'border-[rgb(var(--color-primary))] bg-zinc-100' : 'border-zinc-300 bg-zinc-50/50 hover:bg-zinc-100 hover:border-[rgb(var(--color-primary))]'" class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-2xl cursor-pointer transition-colors group">
+                    <label for="dropzone-file" :class="isDropping ? 'border-[rgb(var(--color-primary))] bg-surface-muted' : 'border-default bg-surface-muted/50 hover:bg-surface-muted hover:border-[rgb(var(--color-primary))]'" class="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed rounded-2xl cursor-pointer transition-colors group">
                         <div class="flex flex-col items-center justify-center py-4 px-4 text-center">
                             <div class="w-12 h-12 rounded-full ui-primary-soft text-[rgb(var(--color-primary))] flex items-center justify-center mb-2 group-hover:scale-110 transition-transform">
                                 <span class="material-symbols-rounded text-[24px]">cloud_upload</span>
                             </div>
-                            <p class="mb-1 text-sm text-zinc-600 font-semibold"><span class="text-[rgb(var(--color-primary))]">Klik untuk upload</span> atau drag and drop</p>
-                            <p class="text-xs text-zinc-500">Maks. 5 gambar (WEBP/JPG/PNG, Max 2MB)</p>
+                            <p class="mb-1 text-sm text-foreground-muted font-semibold"><span class="text-[rgb(var(--color-primary))]">Klik untuk upload</span> atau drag and drop</p>
+                            <p class="text-xs text-foreground-muted">Maks. 5 gambar (WEBP/JPG/PNG, Max 2MB)</p>
                         </div>
                         <input id="dropzone-file" type="file" name="gambar[]" accept="image/*" multiple class="hidden" @change="handleFiles($event.target.files)" />
                     </label>
@@ -153,64 +153,64 @@
                 {{-- Image Previews Grid --}}
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3" x-show="previews.length > 0" x-cloak>
                     <template x-for="(preview, index) in previews" :key="index">
-                        <div class="relative group rounded-xl overflow-hidden border border-zinc-200 aspect-square bg-zinc-50">
+                        <div class="relative group rounded-xl overflow-hidden border border-default aspect-square bg-surface-muted">
                             <img :src="preview" class="w-full h-full object-cover" />
                             {{-- Hanya tampilkan tombol hapus jika ini adalah file baru (yang ada di input) --}}
                             <button type="button" @click.prevent="removeFile(index)" x-show="isNewUpload"
-                                class="absolute top-2 right-2 bg-rose-500 hover:bg-rose-600 text-white p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
+                                class="absolute top-2 right-2 ui-danger-soft0 hover:bg-rose-600 text-white p-1 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity shadow-sm">
                                 <span class="material-symbols-rounded text-[16px]">close</span>
                             </button>
                         </div>
                     </template>
                 </div>
                 
-                <div x-show="previews.length > 0 && !isNewUpload" class="text-xs text-amber-600 bg-amber-50 p-2 rounded-lg border border-amber-200/50 flex items-center gap-2">
+                <div x-show="previews.length > 0 && !isNewUpload" class="text-xs text-warning ui-warning-soft p-2 rounded-lg border border-warning/50/50 flex items-center gap-2">
                     <span class="material-symbols-rounded text-[16px]">info</span>
                     Unggah gambar baru akan menggantikan semua gambar lama.
                 </div>
             </div>
-            @error('gambar') <p class="text-rose-500 text-xs mt-2">{{ $message }}</p> @enderror
-            @error('gambar.*') <p class="text-rose-500 text-xs mt-2">{{ $message }}</p> @enderror
+            @error('gambar') <p class="text-danger text-xs mt-2">{{ $message }}</p> @enderror
+            @error('gambar.*') <p class="text-danger text-xs mt-2">{{ $message }}</p> @enderror
         </div>
     </div>
 
     {{-- Card Metadata --}}
-    <div class="ui-surface border border-zinc-200/80 rounded-2xl shadow-sm overflow-hidden">
-        <div class="p-5 border-b border-zinc-100/80 bg-zinc-50/50">
-            <h5 class="text-sm font-bold text-zinc-800 uppercase tracking-wider flex items-center gap-2">
+    <div class="ui-surface border border-default/80 rounded-2xl shadow-sm overflow-hidden">
+        <div class="p-5 border-b border-default/50 bg-surface-muted/50">
+            <h5 class="text-sm font-bold text-foreground uppercase tracking-wider flex items-center gap-2">
                 <span class="material-symbols-rounded text-[rgb(var(--color-primary))] text-[20px]">date_range</span>
                 Metadata Tambahan
             </h5>
         </div>
         <div class="p-6 space-y-5">
             <div>
-                <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Tanggal Pembelian</label>
+                <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Tanggal Pembelian</label>
                 <x-ui.date-picker name="tanggal_pembelian" value="{{ old('tanggal_pembelian', $alat->tanggal_pembelian ?? '') }}" placeholder="Pilih tanggal pembelian" />
             </div>
 
             {{-- Tanggal Expired hanya relevan untuk Bahan, tapi kita sembunyikan dengan alpine jika Alat --}}
             <div x-show="kategori === 'Bahan'" x-collapse>
-                <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Tanggal Expired <span class="text-rose-500">*</span></label>
+                <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Tanggal Expired <span class="text-danger">*</span></label>
                 <x-ui.date-picker name="tanggal_expired" value="{{ old('tanggal_expired', $alat->tanggal_expired ?? '') }}" placeholder="Pilih tanggal expired" />
-                @error('tanggal_expired') <p class="text-rose-500 text-xs mt-1">{{ $message }}</p> @enderror
+                @error('tanggal_expired') <p class="text-danger text-xs mt-1">{{ $message }}</p> @enderror
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Link Tutorial (YouTube)</label>
+                <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Link Tutorial (YouTube)</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <span class="material-symbols-rounded text-rose-500 text-[20px]">play_circle</span>
+                        <span class="material-symbols-rounded text-danger text-[20px]">play_circle</span>
                     </div>
                     <input type="url" name="link_youtube" value="{{ old('link_youtube', $alat->link_youtube ?? '') }}"
-                        class="w-full pl-10 pr-4 py-2.5 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors"
+                        class="w-full pl-10 pr-4 py-2.5 bg-surface-muted border border-default text-foreground text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors"
                         placeholder="https://youtube.com/...">
                 </div>
             </div>
 
             <div>
-                <label class="block text-sm font-semibold text-zinc-700 mb-1.5">Cara Penggunaan</label>
+                <label class="block text-sm font-semibold text-foreground-muted mb-1.5">Cara Penggunaan</label>
                 <textarea name="cara_penggunaan" rows="2"
-                    class="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 text-zinc-900 text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors resize-none"
+                    class="w-full px-4 py-3 bg-surface-muted border border-default text-foreground text-sm font-medium rounded-xl focus:ring-2 focus:ring-[rgb(var(--color-primary))] focus:border-[rgb(var(--color-primary))] focus:ui-surface transition-colors resize-none"
                     placeholder="Langkah-langkah penggunaan...">{{ old('cara_penggunaan', $alat->cara_penggunaan ?? '') }}</textarea>
             </div>
         </div>

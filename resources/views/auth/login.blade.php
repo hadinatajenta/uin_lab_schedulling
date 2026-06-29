@@ -11,8 +11,8 @@
                         d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
                 </svg>
             </div>
-            <h1 class="text-2xl font-extrabold text-zinc-900 tracking-tight">Lab Management</h1>
-            <p class="text-sm font-medium text-zinc-500 mt-1.5">Masuk ke sistem manajemen laboratorium</p>
+            <h1 class="text-2xl font-extrabold text-foreground tracking-tight">Lab Management</h1>
+            <p class="text-sm font-medium text-foreground-muted mt-1.5">Masuk ke sistem manajemen laboratorium</p>
         </div>
 
         @if (session('status'))
@@ -36,10 +36,10 @@
 
             {{-- Global Error (login failure) --}}
             @if ($errors->has('email') && (old('email') || old('password')))
-                <div class="mb-5 p-3.5 bg-rose-50 border border-rose-200/80 rounded-xl">
+                <div class="mb-5 p-3.5 ui-danger-soft border border-danger-soft/80 rounded-xl">
                     <div class="flex items-center gap-2.5">
                         <div class="w-7 h-7 rounded-lg bg-rose-100 flex items-center justify-center shrink-0 mt-0.5">
-                            <svg class="w-3.5 h-3.5 text-rose-600" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-3.5 h-3.5 text-danger" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd"
                                     d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
                                     clip-rule="evenodd" />
@@ -47,7 +47,7 @@
                         </div>
                         <div>
                             @foreach ($errors->get('email') as $message)
-                                <p class="text-xs font-semibold text-rose-700">{{ $message }}</p>
+                                <p class="text-xs font-semibold text-danger">{{ $message }}</p>
                             @endforeach
                         </div>
                     </div>
@@ -56,42 +56,42 @@
 
             {{-- Email --}}
             <div class="mb-5">
-                <label for="email" class="block text-xs font-bold text-zinc-700 mb-1.5">Email</label>
+                <label for="email" class="block text-xs font-bold text-foreground-muted mb-1.5">Email</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                        <svg class="w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-foreground-muted/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                         </svg>
                     </div>
                     <input id="email" name="email" type="text" value="{{ old('email') }}" x-model="email"
-                        placeholder="nama@email.com" class="block w-full h-12 pl-11 pr-4 text-sm font-medium text-zinc-800 bg-zinc-50 border rounded-xl transition-all duration-200 placeholder:text-zinc-400
-                            {{ $errors->has('email') ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20' : 'border-zinc-200 focus:border-[rgb(var(--color-primary))] focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)]' }}
-                            focus:outline-none focus:bg-white" autocomplete="username" autofocus>
+                        placeholder="nama@email.com" class="block w-full h-12 pl-11 pr-4 text-sm font-medium text-foreground bg-surface-muted border rounded-xl transition-all duration-200 placeholder:text-foreground-muted/60
+                            {{ $errors->has('email') ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20' : 'border-default focus:border-[rgb(var(--color-primary))] focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)]' }}
+                            focus:outline-none focus:bg-surface" autocomplete="username" autofocus>
                 </div>
                 {{-- Client-side email validation hint --}}
-                <p x-show="emailError" x-text="emailError" x-cloak class="mt-1.5 text-xs font-semibold text-rose-600">
+                <p x-show="emailError" x-text="emailError" x-cloak class="mt-1.5 text-xs font-semibold text-danger">
                 </p>
             </div>
 
             {{-- Password --}}
             <div class="mb-6">
-                <label for="password" class="block text-xs font-bold text-zinc-700 mb-1.5">Password</label>
+                <label for="password" class="block text-xs font-bold text-foreground-muted mb-1.5">Password</label>
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none">
-                        <svg class="w-5 h-5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-foreground-muted/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                                 d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                         </svg>
                     </div>
                     <input id="password" name="password" x-model="password" :type="showPassword ? 'text' : 'password'"
-                        placeholder="Masukkan password" class="block w-full h-12 pl-11 pr-12 text-sm font-medium text-zinc-800 bg-zinc-50 border rounded-xl transition-all duration-200 placeholder:text-zinc-400
-                            {{ $errors->has('password') ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20' : 'border-zinc-200 focus:border-[rgb(var(--color-primary))] focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)]' }}
-                            focus:outline-none focus:bg-white" autocomplete="current-password">
+                        placeholder="Masukkan password" class="block w-full h-12 pl-11 pr-12 text-sm font-medium text-foreground bg-surface-muted border rounded-xl transition-all duration-200 placeholder:text-foreground-muted/60
+                            {{ $errors->has('password') ? 'border-rose-300 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/20' : 'border-default focus:border-[rgb(var(--color-primary))] focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)]' }}
+                            focus:outline-none focus:bg-surface" autocomplete="current-password">
 
                     {{-- Toggle password visibility --}}
                     <button type="button" @click="showPassword = !showPassword"
-                        class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-zinc-400 hover:text-zinc-600 transition-colors">
+                        class="absolute inset-y-0 right-0 flex items-center pr-3.5 text-foreground-muted/60 hover:text-foreground-muted transition-colors">
                         <svg x-show="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor"
                             viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -108,10 +108,10 @@
                 </div>
                 {{-- Client-side password validation hint --}}
                 <p x-show="passwordError" x-text="passwordError" x-cloak
-                    class="mt-1.5 text-xs font-semibold text-rose-600"></p>
+                    class="mt-1.5 text-xs font-semibold text-danger"></p>
                 @if ($errors->has('password'))
                     @foreach ($errors->get('password') as $message)
-                        <p class="mt-1.5 text-xs font-semibold text-rose-600">{{ $message }}</p>
+                        <p class="mt-1.5 text-xs font-semibold text-danger">{{ $message }}</p>
                     @endforeach
                 @endif
             </div>
@@ -120,9 +120,9 @@
             <div class="flex items-center justify-between mb-6">
                 <label for="remember_me" class="inline-flex items-center cursor-pointer group">
                     <input id="remember_me" type="checkbox" name="remember"
-                        class="w-4 h-4 rounded border-zinc-300 text-[rgb(var(--color-primary))] focus:ring-[rgb(var(--color-primary))] transition-colors">
+                        class="w-4 h-4 rounded border-default text-[rgb(var(--color-primary))] focus:ring-[rgb(var(--color-primary))] transition-colors">
                     <span
-                        class="ms-2 text-xs font-semibold text-zinc-500 group-hover:text-zinc-700 transition-colors">Ingat
+                        class="ms-2 text-xs font-semibold text-foreground-muted group-hover:text-foreground-muted transition-colors">Ingat
                         saya</span>
                 </label>
 
@@ -146,8 +146,8 @@
         </form>
 
         {{-- Footer --}}
-        <div class="px-8 py-4 border-t border-zinc-100 bg-zinc-50/50 text-center">
-            <p class="text-[11px] font-medium text-zinc-400">
+        <div class="px-8 py-4 border-t border-default/50 bg-surface-muted/50 text-center">
+            <p class="text-[11px] font-medium text-foreground-muted/60">
                 &copy; {{ date('Y') }} Lab Management System — UIN Raden Intan Lampung
             </p>
         </div>
@@ -164,15 +164,15 @@
                 x-transition:enter-end="opacity-100 scale-100" @click.outside="showModal = false">
 
                 <div
-                    class="w-16 h-16 rounded-2xl bg-amber-50 flex items-center justify-center mx-auto mb-5 ring-1 ring-amber-100">
-                    <svg class="w-8 h-8 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="w-16 h-16 rounded-2xl ui-warning-soft flex items-center justify-center mx-auto mb-5 ring-1 ring-amber-100">
+                    <svg class="w-8 h-8 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                             d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
                     </svg>
                 </div>
 
-                <h3 class="text-lg font-extrabold text-zinc-900 mb-2">Kesulitan Masuk?</h3>
-                <p class="text-sm font-medium text-zinc-500 mb-6 leading-relaxed">
+                <h3 class="text-lg font-extrabold text-foreground mb-2">Kesulitan Masuk?</h3>
+                <p class="text-sm font-medium text-foreground-muted mb-6 leading-relaxed">
                     Anda telah gagal masuk beberapa kali. Jika Anda lupa akun, silakan hubungi Administrator untuk
                     mendapatkan bantuan.
                 </p>
@@ -187,7 +187,7 @@
                         Hubungi Administrator
                     </a>
                     <button @click="showModal = false" type="button"
-                        class="w-full h-11 text-sm font-semibold text-zinc-600 hover:text-zinc-800 bg-zinc-100 hover:bg-zinc-200 rounded-xl transition-colors">
+                        class="w-full h-11 text-sm font-semibold text-foreground-muted hover:text-foreground bg-surface-muted hover:bg-default/50 rounded-xl transition-colors">
                         Coba Lagi
                     </button>
                 </div>

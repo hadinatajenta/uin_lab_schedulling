@@ -21,21 +21,21 @@
 
         {{-- Form --}}
         <form action="{{ route('editInfo') }}" method="POST" enctype="multipart/form-data"
-            class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            class="bg-surface shadow-md rounded px-8 pt-6 pb-8 mb-4">
             @csrf
             @method('PUT')
 
             {{-- SOP --}}
             <div class="mb-4">
-                <label for="sop" class="block text-gray-700 text-sm font-bold mb-2">SOP:</label>
+                <label for="sop" class="block text-foreground-muted text-sm font-bold mb-2">SOP:</label>
                 <textarea name="sop" id="editor" class="ss">{{ $aboutlab->sop }}</textarea>
             </div>
 
             {{-- Struktur Organisasi --}}
             <div class="mb-4">
-                <label for="stuktur" class="block text-gray-700 text-sm font-bold mb-2">stuktur Organisasi:</label>
+                <label for="stuktur" class="block text-foreground-muted text-sm font-bold mb-2">stuktur Organisasi:</label>
                 <input type="file" name="stuktur" id="stuktur"
-                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-foreground-muted leading-tight focus:outline-none focus:shadow-outline">
                 @if ($aboutlab->stuktur)
                     <div class="mt-4">
                         <p>Gambar saat ini:</p>
@@ -48,7 +48,7 @@
             {{-- Submit Button --}}
             <div class="flex items-center justify-between">
                 <button type="submit"
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    class="ui-primary-soft0 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Simpan
                 </button>
             </div>

@@ -9,7 +9,7 @@
 
     {{-- User Context Card (Modern System-Themed) --}}
     @if($selectedUser)
-    <div class="ui-surface border border-zinc-200/80 rounded-3xl p-6 shadow-sm flex flex-col sm:flex-row items-center gap-6 relative overflow-hidden">
+    <div class="ui-surface border border-default/80 rounded-3xl p-6 shadow-sm flex flex-col sm:flex-row items-center gap-6 relative overflow-hidden">
         {{-- Decorative Background Element --}}
         <div class="absolute -right-10 -top-10 w-40 h-40 bg-[rgb(var(--color-primary)_/_0.05)] rounded-full blur-3xl pointer-events-none"></div>
         <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-[rgb(var(--color-primary)_/_0.05)] rounded-full blur-3xl pointer-events-none"></div>
@@ -32,17 +32,17 @@
                     {{ Str::ucfirst($selectedUser->role ?? $selectedUser->jabatan ?? 'Pengguna') }}
                 </x-ui.badge>
             </div>
-            <h2 class="text-2xl font-extrabold tracking-tight text-zinc-900 mb-1">{{ $selectedUser->name }}</h2>
-            <p class="text-zinc-500 text-sm flex items-center justify-center sm:justify-start gap-2 font-medium">
+            <h2 class="text-2xl font-extrabold tracking-tight text-foreground mb-1">{{ $selectedUser->name }}</h2>
+            <p class="text-foreground-muted text-sm flex items-center justify-center sm:justify-start gap-2 font-medium">
                 <x-atoms.icon name="mail" class="w-4 h-4" />
                 {{ $selectedUser->email }}
             </p>
         </div>
         
-        <div class="relative z-10 text-center sm:text-right border-t sm:border-t-0 sm:border-l border-zinc-100 pt-4 sm:pt-0 sm:pl-6 w-full sm:w-auto">
-            <p class="text-[11px] font-bold text-zinc-400 uppercase tracking-wider mb-1">Total Aktivitas Tersaring</p>
+        <div class="relative z-10 text-center sm:text-right border-t sm:border-t-0 sm:border-l border-default/50 pt-4 sm:pt-0 sm:pl-6 w-full sm:w-auto">
+            <p class="text-[11px] font-bold text-foreground-muted/60 uppercase tracking-wider mb-1">Total Aktivitas Tersaring</p>
             <p class="text-3xl font-black text-[rgb(var(--color-primary))]">{{ $logs->total() }}</p>
-            <a href="{{ route('activity.logs') }}" class="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-lg text-xs font-bold transition-colors">
+            <a href="{{ route('activity.logs') }}" class="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 ui-danger-soft text-danger hover:bg-rose-100 rounded-lg text-xs font-bold transition-colors">
                 <x-atoms.icon name="x-mark" class="w-3.5 h-3.5" />
                 Hapus Konteks
             </a>
@@ -51,7 +51,7 @@
     @endif
 
     {{-- Standardized Filter UI (Matching table.user) --}}
-    <div class="ui-surface border border-zinc-200/80 rounded-3xl p-4 shadow-sm" x-data="{ 
+    <div class="ui-surface border border-default/80 rounded-3xl p-4 shadow-sm" x-data="{ 
             advancedOpen: {{ request('action') || request('date_start') || request('date_end') || request('user_id') ? 'true' : 'false' }},
             keyword: '{{ request('keyword', '') }}',
             selectedAction: '{{ request('action', '') }}',
@@ -89,15 +89,15 @@
                     <input type="hidden" name="action" x-model="selectedAction">
                     <x-ui.dropdown align="left" width="full">
                         <x-slot name="trigger">
-                            <button type="button" class="w-full flex items-center justify-between px-4 h-11 md:h-10 text-sm md:text-xs font-medium text-zinc-700 border border-zinc-200 rounded-xl bg-white hover:bg-zinc-50 focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors">
+                            <button type="button" class="w-full flex items-center justify-between px-4 h-11 md:h-10 text-sm md:text-xs font-medium text-foreground-muted border border-default rounded-xl bg-surface hover:bg-surface-muted focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors">
                                 <span class="truncate pr-2" x-text="selectedAction ? selectedAction.toUpperCase() : 'Semua Aksi'"></span>
-                                <span class="material-symbols-rounded text-[20px] text-zinc-400 shrink-0">expand_more</span>
+                                <span class="material-symbols-rounded text-[20px] text-foreground-muted/60 shrink-0">expand_more</span>
                             </button>
                         </x-slot>
                         <x-slot name="content">
-                            <button type="button" @click="selectedAction = ''; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors truncate">Semua Aksi</button>
+                            <button type="button" @click="selectedAction = ''; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors truncate">Semua Aksi</button>
                             @foreach($actions as $action)
-                                <button type="button" @click="selectedAction = '{{ $action }}'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-zinc-700 hover:bg-zinc-50 rounded-lg transition-colors truncate" title="{{ strtoupper($action) }}">{{ strtoupper($action) }}</button>
+                                <button type="button" @click="selectedAction = '{{ $action }}'; submitForm()" class="w-full text-left px-3 py-2 text-sm md:text-xs font-medium text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors truncate" title="{{ strtoupper($action) }}">{{ strtoupper($action) }}</button>
                             @endforeach
                         </x-slot>
                     </x-ui.dropdown>
@@ -105,7 +105,7 @@
 
                 {{-- Toggle Advanced --}}
                 <button type="button" @click="advancedOpen = !advancedOpen"
-                    class="w-full md:w-auto h-11 md:h-10 px-4 inline-flex items-center justify-center text-sm md:text-xs font-semibold text-zinc-600 bg-white border border-zinc-200 rounded-xl hover:bg-zinc-50 transition-colors shadow-sm shrink-0 focus:outline-none">
+                    class="w-full md:w-auto h-11 md:h-10 px-4 inline-flex items-center justify-center text-sm md:text-xs font-semibold text-foreground-muted bg-surface border border-default rounded-xl hover:bg-surface-muted transition-colors shadow-sm shrink-0 focus:outline-none">
                     <span class="material-symbols-rounded text-[18px] mr-1.5" :class="advancedOpen ? 'text-[rgb(var(--color-primary))]' : ''">tune</span>
                     Filter Lanjutan
                     <span class="material-symbols-rounded text-[18px] ml-1 transition-transform" :class="advancedOpen ? 'rotate-180' : ''">expand_more</span>
@@ -119,31 +119,31 @@
 
             {{-- Advanced Filters Panel --}}
             <div x-show="advancedOpen" x-collapse x-cloak>
-                <div class="pt-4 mt-4 border-t border-zinc-100 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="pt-4 mt-4 border-t border-default/50 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     
                     <div>
-                        <label class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Aktor (Pengguna)</label>
+                        <label class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">Aktor (Pengguna)</label>
                         <div class="relative">
                             <select name="user_id" x-model="selectedUser" @change="submitForm"
-                                class="w-full text-sm h-10 border border-zinc-200 rounded-xl pl-3 pr-8 bg-white focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors text-zinc-700 appearance-none">
+                                class="w-full text-sm h-10 border border-default rounded-xl pl-3 pr-8 bg-surface focus:ring-2 focus:ring-[rgb(var(--color-primary)_/_0.2)] focus:border-[rgb(var(--color-primary))] transition-colors text-foreground-muted appearance-none">
                                 <option value="">Semua Pengguna</option>
                                 @foreach($users as $u)
                                     <option value="{{ $u->id }}">{{ $u->name }}</option>
                                 @endforeach
                             </select>
                             <div class="absolute inset-y-0 right-0 flex items-center pr-2.5 pointer-events-none">
-                                <span class="material-symbols-rounded text-zinc-400 text-[20px]">expand_more</span>
+                                <span class="material-symbols-rounded text-foreground-muted/60 text-[20px]">expand_more</span>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Dari Tanggal</label>
+                        <label class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">Dari Tanggal</label>
                         <x-ui.date-picker name="date_start" value="{{ request('date_start') }}" placeholder="Pilih tanggal mulai..." @change="submitForm" />
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-bold text-zinc-500 mb-1.5 ml-1 uppercase tracking-wider">Sampai Tanggal</label>
+                        <label class="block text-[11px] font-bold text-foreground-muted mb-1.5 ml-1 uppercase tracking-wider">Sampai Tanggal</label>
                         <x-ui.date-picker name="date_end" value="{{ request('date_end') }}" placeholder="Pilih tanggal akhir..." @change="submitForm" />
                     </div>
 
@@ -162,8 +162,8 @@
             @endphp
 
             @if($activeFilters->count() > 0)
-                <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-zinc-100">
-                    <span class="text-[11px] font-bold text-zinc-400 mr-1 uppercase tracking-wider">Filter Aktif:</span>
+                <div class="flex flex-wrap items-center gap-2 mt-4 pt-3 border-t border-default/50">
+                    <span class="text-[11px] font-bold text-foreground-muted/60 mr-1 uppercase tracking-wider">Filter Aktif:</span>
                     @foreach($activeFilters as $key => $label)
                         <span class="inline-flex items-center px-2 py-1 rounded-lg text-xs font-semibold bg-[rgb(var(--color-primary)_/_0.1)] text-[rgb(var(--color-primary))] border border-[rgb(var(--color-primary)_/_0.2)]">
                             {{ $label }}
@@ -175,7 +175,7 @@
                     @endforeach
 
                     <a href="{{ route('activity.logs') }}"
-                        class="inline-flex items-center px-2 py-1 text-[11px] font-bold text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-lg transition-colors ml-1 uppercase tracking-wider">
+                        class="inline-flex items-center px-2 py-1 text-[11px] font-bold text-foreground-muted/60 hover:text-foreground-muted hover:bg-surface-muted rounded-lg transition-colors ml-1 uppercase tracking-wider">
                         Reset Semua
                     </a>
                 </div>
@@ -217,18 +217,18 @@
 
                             {{-- Timeline Node (Icon on the line) --}}
                             <div class="hidden sm:flex flex-col items-center shrink-0" style="width: 48px;">
-                                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-{{ $colorClass }}-50 text-{{ $colorClass }}-600 border border-{{ $colorClass }}-100 relative z-10 ring-4 ring-white">
+                                <div class="w-11 h-11 rounded-xl flex items-center justify-center bg-{{ $colorClass }}-50 text-{{ $colorClass }}-600 border border-{{ $colorClass }}-100 relative z-10 ring-4 ring-surface">
                                     <span class="material-symbols-rounded text-[22px]">{{ $iconName }}</span>
                                 </div>
                             </div>
 
                             {{-- Horizontal Connector Line --}}
                             <div class="hidden sm:flex items-start shrink-0" style="width: 24px; padding-top: 20px;">
-                                <div class="w-full h-0.5 bg-zinc-200"></div>
+                                <div class="w-full h-0.5 bg-default/50"></div>
                             </div>
 
                             {{-- Card Body --}}
-                            <div class="ui-surface border border-zinc-200/80 rounded-2xl shadow-sm hover:shadow-md hover:border-zinc-300/80 transition-all flex-1 min-w-0 overflow-hidden">
+                            <div class="ui-surface border border-default/80 rounded-2xl shadow-sm hover:shadow-md hover:border-default/80 transition-all flex-1 min-w-0 overflow-hidden">
                                 <div class="p-5">
                                     {{-- Row 1: User + Action Badge + Timestamp --}}
                                     <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3 mb-2">
@@ -240,16 +240,16 @@
                                                    title="Klik untuk melihat semua aktivitas {{ $log->user->name }}">
                                                     <img src="https://ui-avatars.com/api/?name={{ urlencode($log->user->name) }}&background=EEF2FF&color=4F46E5&bold=true"
                                                          alt="{{ $log->user->name }}"
-                                                         class="w-6 h-6 rounded-full ring-2 ring-white shrink-0">
-                                                    <span class="text-sm font-bold text-zinc-900 group-hover:text-[rgb(var(--color-primary))] transition-colors underline decoration-zinc-300 group-hover:decoration-[rgb(var(--color-primary))] underline-offset-[3px] decoration-1">{{ $log->user->name }}</span>
-                                                    <span class="material-symbols-rounded text-[14px] text-zinc-300 group-hover:text-[rgb(var(--color-primary))] transition-all -ml-0.5">arrow_outward</span>
+                                                         class="w-6 h-6 rounded-full ring-2 ring-surface shrink-0">
+                                                    <span class="text-sm font-bold text-foreground group-hover:text-[rgb(var(--color-primary))] transition-colors underline decoration-zinc-300 group-hover:decoration-[rgb(var(--color-primary))] underline-offset-[3px] decoration-1">{{ $log->user->name }}</span>
+                                                    <span class="material-symbols-rounded text-[14px] text-default group-hover:text-[rgb(var(--color-primary))] transition-all -ml-0.5">arrow_outward</span>
                                                 </a>
                                             @else
                                                 <div class="inline-flex items-center gap-2 px-1.5 py-1">
-                                                    <div class="w-6 h-6 rounded-full bg-zinc-100 flex items-center justify-center ring-2 ring-white">
-                                                        <span class="material-symbols-rounded text-[14px] text-zinc-400">smart_toy</span>
+                                                    <div class="w-6 h-6 rounded-full bg-surface-muted flex items-center justify-center ring-2 ring-surface">
+                                                        <span class="material-symbols-rounded text-[14px] text-foreground-muted/60">smart_toy</span>
                                                     </div>
-                                                    <span class="text-sm font-bold text-zinc-500 italic">System</span>
+                                                    <span class="text-sm font-bold text-foreground-muted italic">System</span>
                                                 </div>
                                             @endif
 
@@ -260,29 +260,29 @@
 
                                         {{-- Right: Timestamp --}}
                                         <div class="text-left sm:text-right shrink-0">
-                                            <p class="text-xs font-bold text-zinc-800">{{ $log->created_at->diffForHumans() }}</p>
-                                            <p class="text-[10px] font-semibold text-zinc-400 mt-0.5 font-mono">{{ $log->created_at->format('d M Y, H:i') }}</p>
+                                            <p class="text-xs font-bold text-foreground">{{ $log->created_at->diffForHumans() }}</p>
+                                            <p class="text-[10px] font-semibold text-foreground-muted/60 mt-0.5 font-mono">{{ $log->created_at->format('d M Y, H:i') }}</p>
                                         </div>
                                     </div>
 
                                     {{-- Row 2: Description --}}
-                                    <p class="text-[13px] font-medium text-zinc-600 leading-relaxed mb-3">
+                                    <p class="text-[13px] font-medium text-foreground-muted leading-relaxed mb-3">
                                         {{ $log->description ?? 'Melakukan modifikasi pada ' . class_basename($log->subject_type ?? 'Data') }}
                                     </p>
 
                                     {{-- Row 3: Meta (IP, Device, Diff toggle) --}}
                                     <div class="flex flex-wrap items-center gap-2">
                                         {{-- IP Badge --}}
-                                        <div class="inline-flex items-center gap-1.5 text-[10px] font-bold text-zinc-500 bg-zinc-50 border border-zinc-200 rounded-lg px-2 py-1">
-                                            <span class="material-symbols-rounded text-[14px] text-zinc-400">language</span>
+                                        <div class="inline-flex items-center gap-1.5 text-[10px] font-bold text-foreground-muted bg-surface-muted border border-default rounded-lg px-2 py-1">
+                                            <span class="material-symbols-rounded text-[14px] text-foreground-muted/60">language</span>
                                             <span class="font-mono">{{ $log->ip_address ?? 'IP Unknown' }}</span>
                                         </div>
 
                                         {{-- Device Toggle --}}
                                         @if($log->user_agent)
                                             <button type="button" @click="showAgent = !showAgent"
-                                                    class="inline-flex items-center gap-1.5 text-[10px] font-bold bg-zinc-50 border border-zinc-200 rounded-lg px-2 py-1 transition-colors"
-                                                    :class="showAgent ? 'text-[rgb(var(--color-primary))] border-[rgb(var(--color-primary)_/_0.3)] bg-[rgb(var(--color-primary)_/_0.05)]' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100'"
+                                                    class="inline-flex items-center gap-1.5 text-[10px] font-bold bg-surface-muted border border-default rounded-lg px-2 py-1 transition-colors"
+                                                    :class="showAgent ? 'text-[rgb(var(--color-primary))] border-[rgb(var(--color-primary)_/_0.3)] bg-[rgb(var(--color-primary)_/_0.05)]' : 'text-foreground-muted hover:text-foreground-muted hover:bg-surface-muted'"
                                                     title="Info Perangkat">
                                                 <span class="material-symbols-rounded text-[14px]">devices</span>
                                                 <span x-text="showAgent ? 'Sembunyikan' : 'Perangkat'"></span>
@@ -292,8 +292,8 @@
                                         {{-- Diff Toggle --}}
                                         @if($hasDiff)
                                             <button type="button" @click="showDiff = !showDiff"
-                                                    class="inline-flex items-center gap-1.5 text-[10px] font-bold bg-zinc-50 border border-zinc-200 rounded-lg px-2 py-1 transition-colors"
-                                                    :class="showDiff ? 'text-[rgb(var(--color-primary))] border-[rgb(var(--color-primary)_/_0.3)] bg-[rgb(var(--color-primary)_/_0.05)]' : 'text-zinc-500 hover:text-zinc-700 hover:bg-zinc-100'">
+                                                    class="inline-flex items-center gap-1.5 text-[10px] font-bold bg-surface-muted border border-default rounded-lg px-2 py-1 transition-colors"
+                                                    :class="showDiff ? 'text-[rgb(var(--color-primary))] border-[rgb(var(--color-primary)_/_0.3)] bg-[rgb(var(--color-primary)_/_0.05)]' : 'text-foreground-muted hover:text-foreground-muted hover:bg-surface-muted'">
                                                 <span class="material-symbols-rounded text-[14px]">difference</span>
                                                 <span x-text="showDiff ? 'Sembunyikan Data' : 'Lihat Perubahan'"></span>
                                             </button>
@@ -304,7 +304,7 @@
                                 {{-- Expandable: Device Info --}}
                                 <div x-show="showAgent" x-collapse x-cloak>
                                     <div class="px-5 pb-4">
-                                        <div class="p-3 bg-zinc-50 border border-zinc-200 rounded-xl text-[11px] font-mono text-zinc-600 break-words leading-relaxed">
+                                        <div class="p-3 bg-surface-muted border border-default rounded-xl text-[11px] font-mono text-foreground-muted break-words leading-relaxed">
                                             {{ $log->user_agent }}
                                         </div>
                                     </div>
@@ -313,7 +313,7 @@
                                 {{-- Expandable: Diff Viewer --}}
                                 @if($hasDiff)
                                     <div x-show="showDiff" x-collapse x-cloak>
-                                        <div class="border-t border-zinc-100">
+                                        <div class="border-t border-default/50">
                                             <div class="bg-[#1e1e2e] m-3 rounded-xl overflow-hidden border border-[#313244]">
                                                 {{-- Terminal Header --}}
                                                 <div class="flex items-center gap-2 px-4 py-2.5 bg-[#181825] border-b border-[#313244]">

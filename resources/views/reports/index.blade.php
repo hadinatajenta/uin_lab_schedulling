@@ -6,7 +6,7 @@
  <div class="flex flex-col md:flex-row items-center justify-start lg:justify-between mb-4 ">
  <div>
  <h4 class="text-2xl font-bold ">Laporan Semua Alat</h4>
- <p class="text-sm font-normal text-gray-500 lg:text-sm ">
+ <p class="text-sm font-normal text-foreground-muted lg:text-sm ">
  Lihat semua laporan mengenai alat/bahan , pengguna website, dan jadwal pada halaman ini.
  </p>
  </div>
@@ -75,8 +75,8 @@
  </div>
 
  <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mb-4">
- <table class=" text-sm w-full text-left rtl:text-right text-gray-500 ">
- <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+ <table class=" text-sm w-full text-left rtl:text-right text-foreground-muted ">
+ <thead class="text-xs text-foreground-muted uppercase bg-surface-muted ">
  <tr>
  <th scope="col" class="p-4">
  No
@@ -102,11 +102,11 @@
  <tbody>
  @foreach ($alat as $index => $item)
  <tr
- class="bg-white border-b hover:bg-gray-50 ">
+ class="bg-surface border-b hover:bg-surface-muted ">
  <td class="w-4 p-4">
  {{ $index + 1 }}
  </td>
- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+ <th scope="row" class="px-6 py-4 font-medium text-foreground whitespace-nowrap ">
  <img class="w-12" src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_alat }}">
  </th>
  <td class="px-6 py-4">
@@ -114,7 +114,7 @@
  </td>
  <td class="px-6 py-4">
  @if ($item->kondisi == 'Baru')
- <div class="p-2 text-center text-sm text-blue-800 rounded-lg bg-blue-50 "
+ <div class="p-2 text-center text-sm text-blue-800 rounded-lg ui-primary-soft "
  role="alert">
  <span>{{ $item->kondisi }}</span>
  </div>
@@ -141,14 +141,14 @@
 
  <div class="mt-4">
  <h4 class="text-2xl font-bold ">Laporan Barang Rusak / Habis</h4>
- <p class="text-sm font-normal text-gray-500 lg:text-sm ">
+ <p class="text-sm font-normal text-foreground-muted lg:text-sm ">
  Lihat semua laporan mengenai alat/bahan , pengguna website, dan jadwal pada halaman ini.
  </p>
  </div>
 
  <div class="relative w-full overflow-x-auto shadow-md sm:rounded-lg mt-4">
- <table class=" text-sm w-full text-left rtl:text-right text-gray-500 ">
- <thead class="text-xs text-gray-700 uppercase bg-gray-50 ">
+ <table class=" text-sm w-full text-left rtl:text-right text-foreground-muted ">
+ <thead class="text-xs text-foreground-muted uppercase bg-surface-muted ">
  <tr>
  <th scope="col" class="p-4">
  No
@@ -174,11 +174,11 @@
  <tbody>
  @foreach ($alatRusakHabis as $index => $item)
  <tr
- class="bg-white border-b hover:bg-gray-50 ">
+ class="bg-surface border-b hover:bg-surface-muted ">
  <td class="w-4 p-4">
  {{ $index + 1 }}
  </td>
- <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+ <th scope="row" class="px-6 py-4 font-medium text-foreground whitespace-nowrap ">
  <img class="w-12" src="{{ asset('storage/' . $item->gambar) }}"
  alt="{{ $item->nama_alat }}">
  </th>
