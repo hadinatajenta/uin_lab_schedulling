@@ -27,6 +27,24 @@ class DashboardService
         ];
     }
 
+    public function getActionableInsights(): array
+    {
+        $lateLoans = 0;
+        $pendingApprovals = 0;
+
+        $brokenEquipments = Equipment::where('kondisi', 'Rusak')->count();
+
+        $lowMaterials = Equipment::where('jenis_alat', 'Bahan')->where('jumlah_satuan', '<=', 5)->count();
+
+        return [
+            'lateLoans' => $lateLoans,
+            'pendingApprovals' => $pendingApprovals,
+            'brokenEquipments' => $brokenEquipments,
+            'lowMaterials' => $lowMaterials,
+            'totalInsights' => $lateLoans + $pendingApprovals + $brokenEquipments + $lowMaterials,
+        ];
+    }
+
     public function getRecentActivities(): Collection
     {
         $recentUsers = User::latest()->take(5)->get()->map(function ($item) {
@@ -40,7 +58,7 @@ class DashboardService
                 'description' => "{$item->name} ({$item->email}) terdaftar dengan jabatan " . $role . ".",
                 'time' => $item->created_at,
                 'icon' => 'users',
-                'color' => 'text-emerald-600 bg-emerald-50'
+                'color' => 'text-success ui-success-soft'
             ];
         });
 
@@ -55,7 +73,7 @@ class DashboardService
                     'description' => "Peminjaman alat {$item->nama_alat} diajukan sebanyak {$item->jumlah_dipinjam} unit.",
                     'time' => $item->created_at,
                     'icon' => 'cube',
-                    'color' => 'text-emerald-600 bg-emerald-50'
+                    'color' => 'text-success ui-success-soft'
                 ];
             });
 
@@ -65,7 +83,7 @@ class DashboardService
                 'description' => "{$item->nama_alat} ditambahkan ke inventaris " . ($item->jenis_alat === 'Alat' ? 'alat' : 'bahan') . ".",
                 'time' => $item->created_at,
                 'icon' => 'plus-circle',
-                'color' => 'text-zinc-600 bg-zinc-100'
+                'color' => 'text-foreground-muted bg-surface-muted'
             ];
         });
 
@@ -77,18 +95,7 @@ class DashboardService
             ->sortByDesc('time')
             ->take(6);
 
-        // Fallback to dummy data if no activities exist
-        if ($activities->isEmpty()) {
-            $activities = collect([
-                [
-                    'title' => 'Sistem Diinisialisasi',
-                    'description' => 'Sistem manajemen laboratorium UIN selesai disetup.',
-                    'time' => Carbon::now()->subHours(2),
-                    'icon' => 'settings',
-                    'color' => 'text-zinc-600 bg-zinc-100'
-                ],
-            ]);
-        }
+        // Empty state is handled by the frontend view
 
         return $activities;
     }

@@ -38,9 +38,7 @@
 
     // State classes
     if ($isActive) {
-        $stateClasses = $nested
-            ? 'bg-primary-soft text-foreground font-medium shadow-sm ring-1 ring-ring/5'
-            : 'bg-primary-soft text-foreground font-medium shadow-sm ring-1 ring-ring/5';
+        $stateClasses = 'ui-nav-active font-medium shadow-sm ring-1 ring-ring/5';
         $iconClasses = 'text-primary';
     } else {
         $stateClasses = 'text-nav hover:bg-nav-hover hover:text-foreground font-medium';

@@ -20,6 +20,7 @@ class DashboardController extends Controller
         $metrics = $this->dashboardService->getMetrics();
         $activities = $this->dashboardService->getRecentActivities();
         $upcomingSchedules = $this->dashboardService->getUpcomingSchedules();
+        $insights = $this->dashboardService->getActionableInsights();
 
         $totalPengguna = $metrics['totalPengguna'];
         $alatTersedia = $metrics['alatTersedia'];
@@ -40,7 +41,8 @@ class DashboardController extends Controller
             'peminjamanHariIni',
             'pengembalianHariIni',
             'menungguPersetujuan',
-            'upcomingSchedules'
+            'upcomingSchedules',
+            'insights'
         ));
     }
 }

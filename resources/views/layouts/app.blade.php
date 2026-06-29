@@ -40,10 +40,29 @@
         /* Tabular numbers utility for metric displays */
         .tabular-nums { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
     </style>
-
+    <script>
+        (function() {
+            var t = localStorage.getItem('theme');
+            if (t && t !== 'default') document.documentElement.setAttribute('data-theme', t);
+        })();
+    </script>
 </head>
 
-<body class="font-sans antialiased text-foreground bg-[rgb(var(--color-bg))] transition-colors" x-data>
+<body class="font-sans antialiased text-foreground bg-[rgb(var(--color-bg))] transition-colors"
+    x-data="{
+        theme: localStorage.getItem('theme') || 'default',
+        cycleTheme() {
+            const order = ['default', 'clean-tech', 'midnight'];
+            const next = order[(order.indexOf(this.theme) + 1) % order.length];
+            this.theme = next;
+            localStorage.setItem('theme', next);
+            if (next === 'default') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', next);
+            }
+        }
+    }">
     <div class="min-h-screen flex flex-col bg-[rgb(var(--color-bg))]">
         <x-navigation.topbar />
         <x-navigation.mobile-sidebar />
@@ -53,9 +72,11 @@
             <main class="flex-1 w-full mx-auto max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
                 @yield('content')
             </main>
+            @if(!request()->routeIs('dashboard'))
             <div class="mt-auto px-4 lg:px-6 py-4 border-t border-default ui-surface backdrop-blur-sm">
                 <x-footer />
             </div>
+            @endif
         </div>
     </div>
     
