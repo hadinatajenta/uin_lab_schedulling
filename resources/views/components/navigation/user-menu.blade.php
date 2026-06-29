@@ -1,66 +1,94 @@
 @props(['isMobile' => false])
 
-<div class="relative">
-    <x-ui.dropdown align="top-right" width="auto">
-        <x-slot name="trigger">
-            <button 
-                class="w-full flex items-center rounded-xl transition-colors hover:bg-surface-muted outline-none focus-visible:ring-2 focus-visible:ring-primary"
-                @if(!$isMobile)
-                    :class="!$store.sidebar.expanded ? 'p-2 justify-center' : 'p-1.5 justify-between'"
-                @else
-                    class="p-1.5 justify-between"
-                @endif
-            >
-                <div class="flex items-center space-x-3 overflow-hidden">
-                    <div class="w-9 h-9 rounded-full bg-primary-soft flex items-center justify-center text-primary shrink-0 font-bold text-sm uppercase ring-2 ring-surface">
-                        {{ substr(Auth::user()->name ?? 'U', 0, 1) }}
-                    </div>
-                    
-                    <div 
-                        class="flex flex-col items-start truncate"
-                        @if(!$isMobile)
-                            x-show="$store.sidebar.expanded"
-                        @endif
-                    >
-                        <span class="text-sm font-semibold text-foreground truncate w-full">{{ Auth::user()->name ?? 'User Name' }}</span>
-                        <span class="text-[11px] font-medium text-foreground-muted truncate w-full">{{ Auth::user()->role ?? 'Admin Lab' }}</span>
-                    </div>
+{{-- Bottom Profile section untuk sidebar navigasi (navigation/sidebar.blade.php) --}}
+{{-- Menggunakan upward-menu component dan logout-confirm-modal --}}
+
+<div class="relative" x-data="{ open: false }" @click.outside="open = false">
+
+    {{-- Upward Dropdown Panel --}}
+    <x-ui.upward-menu>
+
+        {{-- User Info Header --}}
+        <div class="px-4 py-3.5 border-b border-default bg-surface-muted/40">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-sm shrink-0 shadow-sm"
+                     style="background: linear-gradient(135deg, rgb(var(--color-primary)), #60a5fa)">
+                    {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
                 </div>
+                <div class="overflow-hidden">
+                    <p class="text-[13px] font-bold text-foreground truncate leading-tight">{{ Auth::user()->name ?? 'User Name' }}</p>
+                    <p class="text-[11px] text-foreground-muted truncate mt-0.5 leading-none">{{ Auth::user()->email ?? 'user@example.com' }}</p>
+                </div>
+            </div>
+        </div>
 
-                <svg 
-                    @if(!$isMobile)
-                        x-show="$store.sidebar.expanded"
-                    @endif
-                    class="w-4 h-4 text-foreground-muted shrink-0 mr-1 transition-transform duration-200" 
-                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                >
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
-                </svg>
+        {{-- Menu Items --}}
+        <div class="p-1.5 space-y-0.5">
+            <a href="{{ url('/admin/profile-settings') }}"
+               class="flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-foreground-muted hover:bg-surface-muted hover:text-foreground rounded-xl transition-colors">
+                <span class="material-symbols-rounded text-[17px]">manage_accounts</span>
+                Pengaturan Profil
+            </a>
+            <a href="{{ url('/admin/profile-settings') }}"
+               class="flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-foreground-muted hover:bg-surface-muted hover:text-foreground rounded-xl transition-colors">
+                <span class="material-symbols-rounded text-[17px]">settings</span>
+                Pengaturan
+            </a>
+        </div>
+
+        {{-- Divider + Logout --}}
+        <div class="p-1.5 border-t border-default">
+            <button
+                type="button"
+                @click="open = false; $dispatch('open-logout-modal')"
+                class="w-full flex items-center gap-2.5 px-3 py-2 text-[13px] font-medium text-danger hover:bg-danger-soft rounded-xl transition-colors">
+                <span class="material-symbols-rounded text-[17px]">logout</span>
+                Keluar dari Sistem
             </button>
-        </x-slot>
+        </div>
+    </x-ui.upward-menu>
 
-        <x-slot name="content">
-            <x-ui.dropdown-header title="My Account">
-                <p class="text-[13px] font-medium text-foreground truncate">{{ Auth::user()->name ?? 'User Name' }}</p>
-                <p class="text-[11px] text-foreground-muted truncate">{{ Auth::user()->email ?? 'user@example.com' }}</p>
-            </x-ui.dropdown-header>
+    {{-- Trigger Button (Premium Profile Card) --}}
+    <button
+        @click="open = !open"
+        class="w-full flex items-center transition-all duration-200 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
+        :class="open ? 'bg-surface-muted' : 'hover:bg-surface-muted'"
+        @if(!$isMobile)
+            :class="!$store.sidebar.expanded
+                ? 'p-2 justify-center'
+                : 'p-2.5 gap-3 justify-between'"
+        @else
+            class="p-2.5 gap-3 justify-between"
+        @endif
+    >
+        {{-- Avatar + Online Dot --}}
+        <div class="relative shrink-0">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-sm shadow-inner shadow-black/10 ring-2 ring-surface"
+                 style="background: linear-gradient(135deg, rgb(var(--color-primary)), #60a5fa)">
+                {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+            </div>
+            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-success rounded-full border-2 border-surface"></span>
+        </div>
 
-            <x-ui.dropdown-item href="{{ url('/admin/profile-settings') }}" shortcut="⇧ ⌘ P">
-                Profile
-            </x-ui.dropdown-item>
-            
-            <x-ui.dropdown-item href="{{ url('/admin/profile-settings') }}" shortcut="⌘ S">
-                Settings
-            </x-ui.dropdown-item>
+        {{-- Name & Role --}}
+        <div
+            class="flex-1 text-left overflow-hidden"
+            @if(!$isMobile) x-show="$store.sidebar.expanded" @endif
+        >
+            <p class="text-[13px] font-semibold text-foreground truncate leading-tight">{{ Auth::user()->name ?? 'User Name' }}</p>
+            <p class="text-[11px] text-foreground-muted font-medium truncate mt-0.5 leading-tight">{{ Auth::user()->role ?? 'Admin Lab' }}</p>
+        </div>
 
-            <x-ui.dropdown-divider />
-
-            <form method="POST" action="{{ route('logout') }}" class="w-full">
-                @csrf
-                <x-ui.dropdown-item as="button" type="submit" shortcut="⇧ ⌘ Q" danger="true">
-                    Logout
-                </x-ui.dropdown-item>
-            </form>
-        </x-slot>
-    </x-ui.dropdown>
+        {{-- Chevron --}}
+        <span
+            class="material-symbols-rounded text-[18px] text-foreground-muted/60 transition-transform duration-200 shrink-0"
+            :class="open ? 'rotate-180' : ''"
+            @if(!$isMobile) x-show="$store.sidebar.expanded" @endif
+        >
+            expand_less
+        </span>
+    </button>
 </div>
+
+{{-- Logout Confirmation Modal (fixed/full-screen) --}}
+<x-ui.logout-confirm-modal />

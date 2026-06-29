@@ -1,18 +1,32 @@
 @props([
     'title',
     'description',
-    'icon' => 'users'
+    'icon' => 'cube',
+    'action' => null
 ])
 
-<div class="flex flex-col items-center justify-center p-8 text-center ui-surface border-dashed border rounded-3xl shadow-sm">
-    <div class="w-12 h-12 rounded-2xl ui-surface-muted flex items-center justify-center text-foreground-muted mb-4 ring-1 ring-default/50">
-        <x-atoms.icon :name="$icon" class="w-6 h-6" />
+<div {{ $attributes->merge(['class' => 'relative flex flex-col items-center justify-center p-10 text-center ui-surface rounded-3xl shadow-sm border border-default overflow-hidden']) }}>
+    
+    {{-- Decorative Background Glow --}}
+    <div class="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent opacity-50 pointer-events-none"></div>
+
+    {{-- Icon Container --}}
+    <div class="relative w-16 h-16 rounded-2xl flex items-center justify-center mb-5
+                bg-surface-muted shadow-inner shadow-black/5 ring-1 ring-default">
+        {{-- Inner subtle gradient for icon pop --}}
+        <div class="absolute inset-0 rounded-2xl bg-gradient-to-br from-primary/10 to-transparent"></div>
+        <x-atoms.icon :name="$icon" class="w-8 h-8 text-foreground-muted relative z-10" />
     </div>
-    <h3 class="text-sm font-bold text-foreground leading-tight tracking-tight">{{ $title }}</h3>
-    <p class="text-xs text-foreground-muted font-medium mt-1.5 max-w-sm leading-relaxed">{{ $description }}</p>
-    @if(isset($action) && $action->isNotEmpty())
-        <div class="mt-5">
+
+    {{-- Typography --}}
+    <h3 class="text-base font-bold text-foreground leading-tight tracking-tight mb-1.5">{{ $title }}</h3>
+    <p class="text-[13px] text-foreground-muted font-medium max-w-[280px] leading-relaxed">{{ $description }}</p>
+    
+    {{-- Action Slot --}}
+    @if($action)
+        <div class="mt-6 relative z-10">
             {{ $action }}
         </div>
     @endif
 </div>
+
