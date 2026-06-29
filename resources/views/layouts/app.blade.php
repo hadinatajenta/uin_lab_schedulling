@@ -31,11 +31,11 @@
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
     <style>
         /* Minimalist Flatpickr Override */
-        .flatpickr-calendar { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important; border: 1px solid #e4e4e7 !important; border-radius: 1rem !important; padding: 4px !important; font-family: 'IBM Plex Sans', sans-serif !important; }
+        .flatpickr-calendar { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important; border: 1px solid rgb(var(--color-border)) !important; border-radius: 1rem !important; padding: 4px !important; font-family: 'IBM Plex Sans', sans-serif !important; }
         .flatpickr-day.selected { background: rgb(var(--color-primary)) !important; border-color: rgb(var(--color-primary)) !important; font-weight: bold; }
-        .flatpickr-day:hover { background: #f4f4f5 !important; border-color: #f4f4f5 !important; color: #18181b !important; }
+        .flatpickr-day:hover { background: rgb(var(--color-surface-muted)) !important; border-color: rgb(var(--color-surface-muted)) !important; color: rgb(var(--color-text)) !important; }
         .flatpickr-current-month .flatpickr-monthDropdown-months { border-radius: 0.5rem; padding: 2px; }
-        .flatpickr-current-month .flatpickr-monthDropdown-months:hover { background: #f4f4f5; }
+        .flatpickr-current-month .flatpickr-monthDropdown-months:hover { background: rgb(var(--color-surface-muted)); }
 
         /* Tabular numbers utility for metric displays */
         .tabular-nums { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
@@ -43,7 +43,7 @@
 
 </head>
 
-<body class="font-sans antialiased text-zinc-900 bg-[rgb(var(--color-bg))] transition-colors" x-data>
+<body class="font-sans antialiased text-foreground bg-[rgb(var(--color-bg))] transition-colors" x-data>
     <div class="min-h-screen flex flex-col bg-[rgb(var(--color-bg))]">
         <x-navigation.topbar />
         <x-navigation.mobile-sidebar />
@@ -53,7 +53,7 @@
             <main class="flex-1 w-full mx-auto max-w-7xl px-4 py-5 lg:px-6 lg:py-6">
                 @yield('content')
             </main>
-            <div class="mt-auto px-4 lg:px-6 py-4 border-t border-[rgb(var(--color-border))] ui-surface backdrop-blur-sm">
+            <div class="mt-auto px-4 lg:px-6 py-4 border-t border-default ui-surface backdrop-blur-sm">
                 <x-footer />
             </div>
         </div>

@@ -21,10 +21,10 @@
             }
         </style>
     </head>
-    <body class="antialiased bg-zinc-50 text-zinc-900">
+    <body class="antialiased bg-background text-foreground">
         <div class="min-h-screen relative overflow-hidden">
             <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(99,102,241,0.10),_transparent_30%),radial-gradient(circle_at_top_right,_rgba(16,185,129,0.08),_transparent_28%),linear-gradient(to_bottom,_#ffffff,_#f8fafc)]"></div>
-            <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[rgb(var(--color-primary)_/_0.2)] to-transparent"></div>
+            <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent"></div>
 
             <div class="relative z-10 flex min-h-screen items-center justify-center px-4 py-10">
                 <div class="w-full max-w-[480px]">
