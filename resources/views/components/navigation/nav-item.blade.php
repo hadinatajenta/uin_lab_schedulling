@@ -25,7 +25,7 @@
     }
 
     // Base classes
-    $baseClasses = 'group flex items-center transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary relative';
+    $baseClasses = 'group flex items-center outline-none focus-visible:ring-2 focus-visible:ring-primary relative';
 
     // Sizing and rounding
     $sizingClasses = $nested ? 'h-9 rounded-lg' : 'h-11 rounded-xl';
@@ -59,7 +59,7 @@
         @mouseenter="tooltipVisible = true" @mouseleave="tooltipVisible = false" @endif>
         @if(isset($item['icon']) && !$nested)
             <span
-                class="material-symbols-rounded shrink-0 transition-all duration-200 {{ $iconClasses }} {{ $isMobile ? 'text-[20px] mr-3' : '' }}"
+                class="material-symbols-rounded shrink-0 {{ $iconClasses }} {{ $isMobile ? 'text-[20px] mr-3' : '' }}"
                 @if(!$isMobile) x-bind:class="!$store.sidebar.expanded ? 'text-[24px]' : 'text-[20px] mr-3'"
                 @endif>{{ $item['icon'] }}</span>
         @endif
@@ -69,16 +69,13 @@
         @endif
 
         <span class="truncate {{ $nested ? 'text-[13.5px]' : 'text-[14px]' }}" @if(!$isMobile && !$nested)
-        x-show="$store.sidebar.expanded" x-transition.opacity @endif>
+        x-show="$store.sidebar.expanded" @endif>
             {{ $item['title'] }}
         </span>
 
         @if(!$isMobile && !$nested)
             <!-- Tooltip -->
-            <div x-show="tooltipVisible && !$store.sidebar.expanded" x-transition:enter="transition ease-out duration-100"
-                x-transition:enter-start="opacity-0 translate-x-2" x-transition:enter-end="opacity-100 translate-x-0"
-                x-transition:leave="transition ease-in duration-75" x-transition:leave-start="opacity-100 translate-x-0"
-                x-transition:leave-end="opacity-0 translate-x-2"
+            <div x-show="tooltipVisible && !$store.sidebar.expanded"
                 class="absolute left-full ml-3 px-2.5 py-1.5 bg-tooltip text-tooltip text-xs font-medium rounded-md whitespace-nowrap shadow-md z-50 pointer-events-none"
                 style="display: none;" x-cloak>
                 {{ $item['title'] }}

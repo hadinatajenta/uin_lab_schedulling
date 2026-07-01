@@ -7,7 +7,7 @@
     <x-ui.page-header title="Operational Dashboard" description="Overview of laboratory status today, {{ Auth::user()->name ?? 'Administrator' }}">
         <div class="flex items-center gap-2">
             {{-- Theme Cycle Button --}}
-            <button @click="cycleTheme()" 
+            <button @click="cycleTheme($event)" 
                     class="group inline-flex items-center gap-1.5 rounded-full border border-default bg-surface px-2.5 py-1 text-xs font-semibold text-foreground-muted hover:text-primary hover:border-primary/30 transition-all shadow-sm"
                     :title="'Switch Theme (current: ' + theme + ')'">
                 <span class="material-symbols-rounded text-[13px]" 

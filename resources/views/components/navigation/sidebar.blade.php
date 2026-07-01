@@ -3,7 +3,7 @@
 @endphp
 
 <aside
-    class="hidden md:flex fixed top-0 left-0 z-40 h-screen transition-all duration-300 ui-surface border-r border-default shadow-sm flex-col w-64"
+    class="hidden md:flex fixed top-0 left-0 z-40 h-screen ui-surface border-r border-default shadow-sm flex-col w-64"
     aria-label="Sidebar">
     <div class="h-full flex flex-col hide-scrollbar relative">
 
@@ -77,15 +77,14 @@
                         <li x-data="{ open: {{ $hasActiveChild ? 'true' : 'false' }} }" class="pt-1">
                             <!-- Parent Toggle -->
                             <button @click="open = !open"
-                                class="w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold tracking-wider ui-text-muted uppercase hover:text-foreground transition-colors rounded-lg hover:bg-surface-muted outline-none focus-visible:ring-2 focus-visible:ring-primary group"
-                                x-transition.opacity>
-                                <div class="flex items-center group-hover:translate-x-0.5 transition-transform">
+                                class="w-full flex items-center justify-between px-3 py-2 text-[11px] font-bold tracking-wider ui-text-muted uppercase hover:text-foreground rounded-lg hover:bg-surface-muted outline-none focus-visible:ring-2 focus-visible:ring-primary group">
+                                <div class="flex items-center group-hover:translate-x-0.5">
                                     @if(isset($section['icon']))
                                         <span class="material-symbols-rounded text-[14px] mr-1.5">{{ $section['icon'] }}</span>
                                     @endif
                                     <span>{{ $section['section'] }}</span>
                                 </div>
-                                <svg class="w-3.5 h-3.5 text-foreground-muted transition-transform duration-200"
+                                <svg class="w-3.5 h-3.5 text-foreground-muted"
                                     :class="open ? 'rotate-180 text-foreground' : ''" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"

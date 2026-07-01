@@ -5,7 +5,7 @@
     </div>
     
     <div class="flex items-center gap-2">
-        <button @click="cycleTheme()" 
+        <button @click="cycleTheme($event)" 
                 type="button" 
                 class="inline-flex items-center justify-center p-2 rounded-xl ui-text-muted hover:text-foreground hover:bg-surface-muted transition-colors">
             <span class="material-symbols-rounded text-[20px]">palette</span>

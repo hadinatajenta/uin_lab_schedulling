@@ -48,31 +48,33 @@
         </div>
     </x-ui.upward-menu>
 
-    {{-- Trigger Button (Premium Profile Card) --}}
+    {{-- Seamless Interactive Row Button --}}
     <button
         @click="open = !open"
-        class="w-full flex items-center transition-all duration-200 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary/30"
-        :class="open ? 'bg-surface-muted' : 'hover:bg-surface-muted'"
+        class="w-full flex items-center p-2 transition-colors duration-200 rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-primary/30 group border-0"
         @if(!$isMobile)
-            :class="!$store.sidebar.expanded
-                ? 'p-2 justify-center'
-                : 'p-2.5 gap-3 justify-between'"
+            :class="{
+                'bg-surface-muted': open,
+                'bg-transparent hover:bg-surface-muted/50': !open,
+                'justify-center': !$store.sidebar.expanded,
+                'gap-3': $store.sidebar.expanded
+            }"
         @else
-            class="p-2.5 gap-3 justify-between"
+            :class="open ? 'bg-surface-muted gap-3' : 'bg-transparent hover:bg-surface-muted/50 gap-3'"
         @endif
     >
-        {{-- Avatar + Online Dot --}}
+        {{-- Avatar (Round & Flat) --}}
         <div class="relative shrink-0">
-            <div class="w-9 h-9 rounded-xl flex items-center justify-center font-bold text-white text-sm shadow-inner shadow-black/10 ring-2 ring-surface"
-                 style="background: linear-gradient(135deg, rgb(var(--color-primary)), #60a5fa)">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center font-bold text-white text-sm"
+                 style="background-color: rgb(var(--color-primary));">
                 {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
             </div>
-            <span class="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-success rounded-full border-2 border-surface"></span>
+            <span class="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-success rounded-full border-[2px] border-surface"></span>
         </div>
 
         {{-- Name & Role --}}
         <div
-            class="flex-1 text-left overflow-hidden"
+            class="flex-1 text-left overflow-hidden relative z-10"
             @if(!$isMobile) x-show="$store.sidebar.expanded" @endif
         >
             <p class="text-[13px] font-semibold text-foreground truncate leading-tight">{{ Auth::user()->name ?? 'User Name' }}</p>
@@ -80,13 +82,16 @@
         </div>
 
         {{-- Chevron --}}
-        <span
-            class="material-symbols-rounded text-[18px] text-foreground-muted/60 transition-transform duration-200 shrink-0"
-            :class="open ? 'rotate-180' : ''"
+        <div
+            class="shrink-0 transition-colors"
+            :class="open ? 'text-foreground' : 'text-foreground-muted/50 group-hover:text-foreground-muted'"
             @if(!$isMobile) x-show="$store.sidebar.expanded" @endif
         >
-            expand_less
-        </span>
+            <span class="material-symbols-rounded text-[20px] transition-transform duration-200"
+                  :class="open ? 'rotate-180' : ''">
+                expand_more
+            </span>
+        </div>
     </button>
 </div>
 

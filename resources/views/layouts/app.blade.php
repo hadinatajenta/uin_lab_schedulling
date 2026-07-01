@@ -39,6 +39,19 @@
 
         /* Tabular numbers utility for metric displays */
         .tabular-nums { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+        
+        /* View Transition API - Theme Spreading Animation */
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation: none;
+            mix-blend-mode: normal;
+        }
+        ::view-transition-old(root) {
+            z-index: 1;
+        }
+        ::view-transition-new(root) {
+            z-index: 2;
+        }
     </style>
     <script>
         (function() {
@@ -51,16 +64,51 @@
 <body class="font-sans antialiased text-foreground bg-[rgb(var(--color-bg))] transition-colors"
     x-data="{
         theme: localStorage.getItem('theme') || 'default',
-        cycleTheme() {
+        cycleTheme(e) {
             const order = ['default', 'clean-tech', 'midnight'];
             const next = order[(order.indexOf(this.theme) + 1) % order.length];
-            this.theme = next;
-            localStorage.setItem('theme', next);
-            if (next === 'default') {
-                document.documentElement.removeAttribute('data-theme');
-            } else {
-                document.documentElement.setAttribute('data-theme', next);
+            
+            const updateTheme = () => {
+                this.theme = next;
+                localStorage.setItem('theme', next);
+                if (next === 'default') {
+                    document.documentElement.removeAttribute('data-theme');
+                } else {
+                    document.documentElement.setAttribute('data-theme', next);
+                }
+            };
+
+            // Jika browser tidak support View Transition API, ganti langsung
+            if (!document.startViewTransition || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                updateTheme();
+                return;
             }
+
+            // Dapatkan koordinat klik dari tombol (atau tengah layar jika tidak ada event)
+            const x = e?.clientX ?? innerWidth / 2;
+            const y = e?.clientY ?? innerHeight / 2;
+            // Hitung radius akhir (jarak terjauh dari titik klik ke sudut layar)
+            const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+
+            const transition = document.startViewTransition(() => {
+                updateTheme();
+            });
+
+            transition.ready.then(() => {
+                document.documentElement.animate(
+                    {
+                        clipPath: [
+                            `circle(0px at ${x}px ${y}px)`,
+                            `circle(${endRadius}px at ${x}px ${y}px)`
+                        ],
+                    },
+                    {
+                        duration: 600,
+                        easing: 'ease-in-out',
+                        pseudoElement: '::view-transition-new(root)',
+                    }
+                );
+            });
         }
     }">
     <div class="min-h-screen flex flex-col bg-[rgb(var(--color-bg))]">
